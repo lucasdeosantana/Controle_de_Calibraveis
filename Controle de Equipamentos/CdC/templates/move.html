@@ -189,9 +189,15 @@
                     console.log(a["Lucas"])
                 }
             };
-            message = "Equipamentregister:".concat(equipamentNumber)
-            xhttp.open("GET",'/ajx?fname=Henry&lname=Ford' , true);
-            xhttp.send();
+           data = {
+               "teste":"json",
+               "new":"lucas"
+           }
+           jsonString = JSON.stringify(data)
+           xhttp.open("POST", '/move/')
+           xhttp.setRequestHeader("Content-Type","application/json")
+           xhttp.send(jsonString)
+
         }
     </script>
 </body>
