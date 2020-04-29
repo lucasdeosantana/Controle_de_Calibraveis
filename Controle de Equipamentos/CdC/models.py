@@ -21,7 +21,7 @@ class log(models.Model):
     destino = models.CharField(max_length=30, blank=False, null=False,choices=stations)
     date = models.DateTimeField(auto_now_add=True)
     responsible = models.CharField(max_length=10, blank=False, null=False)
-    observertion = models.TextField(blank=True, null=True)
+    
 
 class carlog(models.Model):
     placa = models.ImageField()
