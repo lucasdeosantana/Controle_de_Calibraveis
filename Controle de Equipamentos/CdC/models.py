@@ -6,9 +6,9 @@ stations = (
     ("Morumbi","Morumbi"),
     ("Butantã","Butantã"),
     ("Pinheiros","Pinheiros"),
-    ("Faria","Faria"),
+    ("Faria Lima","Faria Lima"),
     ("Fradique","Fradique"),
-    ("Oscar","Oscar"),
+    ("Oscar Freire","Oscar Freire"),
     ("Paulista","Paulista"),
     ("Higeanopolis","Higeanopolis"),
     ("Republica","Republica"),
@@ -16,7 +16,7 @@ stations = (
 )
 # Create your models here.
 class log(models.Model):
-    codigo = models.ImageField()
+    codigo = models.IntegerField()
     origem = models.CharField(max_length=30,blank=False,null=False,choices=stations)
     destino = models.CharField(max_length=30, blank=False, null=False,choices=stations)
     date = models.DateTimeField(auto_now_add=True)

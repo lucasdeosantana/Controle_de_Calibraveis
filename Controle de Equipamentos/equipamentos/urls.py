@@ -20,5 +20,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',login),
     path('move/',move.as_view()),
-    path('ajx/',ajx)
 ]

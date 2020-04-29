@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>Movimentação de Equipamentos</title>
 </head>
 
 <body>
@@ -65,26 +65,31 @@
     <div class="container-fluid bg-light" style="height: 100vh;">
         <div class="row pb-3 pt-5">
             <div class="col-md-6 offset-md-3">
-                <h1>Movimentação de Equipamento</h1>
-            </div>
-        </div>
-        <div class="row pb-3 pt-5">
-            <div class="col-md-8 offset-md-2">
-                <div class="input-group mb-3">
-                    <input type="text" id="equipamentData" class="form-control" placeholder="Codigo do Equipamento"
-                        aria-label="Recipient's username" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" onclick="existEquipament()">Verificar</button>
-                    </div>
+                <div class="d-flex justify-content-center">
+                    <h1>Movimentação de Equipamento</h1>
                 </div>
             </div>
         </div>
-        <div class="row p-3 ">
-            <div class="col-md-4 offset-md-4">
-                <h3 id="equipamentName" style="display:">Nome do Equipamento</h3>
+        <div class="row"></div>
+        <div class="col-md-12">
+            <div class="d-flex justify-content-center">
+                <div class="w-25">
+                    <input type="text" id="equipamentData" class="form-control" placeholder="Codigo do Equipamento"
+                        aria-label="Recipient's username" aria-describedby="basic-addon2"></div>
+                <div class="input-group-append">
+                    <button class="btn btn-primary" onclick="existEquipament()">Verificar</button>
+                </div>
             </div>
         </div>
-        <div class="row p-3" style="display:;">
+
+        <div class="row p-5" style="display:none;" id="EquipamentName">
+            <div class="col-md-12">
+                <div class="d-flex justify-content-center">
+                    <h3 id="equipmentName">Nome do Equipamento</h3>
+                </div>
+            </div>
+        </div>
+        <div class="row p-3" style="display:none;" id="locations">
             <div class="col-md-2 offset-md-3">
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="DropDownRetirada"
@@ -92,7 +97,7 @@
                         Estação de Retirada</button>
                     <div class="dropdown-menu" id="Retirada" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="#"
-                            onclick="change_retirada(this.innerHTML, 'DropDownRetirada')">Patio Vila Sonia</a>
+                            onclick="change_retirada(this.innerHTML, 'DropDownRetirada')">Patio</a>
                         <a class="dropdown-item" href="#"
                             onclick="change_retirada(this.innerHTML, 'DropDownRetirada')">Morumbi</a>
                         <a class="dropdown-item" href="#"
@@ -123,7 +128,7 @@
                         Estação de Destino</button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="#"
-                            onclick="change_retirada(this.innerHTML, 'DropDownRecebido')">Patio Vila Sonia</a>
+                            onclick="change_retirada(this.innerHTML, 'DropDownRecebido')">Patio</a>
                         <a class="dropdown-item" href="#"
                             onclick="change_retirada(this.innerHTML, 'DropDownRecebido')">Morumbi</a>
                         <a class="dropdown-item" href="#"
@@ -152,8 +157,15 @@
         </div>
         <div class="row p-5">
             <div class="col-md-2 offset-md-8">
-                <button class="btn btn-primary" id="enviarMovimentacao" style="display: none;">Realizar
+                <button class="btn btn-primary" id="enviarMovimentacao" onclick="do_move()"
+                    style="display: none;">Realizar
                     Movimentação</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert" role="alert" id="statusAlert" style="display: none;">
+                </div>
             </div>
         </div>
     </div>
@@ -169,6 +181,19 @@
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
     <script>
+        function send_receive(dictonary) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var response = JSON.parse(this.responseText)
+                    get_response[response["type"]](response)
+                }
+            }
+            jsonString = JSON.stringify(dictonary)
+            xhttp.open("POST", '/move/')
+            xhttp.setRequestHeader("Content-Type", "application/json")
+            xhttp.send(jsonString)
+        }
         function change_retirada(valor, elemento) {
             document.getElementById(elemento).innerText = valor
             sendFormVisible()
@@ -181,24 +206,66 @@
             }
         }
         function existEquipament() {
-            equipamentNumber = document.getElementById("equipamentData").value
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    var a= JSON.parse(this.responseText);
-                    console.log(a["Lucas"])
-                }
-            };
-           data = {
-               "teste":"json",
-               "new":"lucas"
-           }
-           jsonString = JSON.stringify(data)
-           xhttp.open("POST", '/move/')
-           xhttp.setRequestHeader("Content-Type","application/json")
-           xhttp.send(jsonString)
-
+            alertclean()
+            equipmentNumber = document.getElementById("equipamentData").value
+            data = {
+                "equipmentCode": equipmentNumber,
+                "type": "request"
+            }
+            send_receive(data)
         }
+        function do_move() {
+            equipmentNumber = document.getElementById("equipamentData").value
+            where = document.getElementById("DropDownRetirada").innerText
+            for_to = document.getElementById("DropDownRecebido").innerText
+            data = {
+                "type": "doMove",
+                "equipmentCode": equipmentNumber,
+                "where": where,
+                "for": for_to
+            }
+            send_receive(data)
+        }
+        var get_response = {
+            EquipmentInformation(dict) {
+                document.getElementById("DropDownRetirada").innerText = dict["in_station"]
+                document.getElementById("equipmentName").innerText = dict["name"]
+                document.getElementById("locations").style.display = ""
+                document.getElementById("EquipamentName").style.display = ""
+            },
+            Success(dict) {
+                var alert = document.getElementById("statusAlert")
+                alertclean()
+                alert.classList.add("alert-success")
+                alert.innerText = "Movimentação Realizada com Sucesso"
+                alert.style.display = ""
+                document.getElementById("locations").style.display = "none"
+                document.getElementById("EquipamentName").style.display = "none"
+                document.getElementById("enviarMovimentacao").style.display = "none"
+                document.getElementById("DropDownRecebido").innerText = "Estação de Destino"
+            },
+            Fail(dict) {
+                var alert = document.getElementById("statusAlert")
+                alertclean()
+                alert.classList.add("alert-danger")
+                alert.innerText = "Aconteceu Algum Problema"
+                alert.style.display = ""
+            },
+            Warning(dict) {
+                var alert = document.getElementById("statusAlert")
+                alertclean()
+                alert.classList.add("alert-warning")
+                alert.innerText = "Equipamento Marcado para Calibração"
+                alert.style.display = ""
+            }
+        }
+    function alertclean(){
+        var alert = document.getElementById("statusAlert")
+        alert.classList.remove("alert-danger")
+        alert.classList.remove("alert-sucess")
+        alert.classList.remove("alert-warning")
+        alert.style.display="none"
+    }
     </script>
 </body>
 
