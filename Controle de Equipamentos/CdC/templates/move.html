@@ -9,7 +9,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
+        <script src="https://kit.fontawesome.com/3b54b7ad97.js" crossorigin="anonymous"></script>
     <title>Movimentação de Equipamentos</title>
 </head>
 
@@ -18,46 +18,56 @@
         <div class="col-md-12 ">
             <ul class="nav nav-tabs bg-light">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#">Movimentação</a>
+                    <a class="nav-link active" href="{% url 'move' %}">Movimentação</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Patio</a>
+                    <a class="nav-link {% if where == 'Patio' %} active {% endif %}" href="/equipment/PVS">Patio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Morumbi</a>
+                    <a class="nav-link {% if where == 'Morumbi' %} active {% endif %}" href="/equipment/MBI">Morumbi</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Butantã</a>
+                    <a class="nav-link {% if where == 'Butantã' %} active {% endif %}" href="/equipment/BUT">Butantã</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Pinheiros</a>
+                    <a class="nav-link {% if where == 'Pinheiros' %} active {% endif %}" href="/equipment/PIN">Pinheiros</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Faria</a>
+                    <a class="nav-link {% if where == 'Faria Lima' %} active {% endif %}" href="/equipment/FAL">Faria</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Fradique</a>
+                    <a class="nav-link {% if where == 'Fradique Coutinho' %} active {% endif %}" href="/equipment/FRA">Fradique</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Oscar</a>
+                    <a class="nav-link {% if where == 'Oscar Freire' %} active {% endif %}" href="/equipment/FRE">Oscar</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Paulista</a>
+                    <a class="nav-link {% if where == 'Paulista' %} active {% endif %}" href="/equipment/PTA">Paulista</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Higeanopolis</a>
+                    <a class="nav-link {% if where == 'Higeanopolis' %} active {% endif %}" href="/equipment/HIG">Higeanopolis</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Republica</a>
+                    <a class="nav-link {% if where == 'Republica' %} active {% endif %}" href="/equipment/REP">Republica</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Luz</a>
+                    <a class="nav-link {% if where == 'Lux' %} active {% endif %}" href="/equipment/LUZ">Luz</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Calibração</a>
+                    <a class="nav-link" href="/CARS">Carros</a>
                 </li>
+                {% if perms.CdC.can_receive %}
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Carros</a>
+                    <a class="nav-link" href="/super/Calibration">Calibração</a>
+                </li>
+                {% endif %}
+                {% if perms.CdC.can_move %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/super/add_user"><button class="btn btn-info"><i class="fas fa-user-plus"></i></button></a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}"><button class="btn btn-danger"><i class="fas fa-sign-out-alt"></i></button></a>
                 </li>
             </ul>
         </div>
