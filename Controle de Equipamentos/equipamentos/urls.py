@@ -21,4 +21,5 @@ urlpatterns = [
     path('',do_login),
     path('login/',do_login),
     path('move/',move.as_view()),
+    path('lista/<slug:slug>/')
 ]
