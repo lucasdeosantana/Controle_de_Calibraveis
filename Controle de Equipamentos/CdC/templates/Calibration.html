@@ -9,8 +9,8 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <script src="https://kit.fontawesome.com/3b54b7ad97.js" crossorigin="anonymous"></script>
-        <title>Calibração</title>
+    <script src="https://kit.fontawesome.com/3b54b7ad97.js" crossorigin="anonymous"></script>
+    <title>Calibração</title>
 </head>
 
 <body>
@@ -64,61 +64,61 @@
     </div>
     <div class="container-fluid bg-light" style="height: 100vh;">
         <div class="row pt-2 d-flex justify-content-center">
-            <div class="col-md-12 ">
+            <div class="col-md-12">
                 <ul class="nav nav-tabs bg-light">
                     <li class="nav-item">
-                        <a class="nav-link active" onclick="changetab1()" id="RE" href="#"><h3>Recebimento de Equipamento</h3></a>
+                        <a class="nav-link active" onclick="changetab1()" id="RE" href="#">
+                            <h3>Recebimento de Equipamento</h3>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" onclick="changetab2()" id="ER" href="#"><h3>Equipamento Retornando</h3></a>
+                        <a class="nav-link" onclick="changetab2()" id="ER" href="#">
+                            <h3>Equipamento Retornando</h3>
+                        </a>
                     </li>
                 </ul>
             </div>
         </div>
-    <div class="row pt-3" id="REtable">
-        <div class="col-md-12">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col" style="width: 15%;">Codigo</th>
-                        <th scope="col" style="width: 15%;">Vencimento</th>
-                        <th scope="col">Nome</th>
-                        <th scope="col" style="width:10%">Confirm</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="bg">
-                        <th scope="row">1</th>
-                        <td>teste</td>
-                        <td>teste</td>
-                        <td><button class="btn btn-primary"><i class="fa fa-check"></i></button><button class="btn btn-danger"><i class="fa fa-times"></i></button></td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="row pt-3">
+            <div class="col-md-12">
+                <table class="table table-striped" id="equip_confirm_table">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 15%;">Codigo</th>
+                            <th scope="col" style="width: 15%;">Vencimento</th>
+                            <th scope="col">Nome</th>
+                            <th scope="col" style="width:10%">Recebimento</th>
+                        </tr>
+                    </thead>
+                    <tbody id="equip_confirm">
+                            {% for equipment in equipments%}
+                            <tr class="bg">
+                                <th scope="row">{{ equipment.codigo }}</th>
+                                <td>{{ equipment.date_validity|date:"F/Y" }}</td>
+                                <td>{{ equipment.nome }}</td>
+                                <td><button class="btn btn-primary"><i class="fa fa-check"></i></button><button
+                                    class="btn btn-danger"><i class="fa fa-times"></i></button></td>
+                            </tr>
+                            {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
-    <div class="row pt-3" id="ERtable" style="display: none;">
-        <div class="col-md-12">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col" style="width: 15%;">Codigo</th>
-                        <th scope="col" style="width: 15%;">Data de Calibração</th>
-                        <th scope="col">Nome</th>
-                        <th scope="col" style="width:10%">Confirm</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="bg">
-                        <th scope="row">1</th>
-                        <td><input type="date"></td>
-                        <td>teste</td>
-                        <td><button class="btn btn-primary">Salvar</button></td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="row pt-3">
+            <div class="col-md-12">
+                <table class="table table-striped" id="equip_back_table" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 15%;">Codigo</th>
+                            <th scope="col" style="width: 15%;">Data de Calibração</th>
+                            <th scope="col">Nome</th>
+                            <th scope="col" style="width:10%">Confirm</th>
+                        </tr>
+                    </thead>
+                    <tbody id="equip_back"></tbody>
+                </table>
+            </div>
         </div>
-    </div>
     </div>
 
     <!-- Optional JavaScript -->
@@ -133,17 +133,77 @@
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
     <script>
-        function changetab1(){
+        function send_receive(dictonary) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var response = JSON.parse(this.responseText)
+                    get_response[response["type"]](response)
+                }
+            }
+            jsonString = JSON.stringify(dictonary)
+            xhttp.open("POST", '/super/Calibration/')
+            xhttp.setRequestHeader("Content-Type", "application/json")
+            xhttp.send(jsonString)
+        }
+        function changetab1() {
             document.getElementById("ER").classList.remove("active")
             document.getElementById("RE").classList.add("active")
-            document.getElementById("ERtable").style.display="none"
-            document.getElementById("REtable").style.display=""
+            document.getElementById("equip_confirm_table").style.display=""
+            document.getElementById("equip_back_table").style.display="none"
+            document.getElementById("equip_confirm").innerHTML=""
+            document.getElementById("equip_back").innerHTML=""
+            data ={
+                "type":"equipConfirm"
+            }
+            send_receive(data)
         }
-        function changetab2(){
+        function changetab2() {
             document.getElementById("RE").classList.remove("active")
             document.getElementById("ER").classList.add("active")
-            document.getElementById("REtable").style.display="none"
-            document.getElementById("ERtable").style.display=""
+            document.getElementById("equip_confirm_table").style.display="none"
+            document.getElementById("equip_back_table").style.display=""
+            document.getElementById("equip_confirm").innerHTML=""
+            document.getElementById("equip_back").innerHTML=""
+            data ={
+                "type":"equipBack"
+            }
+            send_receive(data)
+
+        }
+        var get_response = {
+            equipConfirm(dict){
+                document.getElementById("equip_confirm").innerHTML= dict["table"]
+            },
+            equipBack(dict){
+                document.getElementById("equip_back").innerHTML = dict["table"]
+            }
+        }
+        function button_received(code, type){
+            
+        }
+        var button_functs={
+            btn_confirm(code){
+                data ={
+                    "type":"confirm",
+                    "code":code
+                }
+                send_receive(data)
+            },
+            btn_cancel(code){
+                data ={
+                    "type":"cancel",
+                    "code":code
+                }
+                send_receive(code)
+            },
+            btn_return(code){
+                data ={
+                    "type":"return",
+                    "code":code
+                }
+                send_receive(code)
+            }
         }
     </script>
 </body>

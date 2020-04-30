@@ -7,6 +7,7 @@ from django.views import View
 from django.utils.decorators import method_decorator
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.template import Context, Template
 import json
 from .models import *
 
@@ -107,11 +108,84 @@ class list_of_equips(PermissionRequiredMixin, View):
                 "where":self.urlshort[station]
                 }
         return render(request, 'equipment.html', context)
+
 class superview(PermissionRequiredMixin, View):
     template_name = "login.html"
     permission_required = 'CdC.can_move'
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(superview, self).dispatch(request, *args, **kwargs)
+
     def get(self, request, page, *args, **Kwargs):
         self.pages={
             "Calibration":"Calibration.html"
         }
-        return render(request,self.pages[page])
+        equips_for_calibration = (Equipament.objects.all().filter(in_calibration=1)).order_by('date_validity')
+        context = {
+            "equipments":equips_for_calibration
+        }
+        return render(request, self.pages[page], context)
+
+    def post(self, request, *args, **kwargs):
+        self.functs ={
+            "equipConfirm":self.get_Equipament_to_Confirm,
+            "equipBack":self.get_Equipament_to_back,
+            "confirm":self.confirm,
+            "cancel":self.cancel,
+            "return":self.return_to
+        }
+        json_request = json.loads(request.body)
+        table= self.functs[json_request["type"]]()
+        print(table)
+        data ={
+                "type":json_request["type"],
+                "table":table
+        }
+        return JsonResponse(data)
+    
+    def get_Equipament_to_Confirm(self):
+        equips_for_calibration = (Equipament.objects.all().filter(in_calibration=1)).order_by('date_validity')
+        template = Template("""
+            {% for equipment in equipments %}
+            <tr class="bg" id="{{ equipment.codigo }}">
+                <th scope="row">{{ equipment.codigo }}</th>
+                <td>{{ equipment.date_validity|date:"F/Y" }}</td>
+                <td>{{ equipment.nome }}</td>
+                <td><button class="btn btn-primary" onclick="button_received({{ equipment.codigo }}, 'confirm')"><i class="fa fa-check"></i></button><button
+                    class="btn btn-danger" onclick="button_received({{ equipment.codigo }}, 'cancel')"><i class="fa fa-times"></i></button></td>
+            </tr>
+            {% endfor %}""")
+        context = Context({"equipments":equips_for_calibration})
+        #print(template.render(context))
+        return template.render(context)
+    
+    def get_Equipament_to_back(self):
+        equips_for_calibration = (Equipament.objects.all().filter(in_calibration=2)).order_by('date_validity')
+        template = Template("""
+            {% if equipments %}
+            {% for equipment in equipments %}
+            <tr class="bg">
+                <th scope="row">{{ equipment.codigo }}</th>
+                <td><input type="date"></td>
+                <td>{{ equipment.nome }}</td>
+                <td><button class="btn btn-primary"><i class="fas fa-undo"></i></button></td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr class="bg">
+                <th scope="row">NADA AQUI</th>
+                <td>></td>
+                <td></td>
+                <td></td>
+            </tr>
+            {% endif %}
+            """)
+        context = Context({"equipments":equips_for_calibration})
+        #print(template.render(context))
+        return template.render(context) 	
+        def confirm():
+            pass
+        def cancel():
+            pass
+        def return_to():
+            pass
