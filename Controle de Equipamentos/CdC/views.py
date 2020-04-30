@@ -13,7 +13,7 @@ from django.utils.dateparse import parse_date
 import json
 from .models import *
 
-base = "Faria Lima"
+base = "Base"
 
 class move(PermissionRequiredMixin, View):
     template_name = "login.html"
@@ -219,7 +219,7 @@ class superview(PermissionRequiredMixin, View):
                  date = parse_date(dict["date"])
             else:
                 date = datetime.today()
-            create_log = log(codigo = dict["code"], origem = "Calibração", destino = "Base" , responsible = kwargs["Request"].user.username)
+            create_log = log(codigo = dict["code"], origem = "Calibração", destino = base , responsible = kwargs["Request"].user.username)
             equipment = Equipament.objects.get(codigo= dict["code"])
             equipment.date_calibration = date
             equipment.in_calibration= 0
