@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+{% block title %}{{ where }}{% endblock %}
 {% block content %}
 {% now "m-y" as todays_date %}
     <div class="container-fluid bg-light" style="height: 100vh;">
