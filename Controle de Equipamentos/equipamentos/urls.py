@@ -18,8 +18,9 @@ from django.urls import path
 from CdC.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',do_login),
-    path('login/',do_login),
-    path('move/',move.as_view()),
-    path('lista/<slug:slug>/')
+    path('',do_login, name='home'),
+    path('login/',do_login, name='login'),
+    path('logout/', do_logout, name='logout'),
+    path('move/',move.as_view(), name='move'),
+    path('equipment/<slug:station>/',list_of_equips.as_view(), name='equipment')
 ]

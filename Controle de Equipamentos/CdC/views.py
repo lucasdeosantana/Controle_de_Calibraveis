@@ -24,12 +24,12 @@ class move(PermissionRequiredMixin, View):
     def post(self, request, *args, **Kwargs):
         self.functs={
             "doMove":self.do_move,
-            "request":self.get_equipament
+            "request":self.get_equipment
         }
         json_request = json.loads(request.body)
         answer = self.functs[json_request["type"]](json_request, request)
         return JsonResponse(answer)
-    def get_equipament(self,data, *args, **kwargs):
+    def get_equipment(self,data, *args, **kwargs):
         if(data["equipmentCode"].isnumeric()):
             equipment = Equipament.objects.get(codigo=data["equipmentCode"])
             if(equipment.in_calibration!=0):
@@ -60,7 +60,7 @@ class move(PermissionRequiredMixin, View):
             create_log.save()
             equipment.log.add(create_log)
             equipment.save()
-            data = {"type":"Success"}
+            data = {"type":"Success","equipmentCode": data["equipmentCode"]}
         else:
             car = Car.objects.get(placa=data["equipmentCode"])
             logcar = carlog(placa=data["equipmentCode"], origem = data["where"], destino = data["for"], responsible = request.user.username)
@@ -68,7 +68,7 @@ class move(PermissionRequiredMixin, View):
             car.position = data["for"]
             car.log.add(logcar)
             car.save()
-            data = {"type":"Success"}
+            data = {"type":"Success","equipmentCode": data["equipmentCode"] }
         return data
 
 def do_login(request, *args, **kwargs):
@@ -81,4 +81,29 @@ def do_login(request, *args, **kwargs):
 
 def do_logout(request, *args, **kwargs):
     logout(request)
-    return redirect("")
+    return redirect("/login/")
+
+class list_of_equips(PermissionRequiredMixin, View):
+    template_name = "login.html"
+    permission_required = 'CdC.can_move'
+    def get(self, request, station, *args, **Kwargs):
+        self.urlshort ={
+            "PVS":"Patio",
+            "MBI":"Morumbi",
+            "BUT":"Butantã",
+            "PIN":"Pinheiros",
+            "FAL":"Faria Lima",
+            "FRA":"Fradique Coutinho",
+            "FRE":"Oscar Freire",
+            "PTA":"Paulista",
+            "HIG":"Higeanopolis",
+            "REP":"Republica",
+            "LUZ":"Luz",
+            }
+        equipmentList = (Equipament.objects.all().filter(position=self.urlshort[station])).order_by('date_validity')
+        print(equipmentList)
+        context={
+                "equipments":equipmentList,
+                "where":self.urlshort[station]
+                }
+        return render(request, 'equipment.html', context)

@@ -10,7 +10,7 @@ stations = (
     ("Butantã","Butantã"),
     ("Pinheiros","Pinheiros"),
     ("Faria Lima","Faria Lima"),
-    ("Fradique","Fradique"),
+    ("Fradique Coutinho","Fradique Coutinho"),
     ("Oscar Freire","Oscar Freire"),
     ("Paulista","Paulista"),
     ("Higeanopolis","Higeanopolis"),
