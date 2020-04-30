@@ -13,7 +13,7 @@ from django.utils.dateparse import parse_date
 import json
 from .models import *
 
-base = "Faria Lima"
+base = "Base"
 
 class move(PermissionRequiredMixin, View):
     template_name = "login.html"
