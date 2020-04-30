@@ -107,3 +107,11 @@ class list_of_equips(PermissionRequiredMixin, View):
                 "where":self.urlshort[station]
                 }
         return render(request, 'equipment.html', context)
+class superview(PermissionRequiredMixin, View):
+    template_name = "login.html"
+    permission_required = 'CdC.can_move'
+    def get(self, request, page, *args, **Kwargs):
+        self.pages={
+            "Calibration":"Calibration.html"
+        }
+        return render(request,self.pages[page])
