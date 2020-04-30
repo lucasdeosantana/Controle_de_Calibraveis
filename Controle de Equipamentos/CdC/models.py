@@ -1,5 +1,8 @@
 from django.db import models
 from datetime import datetime, timedelta
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 stations = (
     ("Patio","Patio"),
@@ -47,7 +50,12 @@ class Equipament(models.Model):
         if(self.date_validity == None):
             self.date_validity = self.date_calibration+timedelta(days=365)
         super(Equipament, self).save(*args, **kwargs)
-
+    class Meta:
+        permissions=[ 
+            ('can_move','Pode mover equipamentos'),
+            ('can_receive', 'Pode receber equipamentos de calibração'),
+            ('can_see_log', 'Pode ver os logs')
+        ]
 class Car(models.Model):
     placa = models.CharField('Placa',max_length=8, blank=False, null=False, unique=True)
     nome = models.CharField('Modelo',max_length=100, blank=False, null=False)
@@ -56,5 +64,3 @@ class Car(models.Model):
 
     def __str__(self):
         return self.placa + " " + self.nome
-
-
