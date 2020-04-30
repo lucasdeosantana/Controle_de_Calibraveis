@@ -99,6 +99,7 @@ class list_of_equips(PermissionRequiredMixin, View):
             "HIG":"Higeanopolis",
             "REP":"Republica",
             "LUZ":"Luz",
+            "BASE":"Base"
             }
         equipmentList = (Equipament.objects.all().filter(position=self.urlshort[station])).order_by('date_validity')
         print(equipmentList)

@@ -12,10 +12,11 @@ function send_receive(dictonary) {
     xhttp.send(jsonString)
 }
 function transfer(destiny, equipmentNumber) {
-    data = {
+    where = document.title
+    data={
         "type": "doMove",
         "equipmentCode": equipmentNumber,
-        "where": "{{ where }}",
+        "where": where,
         "for": destiny
     }
     send_receive(data)

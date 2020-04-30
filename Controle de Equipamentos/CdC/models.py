@@ -16,7 +16,8 @@ stations = (
     ("Higeanopolis","Higeanopolis"),
     ("Republica","Republica"),
     ("Luz","Luz"),
-    ("Calibração","Calibração")
+    ("Calibração","Calibração"),
+    ("Base","Base")
 )
 # Create your models here.
 class log(models.Model):
