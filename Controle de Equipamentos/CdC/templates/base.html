@@ -12,12 +12,14 @@
     <script src="https://kit.fontawesome.com/3b54b7ad97.js" crossorigin="anonymous"></script>
     <title>{% block title %}{% endblock title %}</title>
 </head>
+
 <body>
     <div class="row">
         <div class="col-md-12 ">
             <ul class="nav nav-tabs bg-light">
                 <li class="nav-item">
-                    <a class="nav-link {% if where == 'move' %} active {% endif %}" href="{% url 'move' %}">Movimentação</a>
+                    <a class="nav-link {% if where == 'move' %} active {% endif %}"
+                        href="{% url 'move' %}">Movimentação</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if where == 'Patio' %} active {% endif %}" href="/equipment/PVS">Patio</a>
@@ -29,25 +31,32 @@
                     <a class="nav-link {% if where == 'Butantã' %} active {% endif %}" href="/equipment/BUT">Butantã</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if where == 'Pinheiros' %} active {% endif %}" href="/equipment/PIN">Pinheiros</a>
+                    <a class="nav-link {% if where == 'Pinheiros' %} active {% endif %}"
+                        href="/equipment/PIN">Pinheiros</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if where == 'Faria Lima' %} active {% endif %}" href="/equipment/FAL">Faria</a>
+                    <a class="nav-link {% if where == 'Faria Lima' %} active {% endif %}"
+                        href="/equipment/FAL">Faria</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if where == 'Fradique Coutinho' %} active {% endif %}" href="/equipment/FRA">Fradique</a>
+                    <a class="nav-link {% if where == 'Fradique Coutinho' %} active {% endif %}"
+                        href="/equipment/FRA">Fradique</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if where == 'Oscar Freire' %} active {% endif %}" href="/equipment/FRE">Oscar</a>
+                    <a class="nav-link {% if where == 'Oscar Freire' %} active {% endif %}"
+                        href="/equipment/FRE">Oscar</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if where == 'Paulista' %} active {% endif %}" href="/equipment/PTA">Paulista</a>
+                    <a class="nav-link {% if where == 'Paulista' %} active {% endif %}"
+                        href="/equipment/PTA">Paulista</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if where == 'Higeanopolis' %} active {% endif %}" href="/equipment/HIG">Higeanopolis</a>
+                    <a class="nav-link {% if where == 'Higeanopolis' %} active {% endif %}"
+                        href="/equipment/HIG">Higeanopolis</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if where == 'Republica' %} active {% endif %}" href="/equipment/REP">Republica</a>
+                    <a class="nav-link {% if where == 'Republica' %} active {% endif %}"
+                        href="/equipment/REP">Republica</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if where == 'Luz' %} active {% endif %}" href="/equipment/LUZ">Luz</a>
@@ -57,16 +66,22 @@
                 </li>
                 {% if perms.CdC.can_receive %}
                 <li class="nav-item">
-                    <a class="nav-link {% if where == 'Calibration' %} active {% endif %}" href="/super/Calibration">Calibração</a>
+                    <a class="nav-link {% if where == 'Calibration' %} active {% endif %}"
+                        href="/super/Calibration">Calibração</a>
                 </li>
                 {% endif %}
                 {% if perms.CdC.can_see_log %}
                 <li class="nav-item">
-                    <a class="nav-link {% if where == 'add_user' %} active {% endif %}" href="/super/add_user"><button class="btn btn-info"><i class="fas fa-user-plus"></i></button></a>
+                    <a class="nav-link {% if where == 'add_user' %} active {% endif %}" href="/super/add_user"><button
+                            class="btn btn-info"><i class="fas fa-user-plus"></i></button></a>
                 </li>
                 {% endif %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout' %}"><button class="btn btn-danger"><i class="fas fa-sign-out-alt"></i></button></a>
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">{{ user.username }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}"><button class="btn btn-danger"><i
+                                class="fas fa-sign-out-alt"></i></button></a>
                 </li>
             </ul>
         </div>
@@ -82,5 +97,6 @@
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
     {% block script %}{% endblock script %}
-    </body>
+</body>
+
 </html>
