@@ -22,7 +22,8 @@ class move(PermissionRequiredMixin, View):
     def dispatch(self, request, *args, **kwargs):
         return super(move, self).dispatch(request, *args, **kwargs)
     def get(self, request, *args, **Kwargs):
-        return render(request,'move.html')
+        context={"where":"move"}
+        return render(request,'move.html', context)
 
     def post(self, request, *args, **Kwargs):
         self.functs={
@@ -120,7 +121,8 @@ class superview(PermissionRequiredMixin, View):
         }
         equips_for_calibration = (Equipament.objects.all().filter(in_calibration=1)).order_by('date_validity')
         context = {
-            "equipments":equips_for_calibration
+            "equipments":equips_for_calibration,
+            "where":"Calibration"
         }
         return render(request, self.pages[page], context)
 
@@ -228,4 +230,7 @@ class superview(PermissionRequiredMixin, View):
         return "Success"
     
 def cars(request):
+    context ={
+        "where":"carros"
+    }
     return render(request, 'carros.html')
