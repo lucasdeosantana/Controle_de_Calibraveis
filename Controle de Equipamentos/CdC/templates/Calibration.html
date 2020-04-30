@@ -18,46 +18,56 @@
         <div class="col-md-12 ">
             <ul class="nav nav-tabs bg-light">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Movimentação</a>
+                    <a class="nav-link" href="{% url 'move' %}">Movimentação</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Patio</a>
+                    <a class="nav-link {% if where == 'Patio' %} active {% endif %}" href="/equipment/PVS">Patio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Morumbi</a>
+                    <a class="nav-link {% if where == 'Morumbi' %} active {% endif %}" href="/equipment/MBI">Morumbi</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Butantã</a>
+                    <a class="nav-link {% if where == 'Butantã' %} active {% endif %}" href="/equipment/BUT">Butantã</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Pinheiros</a>
+                    <a class="nav-link {% if where == 'Pinheiros' %} active {% endif %}" href="/equipment/PIN">Pinheiros</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Faria</a>
+                    <a class="nav-link {% if where == 'Faria Lima' %} active {% endif %}" href="/equipment/FAL">Faria</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Fradique</a>
+                    <a class="nav-link {% if where == 'Fradique Coutinho' %} active {% endif %}" href="/equipment/FRA">Fradique</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Oscar</a>
+                    <a class="nav-link {% if where == 'Oscar Freire' %} active {% endif %}" href="/equipment/FRE">Oscar</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Paulista</a>
+                    <a class="nav-link {% if where == 'Paulista' %} active {% endif %}" href="/equipment/PTA">Paulista</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Higeanopolis</a>
+                    <a class="nav-link {% if where == 'Higeanopolis' %} active {% endif %}" href="/equipment/HIG">Higeanopolis</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Republica</a>
+                    <a class="nav-link {% if where == 'Republica' %} active {% endif %}" href="/equipment/REP">Republica</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Luz</a>
+                    <a class="nav-link {% if where == 'Lux' %} active {% endif %}" href="/equipment/LUZ">Luz</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="#">Calibração</a>
+                    <a class="nav-link" href="/CARS">Carros</a>
                 </li>
+                {% if perms.CdC.can_receive %}
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Carros</a>
+                    <a class="nav-link" href="/super/Calibration">Calibração</a>
+                </li>
+                {% endif %}
+                {% if perms.CdC.can_see_log %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/super/add_user"><button class="btn btn-info"><i class="fas fa-user-plus"></i></button></a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}"><button class="btn btn-danger"><i class="fas fa-sign-out-alt"></i></button></a>
                 </li>
             </ul>
         </div>
@@ -92,12 +102,12 @@
                     </thead>
                     <tbody id="equip_confirm">
                             {% for equipment in equipments%}
-                            <tr class="bg">
-                                <th scope="row">{{ equipment.codigo }}</th>
-                                <td>{{ equipment.date_validity|date:"F/Y" }}</td>
-                                <td>{{ equipment.nome }}</td>
-                                <td><button class="btn btn-primary"><i class="fa fa-check"></i></button><button
-                                    class="btn btn-danger"><i class="fa fa-times"></i></button></td>
+                            <tr class="bg" id="{{ equipment.codigo }}">
+                            <th scope="row">{{ equipment.codigo }}</th>
+                            <td>{{ equipment.date_validity|date:"F/Y" }}</td>
+                            <td>{{ equipment.nome }}</td>
+                            <td><button class="btn btn-primary" onclick="button_received({{ equipment.codigo }}, 'btn_confirm')"><i class="fa fa-check"></i></button><button
+                                class="btn btn-danger" onclick="button_received({{ equipment.codigo }}, 'btn_cancel')"><i class="fa fa-times"></i></button></td>
                             </tr>
                             {% endfor %}
                     </tbody>
@@ -138,6 +148,7 @@
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
                     var response = JSON.parse(this.responseText)
+                    console.log(response)
                     get_response[response["type"]](response)
                 }
             }
@@ -173,36 +184,53 @@
         }
         var get_response = {
             equipConfirm(dict){
-                document.getElementById("equip_confirm").innerHTML= dict["table"]
+                document.getElementById("equip_confirm").innerHTML= dict["payload"]
             },
             equipBack(dict){
-                document.getElementById("equip_back").innerHTML = dict["table"]
-            }
+                document.getElementById("equip_back").innerHTML = dict["payload"]
+            },
+            to_confirm(dict){
+                if(dict["payload"]=="Success"){
+                    document.getElementById(dict["code"]).innerHTML=""
+                }
+            },
+            to_cancel(dict){
+                if(dict["payload"]=="Success"){
+                    document.getElementById(dict["code"]).innerHTML=""
+                }
+            },
+            to_return(dict){
+                if(dict["payload"]=="Success"){
+                    document.getElementById(dict["code"]).innerHTML=""
+                }
+            },
         }
         function button_received(code, type){
-            
+            button_functs[type](code)
         }
         var button_functs={
             btn_confirm(code){
                 data ={
-                    "type":"confirm",
+                    "type":"to_confirm",
                     "code":code
                 }
                 send_receive(data)
             },
             btn_cancel(code){
                 data ={
-                    "type":"cancel",
+                    "type":"to_cancel",
                     "code":code
                 }
-                send_receive(code)
+                send_receive(data)
             },
             btn_return(code){
                 data ={
-                    "type":"return",
-                    "code":code
+                    "type":"to_return",
+                    "code":code,
+                    "date":document.getElementById("d"+code.toString()).value
+
                 }
-                send_receive(code)
+                send_receive(data)
             }
         }
     </script>

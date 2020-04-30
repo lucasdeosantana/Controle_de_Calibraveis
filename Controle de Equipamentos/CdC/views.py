@@ -8,6 +8,8 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.template import Context, Template
+from django.utils.timezone import datetime
+from django.utils.dateparse import parse_date
 import json
 from .models import *
 
@@ -54,12 +56,9 @@ class move(PermissionRequiredMixin, View):
             equipment = Equipament.objects.get(codigo=data["equipmentCode"])
             if(data["for"]== "Calibração"):
                 equipment.in_calibration = 1
-                equipment.position = base
-            else:
-                equipment.position = data["for"]
+            equipment.position = data["for"]
             create_log = log(codigo = data["equipmentCode"], origem = data["where"], destino = data["for"], responsible = request.user.username)
             create_log.save()
-            equipment.log.add(create_log)
             equipment.save()
             data = {"type":"Success","equipmentCode": data["equipmentCode"]}
         else:
@@ -67,7 +66,6 @@ class move(PermissionRequiredMixin, View):
             logcar = carlog(placa=data["equipmentCode"], origem = data["where"], destino = data["for"], responsible = request.user.username)
             logcar.save()
             car.position = data["for"]
-            car.log.add(logcar)
             car.save()
             data = {"type":"Success","equipmentCode": data["equipmentCode"] }
         return data
@@ -130,20 +128,25 @@ class superview(PermissionRequiredMixin, View):
         self.functs ={
             "equipConfirm":self.get_Equipament_to_Confirm,
             "equipBack":self.get_Equipament_to_back,
-            "confirm":self.confirm,
-            "cancel":self.cancel,
-            "return":self.return_to
+            "to_confirm":self.to_confirm,
+            "to_cancel":self.to_cancel,
+            "to_return":self.to_return
         }
         json_request = json.loads(request.body)
-        table= self.functs[json_request["type"]]()
-        print(table)
+        table= self.functs[json_request["type"]](json_request, Request=request)
+        print(json_request)
+        try:
+            code = str(json_request["code"])
+        except:
+            code = None
         data ={
                 "type":json_request["type"],
-                "table":table
+                "payload":table,
+                "code":code,
         }
         return JsonResponse(data)
     
-    def get_Equipament_to_Confirm(self):
+    def get_Equipament_to_Confirm(self, *args, **kwargs):
         equips_for_calibration = (Equipament.objects.all().filter(in_calibration=1)).order_by('date_validity')
         template = Template("""
             {% for equipment in equipments %}
@@ -151,24 +154,24 @@ class superview(PermissionRequiredMixin, View):
                 <th scope="row">{{ equipment.codigo }}</th>
                 <td>{{ equipment.date_validity|date:"F/Y" }}</td>
                 <td>{{ equipment.nome }}</td>
-                <td><button class="btn btn-primary" onclick="button_received({{ equipment.codigo }}, 'confirm')"><i class="fa fa-check"></i></button><button
-                    class="btn btn-danger" onclick="button_received({{ equipment.codigo }}, 'cancel')"><i class="fa fa-times"></i></button></td>
+                <td><button class="btn btn-primary" onclick="button_received({{ equipment.codigo }}, 'btn_confirm')"><i class="fa fa-check"></i></button><button
+                    class="btn btn-danger" onclick="button_received({{ equipment.codigo }}, 'btn_cancel')"><i class="fa fa-times"></i></button></td>
             </tr>
             {% endfor %}""")
         context = Context({"equipments":equips_for_calibration})
         #print(template.render(context))
         return template.render(context)
     
-    def get_Equipament_to_back(self):
+    def get_Equipament_to_back(self, *args, **kwargs):
         equips_for_calibration = (Equipament.objects.all().filter(in_calibration=2)).order_by('date_validity')
         template = Template("""
             {% if equipments %}
             {% for equipment in equipments %}
-            <tr class="bg">
+            <tr class="bg" id="{{ equipment.codigo }}">
                 <th scope="row">{{ equipment.codigo }}</th>
-                <td><input type="date"></td>
+                <td><input type="date" id="d{{ equipment.codigo }}"></td>
                 <td>{{ equipment.nome }}</td>
-                <td><button class="btn btn-primary"><i class="fas fa-undo"></i></button></td>
+                <td><button class="btn btn-primary" onclick="button_received({{ equipment.codigo }}, 'btn_return')"><i class="fas fa-undo"></i></button></td>
             </tr>
             {% endfor %}
             {% else %}
@@ -183,9 +186,46 @@ class superview(PermissionRequiredMixin, View):
         context = Context({"equipments":equips_for_calibration})
         #print(template.render(context))
         return template.render(context) 	
-        def confirm():
-            pass
-        def cancel():
-            pass
-        def return_to():
-            pass
+    def to_confirm(self, dict, *args, **kwargs):
+        try:
+            equipment = Equipament.objects.get(codigo=dict["code"])
+            equipment.in_calibration = 2
+            equipment.save()
+        except:
+            return "Fail"
+        create_log = log(codigo = dict["code"], origem = "Calibração", destino = "Calibração", responsible = kwargs["Request"].user.username)
+        create_log.save()
+        return "Success"
+    def to_cancel(self, dict, *args, **kwargs):
+        try:
+            logs = (log.objects.all().filter(codigo=dict["code"])).order_by("-date")
+            destino = str(logs[0].origem)
+            create_log = log(codigo = dict["code"], origem = "Calibração", destino = destino , responsible = kwargs["Request"].user.username, observation="Cancelamento")
+            create_log.save()
+            equipment = Equipament.objects.get(codigo=dict["code"])
+            equipment.in_calibration = 0
+            equipment.position = destino
+            equipment.save()
+        except:
+            return "Fail"
+        return "Success"
+
+    def to_return(self, dict,*args, **kwargs):
+        try:
+            if(dict["date"]!=''):
+                 date = parse_date(dict["date"])
+            else:
+                date = datetime.today()
+            create_log = log(codigo = dict["code"], origem = "Calibração", destino = base , responsible = kwargs["Request"].user.username)
+            equipment = Equipament.objects.get(codigo= dict["code"])
+            equipment.date_calibration = date
+            equipment.in_calibration= 0
+            equipment.position = base
+            equipment.save_special()
+            create_log.save()
+        except:
+            return "Fail"
+        return "Success"
+    
+def cars(request):
+    return render(request, 'carros.html')
