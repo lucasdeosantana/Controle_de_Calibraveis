@@ -1,0 +1,10 @@
+{
+    "sqltools.connections": [
+        {
+            "database": "/mnt/c/Users/lcs30/OneDrive/Documentos/CdC/Controle de Equipamentos/db.sqlite3",
+            "dialect": "SQLite",
+            "name": "Db"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}

@@ -18,6 +18,8 @@ from django.urls import path
 from CdC.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',login),
+    path('',do_login),
+    path('login/',do_login),
     path('move/',move.as_view()),
+    path('lista/<slug:slug>/')
 ]

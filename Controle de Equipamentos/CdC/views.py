@@ -1,24 +1,23 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views import View
 from django.utils.decorators import method_decorator
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 import json
 from .models import *
 
 base = "Faria Lima"
-# Create your views here.
-def login(request):
-    print(request.POST)
-    return render(request,'login.html')
 
-
-class move(View):
+class move(PermissionRequiredMixin, View):
+    template_name = "login.html"
+    permission_required = 'CdC.can_move'
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super(move, self).dispatch(request, *args, **kwargs)
-        
     def get(self, request, *args, **Kwargs):
         return render(request,'move.html')
 
@@ -28,9 +27,9 @@ class move(View):
             "request":self.get_equipament
         }
         json_request = json.loads(request.body)
-        answer = self.functs[json_request["type"]](json_request)
+        answer = self.functs[json_request["type"]](json_request, request)
         return JsonResponse(answer)
-    def get_equipament(self,data):
+    def get_equipament(self,data, *args, **kwargs):
         if(data["equipmentCode"].isnumeric()):
             equipment = Equipament.objects.get(codigo=data["equipmentCode"])
             if(equipment.in_calibration!=0):
@@ -49,7 +48,7 @@ class move(View):
                         "in_station":car.position
                 }
         return data
-    def do_move(self, data):
+    def do_move(self, data, request, *args, **kwargs):
         if(data["equipmentCode"].isnumeric()):
             equipment = Equipament.objects.get(codigo=data["equipmentCode"])
             if(data["for"]== "Calibração"):
@@ -57,17 +56,29 @@ class move(View):
                 equipment.position = base
             else:
                 equipment.position = data["for"]
-            create_log = log(codigo = data["equipmentCode"], origem = data["where"], destino = data["for"], responsible = "lucas")
+            create_log = log(codigo = data["equipmentCode"], origem = data["where"], destino = data["for"], responsible = request.user.username)
             create_log.save()
             equipment.log.add(create_log)
             equipment.save()
             data = {"type":"Success"}
         else:
             car = Car.objects.get(placa=data["equipmentCode"])
-            logcar = carlog(placa=data["equipmentCode"], origem = data["where"], destino = data["for"], responsible = "lucas")
+            logcar = carlog(placa=data["equipmentCode"], origem = data["where"], destino = data["for"], responsible = request.user.username)
             logcar.save()
             car.position = data["for"]
             car.log.add(logcar)
             car.save()
             data = {"type":"Success"}
         return data
+
+def do_login(request, *args, **kwargs):
+    if request.method == 'POST':
+        user = authenticate(username=request.POST['user'], password=request.POST['pass'])
+        if user is not None:
+            login(request, user)
+            return redirect("/move")
+    return render(request, 'login.html')
+
+def do_logout(request, *args, **kwargs):
+    logout(request)
+    return redirect("")
