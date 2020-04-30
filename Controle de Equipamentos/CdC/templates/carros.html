@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Carros{% endblock title %}
 {% block content %}
     <div class="container-fluid bg-light" style="height: 100vh;">
@@ -25,4 +26,4 @@
     </div>
 {% endblock content %}
 
-{% block script %}{% endblock script %}
+{% block script %}<script type="text/javascript" src="{% static 'js/cars.js' %}"></script>{% endblock script %}
