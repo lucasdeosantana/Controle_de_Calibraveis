@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}{{ where }}{% endblock %}
 {% block content %}
 {% now "m-y" as todays_date %}
@@ -64,44 +64,7 @@
     </div>
 {% endblock content %}
 {% block script %} 
-    <script>
-        function send_receive(dictonary) {
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    var response = JSON.parse(this.responseText)
-                    get_response[response["type"]](response)
-                }
-            }
-            jsonString = JSON.stringify(dictonary)
-            xhttp.open("POST", '/move/')
-            xhttp.setRequestHeader("Content-Type", "application/json")
-            xhttp.send(jsonString)
-        }
-        function transfer(destiny, equipmentNumber){
-            data = {
-                "type": "doMove",
-                "equipmentCode": equipmentNumber,
-                "where": "{{ where }}",
-                "for": destiny
-            }
-            send_receive(data)
-        } 
-        var get_response = {
-            EquipmentInformation(dict) {
-                
-            },
-            Success(dict) {
-               document.getElementById(dict["equipmentCode"]).outerHTML = "";
-            },
-            Fail(dict) {
-                
-            },
-            Warning(dict) {
-                
-            }
-        }
-    </script>
+    <script type="text/javascript" src="{% static 'js/equipment.js' %}"></script>
 {% endblock script %} 
 
 </html>
