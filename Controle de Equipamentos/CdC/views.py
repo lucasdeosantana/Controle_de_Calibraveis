@@ -18,9 +18,6 @@ base = "Base"
 class move(PermissionRequiredMixin, View):
     template_name = "login.html"
     permission_required = 'CdC.can_move'
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        return super(move, self).dispatch(request, *args, **kwargs)
     def get(self, request, *args, **Kwargs):
         context={"where":"move"}
         return render(request,'move.html', context)
@@ -72,6 +69,7 @@ class move(PermissionRequiredMixin, View):
         return data
 
 def do_login(request, *args, **kwargs):
+    print(request.body)
     if request.method == 'POST':
         user = authenticate(username=request.POST['user'], password=request.POST['pass'])
         if user is not None:
@@ -230,8 +228,25 @@ class superview(PermissionRequiredMixin, View):
             return "Fail"
         return "Success"
     
-def cars(request):
-    context ={
-        "where":"carros"
-    }
-    return render(request, 'carros.html')
+
+class Cars(PermissionRequiredMixin, View):
+    template_name = "login.html"
+    permission_required = 'CdC.can_move'
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(Cars, self).dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **Kwargs):
+        cars = Car.objects.all()
+        context ={
+            "where":"carros",
+            "cars":cars
+        }
+        return render(request, 'carros.html', context)
+    
+    def post(self, request, *args, **kwargs):
+        json_request = json.loads(request.body)
+
+def teste(request):
+    print(request.body)
+    return JsonResponse({"ok":"ok"})

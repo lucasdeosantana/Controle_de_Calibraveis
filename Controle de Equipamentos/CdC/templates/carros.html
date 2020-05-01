@@ -2,28 +2,69 @@
 {% load static %}
 {% block title %}Carros{% endblock title %}
 {% block content %}
-    <div class="container-fluid bg-light" style="height: 100vh;">
-        <div class="row pt-3">
-            <div class="col-md-12">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">Placa</th>
-                            <th scope="col">Localização</th>
-                            <th scope="col">Descrição</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="bg">
-                            <th scope="row">1</th>
-                            <td>teste</td>
-                            <td>teste</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+<div class="container-fluid bg-light" style="height: 100vh;">
+    <div class="row pt-3">
+        <div class="col-md-12">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="text-center" scope="col" style="width: 10%;">Placa</th>
+                        <th class="text-center" scope="col">Localização</th>
+                        <th class="text-center" scope="col">Descrição</th>
+                        <th class="text-center" scope="col" style="width: 10%;">Retirada/Devolução</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for car in cars %}
+                    <tr class="bg">
+                        <th class="text-center" scope="row">{{ car.placa|upper }}</th>
+                        <td class="text-center">{{ car.position }}</td>
+                        <td class="text-center">{{ car.nome }}</td>
+                        <td class="d-flex justify-content-center">
+                            {% if car.in_use %}
+                            <div class="dropdown">
+                                <button class="btn btn-danger dropdown-toggle" type="button" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false"><i class="fas fa-car-side"></i></button>
+                                <div class="dropdown-menu" id="Retirada" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#"
+                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Patio</a>
+                                    <a class="dropdown-item" href="#"
+                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Morumbi</a>
+                                    <a class="dropdown-item" href="#"
+                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Butantã</a>
+                                    <a class="dropdown-item" href="#"
+                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Pinheiros</a>
+                                    <a class="dropdown-item" href="#"
+                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Faria Lima</a>
+                                    <a class="dropdown-item" href="#"
+                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Fradique
+                                        Coutinho</a>
+                                    <a class="dropdown-item" href="#"
+                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Oscar Freire</a>
+                                    <a class="dropdown-item" href="#"
+                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Paulista</a>
+                                    <a class="dropdown-item" href="#"
+                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Higeanopolis</a>
+                                    <a class="dropdown-item" href="#"
+                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Republica</a>
+                                    <a class="dropdown-item" href="#"
+                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Luz</a>
+                                </div>
+                            </div>
+                            {% else %}
+                            <button class="btn btn-success">
+                                <i class="fas fa-car"></i>
+                            </button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
+</div>
 {% endblock content %}
 
-{% block script %}<script type="text/javascript" src="{% static 'js/cars.js' %}"></script>{% endblock script %}
+{% block script %}
+<script type="text/javascript" src="{% static 'js/car.js' %}"></script>{% endblock script %}

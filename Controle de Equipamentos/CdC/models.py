@@ -19,6 +19,21 @@ stations = (
     ("Calibração","Calibração"),
     ("Base","Base")
 )
+stationscar = (
+    ("Patio","Patio"),
+    ("Morumbi","Morumbi"),
+    ("Butantã","Butantã"),
+    ("Pinheiros","Pinheiros"),
+    ("Faria Lima","Faria Lima"),
+    ("Fradique Coutinho","Fradique Coutinho"),
+    ("Oscar Freire","Oscar Freire"),
+    ("Paulista","Paulista"),
+    ("Higeanopolis","Higeanopolis"),
+    ("Republica","Republica"),
+    ("Luz","Luz"),
+    ("Calibração","Calibração"),
+    ("Em uso","Em uso")
+)
 # Create your models here.
 class log(models.Model):
     codigo = models.IntegerField()
@@ -63,7 +78,9 @@ class Equipament(models.Model):
 class Car(models.Model):
     placa = models.CharField('Placa',max_length=8, blank=False, null=False, unique=True)
     nome = models.CharField('Modelo',max_length=100, blank=False, null=False)
-    position = models.CharField('Localização',max_length=30, null=True, blank=True,choices=stations)
+    position = models.CharField('Localização',max_length=30, null=True, blank=True,choices=stationscar)
+    in_use = models.IntegerField(blank = False, null=True)
+
 
     def __str__(self):
         return self.placa + " " + self.nome
