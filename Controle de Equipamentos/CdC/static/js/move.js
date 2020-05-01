@@ -1,16 +1,3 @@
-function send_receive(dictonary) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            var response = JSON.parse(this.responseText)
-            get_response[response["type"]](response)
-        }
-    }
-    jsonString = JSON.stringify(dictonary)
-    xhttp.open("POST", '/move/')
-    xhttp.setRequestHeader("Content-Type", "application/json")
-    xhttp.send(jsonString)
-}
 function change_retirada(valor, elemento) {
     document.getElementById(elemento).innerText = valor
     sendFormVisible()
@@ -29,7 +16,7 @@ function existEquipament() {
         "equipmentCode": equipmentNumber,
         "type": "request"
     }
-    send_receive(data)
+    send_receive(data, "/move/")
 }
 function do_move() {
     equipmentNumber = document.getElementById("equipamentData").value
@@ -41,7 +28,7 @@ function do_move() {
         "where": where,
         "for": for_to
     }
-    send_receive(data)
+    send_receive(data, "/move/")
 }
 var get_response = {
     EquipmentInformation(dict) {

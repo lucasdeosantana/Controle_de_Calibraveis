@@ -18,9 +18,6 @@ base = "Base"
 class move(PermissionRequiredMixin, View):
     template_name = "login.html"
     permission_required = 'CdC.can_move'
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        return super(move, self).dispatch(request, *args, **kwargs)
     def get(self, request, *args, **Kwargs):
         context={"where":"move"}
         return render(request,'move.html', context)
