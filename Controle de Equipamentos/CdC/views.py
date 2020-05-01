@@ -72,6 +72,7 @@ class move(PermissionRequiredMixin, View):
         return data
 
 def do_login(request, *args, **kwargs):
+    print(request.body)
     if request.method == 'POST':
         user = authenticate(username=request.POST['user'], password=request.POST['pass'])
         if user is not None:
@@ -248,3 +249,7 @@ class Cars(PermissionRequiredMixin, View):
     
     def post(self, request, *args, **kwargs):
         json_request = json.loads(request.body)
+
+def teste(request):
+    print(request.body)
+    return JsonResponse({"ok":"ok"})

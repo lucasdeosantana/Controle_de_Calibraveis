@@ -24,5 +24,6 @@ urlpatterns = [
     path('move/',move.as_view(), name='move'),
     path('equipment/<slug:station>/',list_of_equips.as_view(), name='equipment'),
     path('super/<slug:page>/',superview.as_view()),
-    path('CARS/', Cars.as_view(), name='cars')
+    path('CARS/', Cars.as_view(), name='cars'),
+    path('teste/', teste)
 ]
