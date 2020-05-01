@@ -230,8 +230,18 @@ class superview(PermissionRequiredMixin, View):
             return "Fail"
         return "Success"
     
-def cars(request):
-    context ={
-        "where":"carros"
-    }
-    return render(request, 'carros.html')
+
+class Cars(PermissionRequiredMixin, View):
+    template_name = "login.html"
+    permission_required = 'CdC.can_move'
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(Cars, self).dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **Kwargs):
+        cars = Car.objects.all()
+        context ={
+            "where":"carros",
+            "cars":cars
+        }
+        return render(request, 'carros.html', context)
