@@ -1,14 +1,27 @@
-function send_receive(dictonary) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            var response = JSON.parse(this.responseText)
-            get_response[response["type"]](response)
-        }
+var get_response = {
+    requestTemplate(dict){
+
     }
-    jsonString = JSON.stringify(dictonary)
-    xhttp.open("POST", '/move/')
-    xhttp.setRequestHeader("Content-Type", "application/json")
-    xhttp.send(jsonString)
 }
-var get_response = {}
+function changecarfree(){
+    document.getElementById("cars_inuse").classList.remove("active")
+    document.getElementById("cars_free").classList.add("active")
+    document.getElementById("cars_free_table").style.display=""
+    document.getElementById("cars_inuse_table").style.display="none"
+    data={
+        "type":"requestTemplate",
+        "args":["cars_free"]
+    }
+    send_receive(data, "/cars/")
+}
+function changecarinuse(){
+    document.getElementById("cars_free").classList.remove("active")
+    document.getElementById("cars_inuse").classList.add("active")
+    document.getElementById("cars_free_table").style.display="none"
+    document.getElementById("cars_inuse_table").style.display=""
+    data={
+        "type":"requestTemplate",
+        "args":["cars_inuse"]
+    }
+    send_receive(data, "/cars/")
+}
