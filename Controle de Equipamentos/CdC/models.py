@@ -79,8 +79,7 @@ class Car(models.Model):
     placa = models.CharField('Placa',max_length=8, blank=False, null=False, unique=True)
     nome = models.CharField('Modelo',max_length=100, blank=False, null=False)
     position = models.CharField('Localização',max_length=30, null=True, blank=True,choices=stationscar)
-    in_use = models.IntegerField(blank = False, null=True)
-
+    in_use =models.CharField('Utilizador', max_length=15, blank=True, null=True)
 
     def __str__(self):
         return self.placa + " " + self.nome
