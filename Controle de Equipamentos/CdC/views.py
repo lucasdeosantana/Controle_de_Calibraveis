@@ -245,3 +245,6 @@ class Cars(PermissionRequiredMixin, View):
             "cars":cars
         }
         return render(request, 'carros.html', context)
+    
+    def post(self, request, *args, **kwargs):
+        json_request = json.loads(request.body)
