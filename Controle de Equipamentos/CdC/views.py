@@ -15,6 +15,11 @@ from .models import *
 
 base = "Base"
 
+ajax_template = {
+    "cars_free":"Controle de Equipamentos/CdC/templates/cars_free_table_template.html",
+    "cars_inuse":"Controle de Equipamentos/CdC/templates/cars_inuse_table_template.html"
+}
+
 class move(PermissionRequiredMixin, View):
     template_name = "login.html"
     permission_required = 'CdC.can_move'
@@ -241,10 +246,27 @@ class Cars(PermissionRequiredMixin, View):
         return render(request, 'carros.html', context)
     
     def post(self, request, *args, **kwargs):
+        self.dinamic_templates = {
+            "requestTemplate":self.get_template
+        }
         json_request = json.loads(request.body)
-        f = open("Controle de Equipamentos/CdC/static/js/car.js", 'r')
-        print(type(f.read()))
-        return JsonResponse({"teste":"teste"})
+        html = self.dinamic_templates[json_request["type"]](request,json_request)
+        data = {
+            "type":json_request["type"],
+            "args":json_request["args"],
+            "payloadHTML":html
+        }
+        return JsonResponse(data)
+    def get_template(self, request, dict, *args, **kwargs):
+        if(dict["args"][0]=="cars_free"):
+            cars = Car.objects.all().filter(in_use=None)
+        else:
+            cars = Car.objects.all().exclude(in_use=None)
+        context =Context({"cars":cars})
+        template = open(ajax_template[dict["args"][0]],'r').read()
+        print(template)
+        a = Template(template).render(context)
+        print(a)
 
 def teste(request):
     print(request.body)
