@@ -12,7 +12,7 @@ function changecarfree(){
         "type":"requestTemplate",
         "args":["cars_free"]
     }
-    send_receive(data, "/cars/")
+    send_receive(data, "/CARS/")
 }
 function changecarinuse(){
     document.getElementById("cars_free").classList.remove("active")
@@ -23,5 +23,5 @@ function changecarinuse(){
         "type":"requestTemplate",
         "args":["cars_inuse"]
     }
-    send_receive(data, "/cars/")
+    send_receive(data, "/CARS/")
 }

@@ -242,6 +242,9 @@ class Cars(PermissionRequiredMixin, View):
     
     def post(self, request, *args, **kwargs):
         json_request = json.loads(request.body)
+        f = open("Controle de Equipamentos/CdC/static/js/car.js", 'r')
+        print(type(f.read()))
+        return JsonResponse({"teste":"teste"})
 
 def teste(request):
     print(request.body)
