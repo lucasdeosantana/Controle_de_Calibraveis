@@ -110,10 +110,6 @@ class list_of_equips(PermissionRequiredMixin, View):
 class superview(PermissionRequiredMixin, View):
     template_name = "login.html"
     permission_required = 'CdC.can_move'
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        return super(superview, self).dispatch(request, *args, **kwargs)
-
     def get(self, request, page, *args, **Kwargs):
         self.pages={
             "Calibration":"Calibration.html"

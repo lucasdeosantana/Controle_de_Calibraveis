@@ -3,6 +3,22 @@
 {% block title %}Carros{% endblock title %}
 {% block content %}
 <div class="container-fluid bg-light" style="height: 100vh;">
+    <div class="row pt-2 d-flex ">
+            <div class="col-md-12 justify-content-center">
+                <ul class="nav nav-tabs bg-light">
+                    <li class="nav-item">
+                        <a class="nav-link active" onclick="changetab1()" id="RE" href="#">
+                            <h3>Carros Disponiveis</h3>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="changetab2()" id="ER" href="#">
+                            <h3>Carros em Uso</h3>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     <div class="row pt-3">
         <div class="col-md-12">
             <table class="table table-striped">
@@ -11,7 +27,7 @@
                         <th class="text-center" scope="col" style="width: 10%;">Placa</th>
                         <th class="text-center" scope="col">Localização</th>
                         <th class="text-center" scope="col">Descrição</th>
-                        <th class="text-center" scope="col" style="width: 10%;">Retirada/Devolução</th>
+                        <th class="text-center" scope="col" style="width: 10%;">Retirada</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -67,4 +83,6 @@
 {% endblock content %}
 
 {% block script %}
-<script type="text/javascript" src="{% static 'js/car.js' %}"></script>{% endblock script %}
+<script type="text/javascript" src="{% static 'js/car.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/ajax.js' %}"></script>
+{% endblock script %}

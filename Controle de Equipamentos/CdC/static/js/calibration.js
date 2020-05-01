@@ -1,17 +1,3 @@
-function send_receive(dictonary) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            var response = JSON.parse(this.responseText)
-            console.log(response)
-            get_response[response["type"]](response)
-        }
-    }
-    jsonString = JSON.stringify(dictonary)
-    xhttp.open("POST", '/super/Calibration/')
-    xhttp.setRequestHeader("Content-Type", "application/json")
-    xhttp.send(jsonString)
-}
 function changetab1() {
     document.getElementById("ER").classList.remove("active")
     document.getElementById("RE").classList.add("active")
@@ -22,7 +8,7 @@ function changetab1() {
     data = {
         "type": "equipConfirm"
     }
-    send_receive(data)
+    send_receive(data, "/super/Calibration/")
 }
 function changetab2() {
     document.getElementById("RE").classList.remove("active")
@@ -34,7 +20,7 @@ function changetab2() {
     data = {
         "type": "equipBack"
     }
-    send_receive(data)
+    send_receive(data, "/super/Calibration/")
 
 }
 var get_response = {
@@ -69,14 +55,14 @@ var button_functs = {
             "type": "to_confirm",
             "code": code
         }
-        send_receive(data)
+        send_receive(data, "/super/Calibration/")
     },
     btn_cancel(code) {
         data = {
             "type": "to_cancel",
             "code": code
         }
-        send_receive(data)
+        send_receive(data,"/super/Calibration/")
     },
     btn_return(code) {
         data = {
@@ -85,6 +71,6 @@ var button_functs = {
             "date": document.getElementById("d" + code.toString()).value
 
         }
-        send_receive(data)
+        send_receive(data, "/super/Calibration/")
     }
 }  
