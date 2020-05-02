@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ where }}{% endblock %}
+{% block content %}
+{% now "m-y" as todays_date %}
+<div class="container-fluid bg-light" style="height: 100vh;">
+    <div class="row pt-3">
+        <div class="col-md-12">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col" style="width: 15%;">Codigo</th>
+                        <th scope="col" style="width: 15%;">Vencimento</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col" style="width: 10%;">Transferir</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for equipment in equipments %}
+                    <tr id="{{ equipment.codigo }}" {% if equipment.date_validity|date:"m-y" == todays_date %}
+                        class="bg-warning" {% elif equipment.date_validity|date:"m-y" < todays_date %} class="bg-danger"
+                        {% endif %}>
+                        <th scope="row"><a {% if perms.CdC.can_see_log %}href="/log/{{ equipment.codigo }}"{% endif %}>{{ equipment.codigo }}</a></th>
+                        <td>{{ equipment.date_validity|date:"F/Y" }}</td>
+                        <td> {{ equipment.nome }} </td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false"><i
+                                        class="fas fa-exchange-alt"></i></button>
+                                <div class="dropdown-menu" id="Retirada" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#"
+                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Patio</a>
+                                    <a class="dropdown-item" href="#"
+                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Morumbi</a>
+                                    <a class="dropdown-item" href="#"
+                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Butantã</a>
+                                    <a class="dropdown-item" href="#"
+                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Pinheiros</a>
+                                    <a class="dropdown-item" href="#"
+                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Faria Lima</a>
+                                    <a class="dropdown-item" href="#"
+                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Fradique
+                                        Coutinho</a>
+                                    <a class="dropdown-item" href="#"
+                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Oscar Freire</a>
+                                    <a class="dropdown-item" href="#"
+                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Paulista</a>
+                                    <a class="dropdown-item" href="#"
+                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Higienopolis</a>
+                                    <a class="dropdown-item" href="#"
+                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Republica</a>
+                                    <a class="dropdown-item" href="#"
+                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Luz</a>
+                                    <a class="dropdown-item" href="#"
+                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Base</a>
+                                    <a class="dropdown-item" href="#"
+                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Calibração</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+{% block script %}
+<script type="text/javascript" src="{% static 'js/equipment.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/ajax.js' %}"></script>
+{% endblock script %}
+
+</html>
