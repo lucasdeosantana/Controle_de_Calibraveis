@@ -1,0 +1,10 @@
+{
+    "type":"type of function",
+    "args":["list of args"],
+    "status":"success|fail|error",
+    "payload":"payload",
+    "payload2":"payload",
+    "payload...n":"payload...n",
+    "payloadHTML":"payloadHTML",
+    "payloadHTML...n":"payloadHTML...n"
+}
