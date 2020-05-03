@@ -39,15 +39,16 @@ class log(models.Model):
     codigo = models.IntegerField()
     origem = models.CharField(max_length=30,blank=False,null=False,choices=stations)
     destino = models.CharField(max_length=30, blank=False, null=False,choices=stations)
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(auto_now=True)
     responsible = models.CharField(max_length=10, blank=False, null=False)
     observation = models.CharField(max_length=100, blank=True, null=True)
+    type_of_log = models.IntegerField(null=True)
 
 class carlog(models.Model):
     placa = models.CharField(max_length=30, blank=True,null=True)
     origem = models.CharField(max_length=30,blank=False,null=False,choices=stationscar)
     destino = models.CharField(max_length=30, blank=False, null=False,choices=stationscar)
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(auto_now=True)
     responsible = models.CharField(max_length=10, blank=False, null=False)
 
 class Equipament(models.Model):

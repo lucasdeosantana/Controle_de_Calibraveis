@@ -51,8 +51,11 @@ class move(PermissionRequiredMixin, View):
             equipment = Equipament.objects.get(codigo=data["equipmentCode"])
             if(data["for"]== "Calibração"):
                 equipment.in_calibration = 1
+                type_log = 2
+            else:
+                type_log = 1
             equipment.position = data["for"]
-            create_log = log(codigo = data["equipmentCode"], origem = data["where"], destino = data["for"], responsible = request.user.username)
+            create_log = log(codigo = data["equipmentCode"], origem = data["where"], destino = data["for"], responsible = request.user.username, type_of_log=type_log)
             create_log.save()
             equipment.save()
             data = {"type":"Success","equipmentCode": data["equipmentCode"]}
