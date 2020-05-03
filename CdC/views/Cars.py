@@ -36,7 +36,8 @@ class Cars(PermissionRequiredMixin, View):
         print(BASE_DIR)
         self.dinamic_templates = {
             "requestTemplate":self.get_template,
-            "get_car":self.set_car_inuse
+            "get_car":self.set_car_inuse,
+            "set_car":self.set_car_indestiny
         }
         json_request = json.loads(request.body)
         data = self.dinamic_templates[json_request["type"]](request,json_request)
@@ -57,13 +58,33 @@ class Cars(PermissionRequiredMixin, View):
         return data
     def set_car_inuse(self, request, dict, *args, **kwargs):
         try:
-            car = Car.objects.all().filter(placa=dict["args"][0])
+            car = Car.objects.get(placa=dict["args"][0])
             previous_position = car.position
             car.in_use = request.user.username
             car.position = "Em uso"
             car.save()
             create_log = carlog(placa=dict["args"][0], origem=previous_position, destino="Em Uso", responsible=request.user.username)
             create_log.save()
+        except:
+            data = {
+                    "type":dict["type"],
+                    "args":dict["args"],
+                    "status":"fail"
+            }
+            return data
+        data = {  "type":dict["type"],
+                  "args":dict["args"],
+                  "status":"success" }
+        return data
+    def set_car_indestiny(self, request, dict, *args, **kwargs):
+        try:
+            car = Car.objects.get(placa=dict["args"][1])
+            car_last_log = (carlog.objects.all().filter(placa=dict["args"][1])).order_by("-date")[0]
+            car.position = dict["args"][0]
+            car.in_use = None
+            car_create_log = carlog(placa=dict["args"][1], origem=car_last_log.origem, destino=dict["args"][0], responsible=request.user.username)
+            car_create_log.save()
+            car.save()
         except:
             data = {
                     "type":dict["type"],

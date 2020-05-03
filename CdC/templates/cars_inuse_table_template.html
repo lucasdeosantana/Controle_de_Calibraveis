@@ -1,33 +1,33 @@
 {% for car in cars %}
-<tr class="bg">
+<tr class="bg" id='{{ car.placa }}'>
     <th class="text-center" scope="row">{{ car.placa|upper }}</th>
-    <td class="text-center">{{ car.position }}</td>
     <td class="text-center">{{ car.in_use }}</td>
+    <td class="text-center">{{ car.nome }}</td>
     <td class="d-flex justify-content-center">
         <div class="dropdown">
             <button class="btn btn-danger dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false"><i class="fas fa-car-side"></i></button>
             <div class="dropdown-menu" id="Retirada" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#" onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Patio</a>
+                <a class="dropdown-item" href="#" onclick="back_car(this.innerHTML, '{{ car.placa }}')">Patio</a>
                 <a class="dropdown-item" href="#"
-                    onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Morumbi</a>
+                    onclick="back_car(this.innerHTML, '{{ car.placa }}')">Morumbi</a>
                 <a class="dropdown-item" href="#"
-                    onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Butantã</a>
+                    onclick="back_car(this.innerHTML, '{{ car.placa }}')">Butantã</a>
                 <a class="dropdown-item" href="#"
-                    onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Pinheiros</a>
-                <a class="dropdown-item" href="#" onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Faria
+                    onclick="back_car(this.innerHTML, '{{ car.placa }}')">Pinheiros</a>
+                <a class="dropdown-item" href="#" onclick="back_car(this.innerHTML, '{{ car.placa }}')">Faria
                     Lima</a>
-                <a class="dropdown-item" href="#" onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Fradique
+                <a class="dropdown-item" href="#" onclick="back_car(this.innerHTML, '{{ car.placa }}')">Fradique
                     Coutinho</a>
-                <a class="dropdown-item" href="#" onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Oscar
+                <a class="dropdown-item" href="#" onclick="back_car(this.innerHTML, '{{ car.placa }}')">Oscar
                     Freire</a>
                 <a class="dropdown-item" href="#"
-                    onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Paulista</a>
+                    onclick="back_car(this.innerHTML, '{{ car.placa }}')">Paulista</a>
                 <a class="dropdown-item" href="#"
-                    onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Higienopolis</a>
+                    onclick="back_car(this.innerHTML, '{{ car.placa }}')">Higienopolis</a>
                 <a class="dropdown-item" href="#"
-                    onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Republica</a>
-                <a class="dropdown-item" href="#" onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Luz</a>
+                    onclick="back_car(this.innerHTML, '{{ car.placa }}')">Republica</a>
+                <a class="dropdown-item" href="#" onclick="back_car(this.innerHTML, '{{ car.placa }}')">Luz</a>
             </div>
         </div>
     </td>
