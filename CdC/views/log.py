@@ -14,8 +14,8 @@ class log_equips(PermissionRequiredMixin, View):
 
 	def get(self, request, equipment, *args, **kwargs):
 		logs = (log.objects.all().filter(codigo=equipment)).order_by("-date")
-		page = request.GET.get('page', 1)
-		paginator = Paginator(logs, 10)
+		page = request.GET.get('page',1)
+		paginator = Paginator(logs, 40)
 		try:
 			logs_pag = paginator.page(page)
 		except PageNotAnInteger:

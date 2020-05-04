@@ -41,13 +41,6 @@
         <a class="page-link" href="#">Anterior</a>
       </li>
       {% endif %}
-      {% for i in logs.paginator.page_range %}
-        {% if logs.number == i %}
-          <li class="page-item active"><a class="page-link" href="#">{{ i }}</a></li>
-        {% else %}
-          <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
-        {% endif %}
-      {% endfor %}
       {% if logs.has_next %}
         <li class="page-item">
         <a class="page-link" href="?page={{ logs.next_page_number }}">Proximo</a>
