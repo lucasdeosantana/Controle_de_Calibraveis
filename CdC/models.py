@@ -11,6 +11,7 @@ class places(models.Model):
 
 class log(models.Model):
     codigo = models.IntegerField()
+    type_of_log=models.IntegerField()
     origem = models.CharField(max_length=30,blank=False,null=False)
     destino = models.CharField(max_length=30, blank=False, null=False)
     date = models.DateTimeField(auto_now_add=True)
