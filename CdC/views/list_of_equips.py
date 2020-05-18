@@ -16,24 +16,12 @@ class list_of_equips(PermissionRequiredMixin, View):
     template_name = "login.html"
     permission_required = 'CdC.can_move'
     def get(self, request, station, *args, **Kwargs):
-        self.urlshort ={
-            "PVS":"Patio",
-            "MBI":"Morumbi",
-            "BUT":"Butantã",
-            "PIN":"Pinheiros",
-            "FAL":"Faria Lima",
-            "FRA":"Fradique Coutinho",
-            "FRE":"Oscar Freire",
-            "PTA":"Paulista",
-            "HIG":"Higienopolis",
-            "REP":"Republica",
-            "LUZ":"Luz",
-            "BASE":"Base"
-            }
-        equipmentList = (Equipament.objects.all().filter(position=self.urlshort[station])).order_by('date_validity')
+        where = places.objects.get(viewName=station)
+        equipmentList = (Equipament.objects.all().filter(position=where.name)).order_by('date_validity')
         print(equipmentList)
         context={
+                "places":places.objects.all(),
                 "equipments":equipmentList,
-                "where":self.urlshort[station]
+                "where":station
                 }
         return render(request, 'equipment.html', context)

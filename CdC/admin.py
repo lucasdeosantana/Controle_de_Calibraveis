@@ -4,3 +4,4 @@ from .models import *
 admin.site.register(Equipament)
 admin.site.register(log)
 admin.site.register(Car)
+admin.site.register(places)

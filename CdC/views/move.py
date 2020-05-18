@@ -12,11 +12,14 @@ from django.utils.timezone import datetime
 from django.utils.dateparse import parse_date
 import json
 from CdC.models import *
+
 class move(PermissionRequiredMixin, View):
     template_name = "login.html"
     permission_required = 'CdC.can_move'
     def get(self, request, *args, **Kwargs):
-        context={"where":"move"}
+        context={"where":"move",
+                 "places":places.objects.all()
+                                }
         return render(request,'move.html', context)
 
     def post(self, request, *args, **Kwargs):

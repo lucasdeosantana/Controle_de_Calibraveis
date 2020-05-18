@@ -50,3 +50,10 @@ function get_car(license_plate){
     }
     send_receive(data, "/CARS/")
 }
+function back_car(destiny, license_plate){
+    data = {
+        "type":"set_car",
+        "args":[destiny, license_plate]
+    }
+    send_receive(data, "/CARS/")
+}

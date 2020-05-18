@@ -28,7 +28,8 @@ class Cars(PermissionRequiredMixin, View):
         cars = Car.objects.all().filter(in_use=None)
         context ={
             "where":"carros",
-            "cars":cars
+            "cars":cars,
+            "places":places.objects.all()
         }
         return render(request, 'carros.html', context)
     
@@ -39,6 +40,7 @@ class Cars(PermissionRequiredMixin, View):
             "get_car":self.set_car_inuse
         }
         json_request = json.loads(request.body)
+        print(json_request)
         data = self.dinamic_templates[json_request["type"]](request,json_request)
         return JsonResponse(data)
     def get_template(self, request, dict, *args, **kwargs):
@@ -46,7 +48,9 @@ class Cars(PermissionRequiredMixin, View):
             cars = Car.objects.all().filter(in_use=None)
         else:
             cars = Car.objects.all().exclude(in_use=None)
-        context =Context({"cars":cars})
+        context =Context({"cars":cars,
+                            "places":places.objects.all()
+                                                            })
         template = open(ajax_template[dict["args"][0]],'r').read()
         html = Template(template).render(context)
         data = {
@@ -55,9 +59,10 @@ class Cars(PermissionRequiredMixin, View):
             "payloadHTML":html
         }
         return data
-    def set_car_inuse(self, request, dict, *args, **kwargs):
+    def set_car_inuse(self, request, dict,*args, **kwargs):
         try:
-            car = Car.objects.all().filter(placa=dict["args"][0])
+            car = Car.objects.get(placa=dict["args"][0])
+            print("cheguei aqui")
             previous_position = car.position
             car.in_use = request.user.username
             car.position = "Em uso"

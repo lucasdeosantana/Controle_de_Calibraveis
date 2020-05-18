@@ -15,55 +15,17 @@
 
 <body>
     <div class="row">
-        <div class="col-md-12 ">
-            <ul class="nav nav-tabs bg-light">
+        <div class="col-md-12">
+            <ul class="nav nav-tabs bg-light" style="padding-bottom: 0px;">
                 <li class="nav-item">
                     <a class="nav-link {% if where == 'move' %} active {% endif %}"
                         href="{% url 'move' %}">Movimentação</a>
                 </li>
+                {% for place in places %}
                 <li class="nav-item">
-                    <a class="nav-link {% if where == 'Patio' %} active {% endif %}" href="/equipment/PVS">Patio</a>
+                    <a class="nav-link {% if where == place.viewName %} active {% endif %}" href="/equipment/{{ place.viewName }}">{{ place.name }}</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if where == 'Morumbi' %} active {% endif %}" href="/equipment/MBI">Morumbi</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if where == 'Butantã' %} active {% endif %}" href="/equipment/BUT">Butantã</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if where == 'Pinheiros' %} active {% endif %}"
-                        href="/equipment/PIN">Pinheiros</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if where == 'Faria Lima' %} active {% endif %}"
-                        href="/equipment/FAL">Faria</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if where == 'Fradique Coutinho' %} active {% endif %}"
-                        href="/equipment/FRA">Fradique</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if where == 'Oscar Freire' %} active {% endif %}"
-                        href="/equipment/FRE">Oscar</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if where == 'Paulista' %} active {% endif %}"
-                        href="/equipment/PTA">Paulista</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if where == 'higienopolis' %} active {% endif %}"
-                        href="/equipment/HIG">Higienopolis</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if where == 'Republica' %} active {% endif %}"
-                        href="/equipment/REP">Republica</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if where == 'Luz' %} active {% endif %}" href="/equipment/LUZ">Luz</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if where == 'Base' %} active {% endif %}" href="/equipment/BASE">Base</a>
-                </li>
+                {% endfor %}
                 <li class="nav-item">
                     <a class="nav-link {% if where == 'carros' %} active {% endif %}" href="/CARS">Carros</a>
                 </li>

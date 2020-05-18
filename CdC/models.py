@@ -30,7 +30,8 @@ class Equipament(models.Model):
     apelido = models.CharField('Apelido', max_length=100, blank=True, null=True)
     position = models.CharField('Localização', max_length=30, blank=True, null=True, )
     date_calibration = models.DateField('Data de Calibração', blank=False, null=False)
-    date_validity=models.DateField('Data de validade, se prenche com 1 ano se não informado',blank=True, null=True)
+    validity_time=models.IntegerField("Meses de validade", blank=True, null=True)
+    date_validity=models.DateField('Data de validade se preenche automatico se deixado em branco',blank=True, null=True)
     in_calibration=models.IntegerField()
 
     def __str__(self):

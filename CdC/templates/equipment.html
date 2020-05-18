@@ -29,33 +29,13 @@
                                     aria-haspopup="true" aria-expanded="false"><i
                                         class="fas fa-exchange-alt"></i></button>
                                 <div class="dropdown-menu" id="Retirada" aria-labelledby="dropdownMenuButton">
+                                    {% for place in places %}
                                     <a class="dropdown-item" href="#"
-                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Patio</a>
-                                    <a class="dropdown-item" href="#"
-                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Morumbi</a>
-                                    <a class="dropdown-item" href="#"
-                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Butantã</a>
-                                    <a class="dropdown-item" href="#"
-                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Pinheiros</a>
-                                    <a class="dropdown-item" href="#"
-                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Faria Lima</a>
-                                    <a class="dropdown-item" href="#"
-                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Fradique
-                                        Coutinho</a>
-                                    <a class="dropdown-item" href="#"
-                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Oscar Freire</a>
-                                    <a class="dropdown-item" href="#"
-                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Paulista</a>
-                                    <a class="dropdown-item" href="#"
-                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Higienopolis</a>
-                                    <a class="dropdown-item" href="#"
-                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Republica</a>
-                                    <a class="dropdown-item" href="#"
-                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Luz</a>
-                                    <a class="dropdown-item" href="#"
-                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Base</a>
+                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">{{ place.name }}</a>
+                                    {% endfor %}
                                     <a class="dropdown-item" href="#"
                                         onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Calibração</a>
+                                
                                 </div>
                             </div>
                         </td>
