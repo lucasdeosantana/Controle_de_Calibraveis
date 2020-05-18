@@ -23,7 +23,8 @@ class superview(PermissionRequiredMixin, View):
         equips_for_calibration = (Equipament.objects.all().filter(in_calibration=1)).order_by('date_validity')
         context = {
             "equipments":equips_for_calibration,
-            "where":"Calibration"
+            "where":"Calibration",
+            "places":places.objects.all()
         }
         return render(request, self.pages[page], context)
 

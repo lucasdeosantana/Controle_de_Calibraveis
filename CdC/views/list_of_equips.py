@@ -18,7 +18,6 @@ class list_of_equips(PermissionRequiredMixin, View):
     def get(self, request, station, *args, **Kwargs):
         where = places.objects.get(viewName=station)
         equipmentList = (Equipament.objects.all().filter(position=where.name)).order_by('date_validity')
-        print(equipmentList)
         context={
                 "places":places.objects.all(),
                 "equipments":equipmentList,
