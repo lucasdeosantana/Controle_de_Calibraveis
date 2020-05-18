@@ -95,22 +95,14 @@ class superview(PermissionRequiredMixin, View):
             equipment.save()
         except:
             return "Fail"
-<<<<<<< HEAD
         create_log = log(codigo = dict["code"], origem = "Calibração", destino = "Calibração", responsible = kwargs["Request"].user.username, type_of_log=3)
-=======
-        create_log = log(codigo = dict["code"], origem = "Calibração", destino = "Calibração", responsible = kwargs["Request"].user.username)
->>>>>>> Uso_Geral
         create_log.save()
         return "Success"
     def to_cancel(self, dict, *args, **kwargs):
         try:
             logs = (log.objects.all().filter(codigo=dict["code"])).order_by("-date")
             destino = str(logs[0].origem)
-<<<<<<< HEAD
             create_log = log(codigo = dict["code"], origem = "Calibração", destino = destino , responsible = kwargs["Request"].user.username, observation="Cancelamento", type_of_log=5)
-=======
-            create_log = log(codigo = dict["code"], origem = "Calibração", destino = destino , responsible = kwargs["Request"].user.username, observation="Cancelamento")
->>>>>>> Uso_Geral
             create_log.save()
             equipment = Equipament.objects.get(codigo=dict["code"])
             equipment.in_calibration = 0
@@ -126,11 +118,7 @@ class superview(PermissionRequiredMixin, View):
                  date = parse_date(dict["date"])
             else:
                 date = datetime.today()
-<<<<<<< HEAD
             create_log = log(codigo = dict["code"], origem = "Calibração", destino = base , responsible = kwargs["Request"].user.username, type_of_log=4)
-=======
-            create_log = log(codigo = dict["code"], origem = "Calibração", destino = base , responsible = kwargs["Request"].user.username)
->>>>>>> Uso_Geral
             equipment = Equipament.objects.get(codigo= dict["code"])
             equipment.date_calibration = date
             equipment.in_calibration= 0

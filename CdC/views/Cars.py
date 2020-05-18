@@ -28,12 +28,8 @@ class Cars(PermissionRequiredMixin, View):
         cars = Car.objects.all().filter(in_use=None)
         context ={
             "where":"carros",
-<<<<<<< HEAD
-            "cars":cars
-=======
             "cars":cars,
             "places":places.objects.all()
->>>>>>> Uso_Geral
         }
         return render(request, 'carros.html', context)
     
@@ -41,17 +37,11 @@ class Cars(PermissionRequiredMixin, View):
         print(BASE_DIR)
         self.dinamic_templates = {
             "requestTemplate":self.get_template,
-<<<<<<< HEAD
             "get_car":self.set_car_inuse,
             "set_car":self.set_car_indestiny
         }
         json_request = json.loads(request.body)
-=======
-            "get_car":self.set_car_inuse
-        }
-        json_request = json.loads(request.body)
         print(json_request)
->>>>>>> Uso_Geral
         data = self.dinamic_templates[json_request["type"]](request,json_request)
         return JsonResponse(data)
     def get_template(self, request, dict, *args, **kwargs):
@@ -59,13 +49,10 @@ class Cars(PermissionRequiredMixin, View):
             cars = Car.objects.all().filter(in_use=None)
         else:
             cars = Car.objects.all().exclude(in_use=None)
-<<<<<<< HEAD
-        context =Context({"cars":cars})
-=======
+
         context =Context({"cars":cars,
                             "places":places.objects.all()
                                                             })
->>>>>>> Uso_Geral
         template = open(ajax_template[dict["args"][0]],'r').read()
         html = Template(template).render(context)
         data = {
@@ -74,16 +61,9 @@ class Cars(PermissionRequiredMixin, View):
             "payloadHTML":html
         }
         return data
-<<<<<<< HEAD
     def set_car_inuse(self, request, dict, *args, **kwargs):
         try:
             car = Car.objects.get(placa=dict["args"][0])
-=======
-    def set_car_inuse(self, request, dict,*args, **kwargs):
-        try:
-            car = Car.objects.get(placa=dict["args"][0])
-            print("cheguei aqui")
->>>>>>> Uso_Geral
             previous_position = car.position
             car.in_use = request.user.username
             car.position = "Em uso"
@@ -101,7 +81,6 @@ class Cars(PermissionRequiredMixin, View):
                   "args":dict["args"],
                   "status":"success" }
         return data
-<<<<<<< HEAD
     def set_car_indestiny(self, request, dict, *args, **kwargs):
         try:
             car = Car.objects.get(placa=dict["args"][1])
@@ -122,5 +101,3 @@ class Cars(PermissionRequiredMixin, View):
                   "args":dict["args"],
                   "status":"success" }
         return data
-=======
->>>>>>> Uso_Geral

@@ -3,7 +3,6 @@ var get_response = {
     template_renew[dict["args"][0]](dict)        
     },
     get_car(dict){
-<<<<<<< HEAD
         if(dict["status"]=="success"){
             document.getElementById(dict["args"][0]).innerHTML=""
         }
@@ -12,11 +11,6 @@ var get_response = {
         console.log(dict)
         if(dict["status"]=="success"){
             document.getElementById(dict["args"][1]).innerHTML=""
-=======
-        console.log(dict)
-        if(dict["args"][1]=="success"){
-            document.getElementById(dict["args"][0]).innerHTML=""
->>>>>>> Uso_Geral
         }
     }
 }
