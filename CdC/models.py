@@ -4,49 +4,23 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-stations = (
-    ("Patio","Patio"),
-    ("Morumbi","Morumbi"),
-    ("Butantã","Butantã"),
-    ("Pinheiros","Pinheiros"),
-    ("Faria Lima","Faria Lima"),
-    ("Fradique Coutinho","Fradique Coutinho"),
-    ("Oscar Freire","Oscar Freire"),
-    ("Paulista","Paulista"),
-    ("Higienopolis","Higienopolis"),
-    ("Republica","Republica"),
-    ("Luz","Luz"),
-    ("Calibração","Calibração"),
-    ("Base","Base")
-)
-stationscar = (
-    ("Patio","Patio"),
-    ("Morumbi","Morumbi"),
-    ("Butantã","Butantã"),
-    ("Pinheiros","Pinheiros"),
-    ("Faria Lima","Faria Lima"),
-    ("Fradique Coutinho","Fradique Coutinho"),
-    ("Oscar Freire","Oscar Freire"),
-    ("Paulista","Paulista"),
-    ("Higienopolis","Higienopolis"),
-    ("Republica","Republica"),
-    ("Luz","Luz"),
-    ("Calibração","Calibração"),
-    ("Em uso","Em uso")
-)
 # Create your models here.
+class places(models.Model):
+    name = models.CharField(max_length=30, blank=False, null=False)
+    viewName=models.CharField(max_length=30, blank=False, null=False)
+
 class log(models.Model):
     codigo = models.IntegerField()
-    origem = models.CharField(max_length=30,blank=False,null=False,choices=stations)
-    destino = models.CharField(max_length=30, blank=False, null=False,choices=stations)
+    origem = models.CharField(max_length=30,blank=False,null=False)
+    destino = models.CharField(max_length=30, blank=False, null=False)
     date = models.DateTimeField(auto_now_add=True)
     responsible = models.CharField(max_length=10, blank=False, null=False)
     observation = models.CharField(max_length=100, blank=True, null=True)
 
 class carlog(models.Model):
     placa = models.CharField(max_length=30, blank=True,null=True)
-    origem = models.CharField(max_length=30,blank=False,null=False,choices=stationscar)
-    destino = models.CharField(max_length=30, blank=False, null=False,choices=stationscar)
+    origem = models.CharField(max_length=30,blank=False,null=False)
+    destino = models.CharField(max_length=30, blank=True, null=False)
     date = models.DateTimeField(auto_now_add=True)
     responsible = models.CharField(max_length=10, blank=False, null=False)
 
@@ -54,7 +28,7 @@ class Equipament(models.Model):
     codigo = models.IntegerField('Codigo do Equipamento',null=False,blank=False, unique=True)
     nome = models.CharField('Nome', max_length=244, null=False, blank=False)
     apelido = models.CharField('Apelido', max_length=100, blank=True, null=True)
-    position = models.CharField('Localização', max_length=30, blank=True, null=True,choices=stations)
+    position = models.CharField('Localização', max_length=30, blank=True, null=True, )
     date_calibration = models.DateField('Data de Calibração', blank=False, null=False)
     date_validity=models.DateField('Data de validade, se prenche com 1 ano se não informado',blank=True, null=True)
     in_calibration=models.IntegerField()
@@ -78,7 +52,7 @@ class Equipament(models.Model):
 class Car(models.Model):
     placa = models.CharField('Placa',max_length=8, blank=False, null=False, unique=True)
     nome = models.CharField('Modelo',max_length=100, blank=False, null=False)
-    position = models.CharField('Localização',max_length=30, null=True, blank=True,choices=stationscar)
+    position = models.CharField('Localização',max_length=30, null=True, blank=True)
     in_use =models.CharField('Utilizador', max_length=15, blank=True, null=True)
 
     def __str__(self):
