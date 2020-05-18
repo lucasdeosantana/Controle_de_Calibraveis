@@ -29,6 +29,7 @@
                                     aria-haspopup="true" aria-expanded="false"><i
                                         class="fas fa-exchange-alt"></i></button>
                                 <div class="dropdown-menu" id="Retirada" aria-labelledby="dropdownMenuButton">
+<<<<<<< HEAD
                                     <a class="dropdown-item" href="#"
                                         onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Patio</a>
                                     <a class="dropdown-item" href="#"
@@ -55,6 +56,15 @@
                                         onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Base</a>
                                     <a class="dropdown-item" href="#"
                                         onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Calibração</a>
+=======
+                                    {% for place in places %}
+                                    <a class="dropdown-item" href="#"
+                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">{{ place.name }}</a>
+                                    {% endfor %}
+                                    <a class="dropdown-item" href="#"
+                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Calibração</a>
+                                
+>>>>>>> Uso_Geral
                                 </div>
                             </div>
                         </td>

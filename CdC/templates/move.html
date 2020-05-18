@@ -35,6 +35,7 @@
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="DropDownRetirada"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<<<<<<< HEAD
                         Estação de Retirada</button>
                     <div class="dropdown-menu" id="Retirada" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="#"
@@ -60,12 +61,22 @@
                         <a class="dropdown-item" href="#"
                             onclick="change_retirada(this.innerHTML, 'DropDownRetirada')">Luz</a>
                     </div>
+=======
+                        Local de Retirada</button>
+                    <div class="dropdown-menu" id="Retirada" aria-labelledby="dropdownMenuButton">
+                        {% for place in places %}
+                        <a class="dropdown-item" href="#"
+                            onclick="change_retirada(this.innerHTML, 'DropDownRetirada')">{{ place.name }}</a>
+                        {% endfor %}
+                        </div>
+>>>>>>> Uso_Geral
                 </div>
             </div>
             <div class="col-md-2 offset-md-2">
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="DropDownRecebido"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<<<<<<< HEAD
                         Estação de Destino</button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="#"
@@ -94,6 +105,17 @@
                             onclick="change_retirada(this.innerHTML, 'DropDownRecebido')">Base</a>
                         <a class="dropdown-item" href="#"
                             onclick="change_retirada(this.innerHTML, 'DropDownRecebido')">Calibração</a>
+=======
+                        Local de Destino</button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        {% for place in places %}
+                        <a class="dropdown-item" href="#"
+                            onclick="change_retirada(this.innerHTML, 'DropDownRecebido')">{{ place.name }}</a>
+                        {% endfor %}
+                        <a class="dropdown-item" href="#"
+                            onclick="change_retirada(this.innerHTML, 'DropDownRecebido')">Calibração</a>
+                        
+>>>>>>> Uso_Geral
                     </div>
                 </div>
             </div>

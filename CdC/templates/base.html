@@ -15,12 +15,18 @@
 
 <body>
     <div class="row">
+<<<<<<< HEAD
         <div class="col-md-12 ">
             <ul class="nav nav-tabs bg-light">
+=======
+        <div class="col-md-12">
+            <ul class="nav nav-tabs bg-light" style="padding-bottom: 0px;">
+>>>>>>> Uso_Geral
                 <li class="nav-item">
                     <a class="nav-link {% if where == 'move' %} active {% endif %}"
                         href="{% url 'move' %}">Movimentação</a>
                 </li>
+<<<<<<< HEAD
                 <li class="nav-item">
                     <a class="nav-link {% if where == 'Patio' %} active {% endif %}" href="/equipment/PVS">Patio</a>
                 </li>
@@ -64,6 +70,13 @@
                 <li class="nav-item">
                     <a class="nav-link {% if where == 'Base' %} active {% endif %}" href="/equipment/BASE">Base</a>
                 </li>
+=======
+                {% for place in places %}
+                <li class="nav-item">
+                    <a class="nav-link {% if where == place.viewName %} active {% endif %}" href="/equipment/{{ place.viewName }}">{{ place.name }}</a>
+                </li>
+                {% endfor %}
+>>>>>>> Uso_Geral
                 <li class="nav-item">
                     <a class="nav-link {% if where == 'carros' %} active {% endif %}" href="/CARS">Carros</a>
                 </li>

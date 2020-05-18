@@ -12,11 +12,21 @@ from django.utils.timezone import datetime
 from django.utils.dateparse import parse_date
 import json
 from CdC.models import *
+<<<<<<< HEAD
+=======
+
+>>>>>>> Uso_Geral
 class move(PermissionRequiredMixin, View):
     template_name = "login.html"
     permission_required = 'CdC.can_move'
     def get(self, request, *args, **Kwargs):
+<<<<<<< HEAD
         context={"where":"move"}
+=======
+        context={"where":"move",
+                 "places":places.objects.all()
+                                }
+>>>>>>> Uso_Geral
         return render(request,'move.html', context)
 
     def post(self, request, *args, **Kwargs):
@@ -51,11 +61,16 @@ class move(PermissionRequiredMixin, View):
             equipment = Equipament.objects.get(codigo=data["equipmentCode"])
             if(data["for"]== "Calibração"):
                 equipment.in_calibration = 1
+<<<<<<< HEAD
                 type_log = 2
             else:
                 type_log = 1
             equipment.position = data["for"]
             create_log = log(codigo = data["equipmentCode"], origem = data["where"], destino = data["for"], responsible = request.user.username, type_of_log=type_log)
+=======
+            equipment.position = data["for"]
+            create_log = log(codigo = data["equipmentCode"], origem = data["where"], destino = data["for"], responsible = request.user.username)
+>>>>>>> Uso_Geral
             create_log.save()
             equipment.save()
             data = {"type":"Success","equipmentCode": data["equipmentCode"]}
