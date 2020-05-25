@@ -5,3 +5,4 @@ from .list_of_equips import list_of_equips
 from .move import move
 from .superview import superview
 from .log import log_equips, log_car
+from .users import AddUser
