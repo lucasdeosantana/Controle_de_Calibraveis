@@ -27,4 +27,5 @@ urlpatterns = [
     path('CARS/', Cars.as_view(), name='cars'),
     path('log/<int:equipment>/', log_equips.as_view()),
     path('logcar/<slug:license>', log_car.as_view()),
+    path('user/adduser/', AddUser.as_view())
 ]
