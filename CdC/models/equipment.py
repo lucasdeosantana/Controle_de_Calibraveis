@@ -1,14 +1,11 @@
 from django.db import models
 from datetime import datetime, timedelta
-from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 
-class Equipament(models.Model):
-    codigo = models.IntegerField('Codigo do Equipamento',null=False,blank=False, unique=True)
-    nome = models.CharField('Nome', max_length=244, null=False, blank=False)
-    apelido = models.CharField('Apelido', max_length=100, blank=True, null=True)
-    position = models.CharField('Localização', max_length=30, blank=True, null=True, )
+class Equipment(models.Model):
+    code = models.IntegerField('Codigo do Equipamento',null=False,blank=False, unique=True)
+    name = models.CharField('Nome', max_length=244, null=False, blank=False)
+    nickName = models.CharField('Apelido', max_length=100, blank=True, null=True)
+    where = models.CharField('Localização', max_length=30, blank=True, null=True, )
     date_calibration = models.DateField('Data de Calibração', blank=False, null=False)
     validity_time=models.IntegerField("Meses de validade", blank=True, null=True)
     date_validity=models.DateField('Data de validade se preenche automatico se deixado em branco',blank=True, null=True)
@@ -28,5 +25,6 @@ class Equipament(models.Model):
         permissions=[ 
             ('can_move','Pode mover equipamentos'),
             ('can_receive', 'Pode receber equipamentos de calibração'),
-            ('can_see_log', 'Pode ver os logs')
+            ('can_see_log', 'Pode ver os logs'),
+            ('can_manager_user', "Pode administrar")
         ]
