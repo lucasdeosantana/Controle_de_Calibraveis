@@ -1,7 +1,6 @@
-from .cars import Cars
-from .authentication  import AuthenticationLogin, AuthenticationLogout
-from .list_of_equips import list_of_equips
-from .move import move
+from .car import Cars
+from .authentication  import AuthenticationLogin, AuthenticationLogout, AuthenticationAddUser
+from .equipment import EquipmentView
+from .move import MoveView
 from .calibration import CalibrationView
-from .log import log_equips, log_car
-from .users import AddUser
+from .log import LogEquipView, LogCarView

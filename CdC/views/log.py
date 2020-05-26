@@ -8,7 +8,7 @@ from equipamentos.settings import BASE_DIR
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
-class log_equips(PermissionRequiredMixin, View):
+class LogEquipView(PermissionRequiredMixin, View):
 	template_name = "login.html"
 	permission_required = 'CdC.can_move'
 
@@ -28,7 +28,7 @@ class log_equips(PermissionRequiredMixin, View):
 			}
 		return render(request, 'log.html', context)
 
-class log_car(PermissionRequiredMixin, View):
+class LogCarView(PermissionRequiredMixin, View):
 	template_name = "login.html"
 	permission_required = 'CdC.can_move'
 

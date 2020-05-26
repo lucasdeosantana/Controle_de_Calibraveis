@@ -13,23 +13,15 @@ from django.utils.dateparse import parse_date
 import json
 from CdC.models import *
 
-def AuthenticationLogin(request, *args, **kwargs):
-    print(request.body)
-    if request.method == 'POST':
-        user = authenticate(username=request.POST['user'], password=request.POST['pass'])
-        if user is not None:
-            login(request, user)
-            return redirect("/move")
-    return render(request, 'login.html')
-
-def AuthenticationLogout(request, *args, **kwargs):
-    logout(request)
-    return redirect("/login/")
-
-class AuthenticationAddUser(PermissionRequiredMixin, View):
+class EquipmentView(PermissionRequiredMixin, View):
     template_name = "login.html"
     permission_required = 'CdC.can_move'
-    def get(self, request, *args, **Kwargs):
-        context = {
-        }
-        return render(request, 'adduser.html', context)
+    def get(self, request, station, *args, **Kwargs):
+        where = Place.objects.get(viewName=station)
+        equipmentList = (Equipment.objects.all().filter(where=where.name)).order_by('date_validity')
+        context={
+                "places":Place.objects.all(),
+                "equipments":equipmentList,
+                "where":station
+                }
+        return render(request, 'equipment.html', context)
