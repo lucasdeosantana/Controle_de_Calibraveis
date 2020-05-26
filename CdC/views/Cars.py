@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponse
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from django.views import View
 from django.utils.decorators import method_decorator
 from django.contrib.auth import authenticate, login, logout
@@ -12,7 +11,7 @@ from django.utils.timezone import datetime
 from django.utils.dateparse import parse_date
 import json
 from CdC.models import *
-import os
+
 from equipamentos.settings import BASE_DIR
 ajax_template = {
             "cars_free":BASE_DIR+"/CdC/templates/cars_free_table_template.html",
@@ -27,9 +26,9 @@ class Cars(PermissionRequiredMixin, View):
          
         cars = Car.objects.all().filter(in_use=None)
         context ={
-            "where":"carros",
+            "where":"cars",
             "cars":cars,
-            "places":places.objects.all()
+            "places":Place.objects.all()
         }
         return render(request, 'carros.html', context)
     
@@ -64,11 +63,11 @@ class Cars(PermissionRequiredMixin, View):
     def set_car_inuse(self, request, dict, *args, **kwargs):
         try:
             car = Car.objects.get(placa=dict["args"][0])
-            previous_position = car.position
+            previous_position = car.where
             car.in_use = request.user.username
-            car.position = "Em uso"
+            car.where = "Em uso"
             car.save()
-            create_log = carlog(placa=dict["args"][0], origem=previous_position, destino="Em Uso", responsible=request.user.username)
+            create_log = Carlog(licensePlate=dict["args"][0], origin=previous_position, destiny="Em Uso", responsible=request.user.username)
             create_log.save()
         except:
             data = {
@@ -84,10 +83,10 @@ class Cars(PermissionRequiredMixin, View):
     def set_car_indestiny(self, request, dict, *args, **kwargs):
         try:
             car = Car.objects.get(placa=dict["args"][1])
-            car_last_log = (carlog.objects.all().filter(placa=dict["args"][1])).order_by("-date")[0]
-            car.position = dict["args"][0]
+            car_last_log = (Carlog.objects.all().filter(licensePlate=dict["args"][1])).order_by("-date")[0]
+            car.where = dict["args"][0]
             car.in_use = None
-            car_create_log = carlog(placa=dict["args"][1], origem=car_last_log.origem, destino=dict["args"][0], responsible=request.user.username)
+            car_create_log = Carlog(licensePlate=dict["args"][1], origin=car_last_log.origin, destiny=dict["args"][0], responsible=request.user.username)
             car_create_log.save()
             car.save()
         except:

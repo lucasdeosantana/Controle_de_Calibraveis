@@ -13,7 +13,7 @@ class log_equips(PermissionRequiredMixin, View):
 	permission_required = 'CdC.can_move'
 
 	def get(self, request, equipment, *args, **kwargs):
-		logs = (log.objects.all().filter(codigo=equipment)).order_by("-date")
+		logs = (Log.objects.all().filter(code=equipment)).order_by("-date")
 		page = request.GET.get('page',1)
 		paginator = Paginator(logs, 40)
 		try:
@@ -33,7 +33,7 @@ class log_car(PermissionRequiredMixin, View):
 	permission_required = 'CdC.can_move'
 
 	def get(self, request, license, *args, **kwargs):
-		logs = (carlog.objects.all().filter(placa=license.lower())).order_by("-date")
+		logs = (Carlog.objects.all().filter(licensePlate=license.lower())).order_by("-date")
 		page = request.GET.get('page',1)
 		paginator = Paginator(logs, 40)
 		try:

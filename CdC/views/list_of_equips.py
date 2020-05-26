@@ -17,7 +17,7 @@ class list_of_equips(PermissionRequiredMixin, View):
     permission_required = 'CdC.can_move'
     def get(self, request, station, *args, **Kwargs):
         where = places.objects.get(viewName=station)
-        equipmentList = (Equipament.objects.all().filter(position=where.name)).order_by('date_validity')
+        equipmentList = (Equipment.objects.all().filter(where=where.name)).order_by('date_validity')
         context={
                 "places":places.objects.all(),
                 "equipments":equipmentList,

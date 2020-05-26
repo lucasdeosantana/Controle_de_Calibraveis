@@ -31,41 +31,41 @@ class move(PermissionRequiredMixin, View):
         return JsonResponse(answer)
     def get_equipment(self,data, *args, **kwargs):
         if(data["equipmentCode"].isnumeric()):
-            equipment = Equipament.objects.get(codigo=data["equipmentCode"])
+            equipment = Equipment.objects.get(code=data["equipmentCode"])
             if(equipment.in_calibration!=0):
                 data = {"type":"Warning"}
             else:
                 data = {
                         "type":"EquipmentInformation",
-                        "name":equipment.nome,
-                        "in_station":equipment.position
+                        "name":equipment.name,
+                        "in_station":equipment.where
                 }
         else:
             car = Car.objects.get(placa=data["equipmentCode"])
             data = {
                         "type":"EquipmentInformation",
-                        "name":car.nome,
-                        "in_station":car.position
+                        "name":car.name,
+                        "in_station":car.where
                 }
         return data
     def do_move(self, data, request, *args, **kwargs):
         if(data["equipmentCode"].isnumeric()):
-            equipment = Equipament.objects.get(codigo=data["equipmentCode"])
+            equipment = Equiament.objects.get(code=data["equipmentCode"])
             if(data["for"]== "Calibração"):
                 equipment.in_calibration = 1
                 type_log = 2
             else:
                 type_log = 1
-            equipment.position = data["for"]
-            create_log = log(codigo = data["equipmentCode"], origem = data["where"], destino = data["for"], responsible = request.user.username, type_of_log=type_log)
+            equipment.where = data["for"]
+            create_log = Log(code=data["equipmentCode"], origin = data["where"], destiny = data["for"], responsible = request.user.username, type_of_log=type_log)
             create_log.save()
             equipment.save()
             data = {"type":"Success","equipmentCode": data["equipmentCode"]}
         else:
             car = Car.objects.get(p=data["equipmentCode"])
-            logcar = carlog(placa=data["equipmentCode"], origem = data["where"], destino = data["for"], responsible = request.user.username)
+            logcar = Carlog(licensePlate=data["equipmentCode"], origin = data["where"], destiny = data["for"], responsible = request.user.username)
             logcar.save()
-            car.position = data["for"]
+            car.where = data["for"]
             car.save()
             data = {"type":"Success","equipmentCode": data["equipmentCode"] }
         return data
