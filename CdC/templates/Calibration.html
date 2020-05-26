@@ -32,12 +32,12 @@
                     </thead>
                     <tbody id="equip_confirm">
                             {% for equipment in equipments%}
-                            <tr class="bg" id="{{ equipment.codigo }}">
-                            <th scope="row">{{ equipment.codigo }}</th>
+                            <tr class="bg" id="{{ equipment.code }}">
+                            <th scope="row">{{ equipment.code }}</th>
                             <td>{{ equipment.date_validity|date:"F/Y" }}</td>
-                            <td>{{ equipment.nome }}</td>
-                            <td><button class="btn btn-primary" onclick="button_received({{ equipment.codigo }}, 'btn_confirm')"><i class="fa fa-check"></i></button><button
-                                class="btn btn-danger" onclick="button_received({{ equipment.codigo }}, 'btn_cancel')"><i class="fa fa-times"></i></button></td>
+                            <td>{{ equipment.name }}</td>
+                            <td><button class="btn btn-primary" onclick="button_received({{ equipment.code }}, 'btn_confirm')"><i class="fa fa-check"></i></button><button
+                                class="btn btn-danger" onclick="button_received({{ equipment.code }}, 'btn_cancel')"><i class="fa fa-times"></i></button></td>
                             </tr>
                             {% endfor %}
                     </tbody>

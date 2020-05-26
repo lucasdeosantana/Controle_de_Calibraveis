@@ -17,12 +17,12 @@
                 </thead>
                 <tbody>
                     {% for equipment in equipments %}
-                    <tr id="{{ equipment.codigo }}" {% if equipment.date_validity|date:"m-y" == todays_date %}
+                    <tr id="{{ equipment.code }}" {% if equipment.date_validity|date:"m-y" == todays_date %}
                         class="bg-warning" {% elif equipment.date_validity|date:"m-y" < todays_date %} class="bg-danger"
                         {% endif %}>
-                        <th scope="row"><a {% if perms.CdC.can_see_log %}href="/log/{{ equipment.codigo }}"{% endif %}>{{ equipment.codigo }}</a></th>
+                        <th scope="row"><a {% if perms.CdC.can_see_log %}href="/log/{{ equipment.code }}"{% endif %}>{{ equipment.code }}</a></th>
                         <td>{{ equipment.date_validity|date:"F/Y" }}</td>
-                        <td> {{ equipment.nome }} </td>
+                        <td> {{ equipment.name }} </td>
                         <td>
                             <div class="dropdown">
                                 <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
@@ -31,10 +31,10 @@
                                 <div class="dropdown-menu" id="Retirada" aria-labelledby="dropdownMenuButton">
                                     {% for place in places %}
                                     <a class="dropdown-item" href="#"
-                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">{{ place.name }}</a>
+                                        onclick="transfer(this.innerHTML, '{{ equipment.code }}')">{{ place.name }}</a>
                                     {% endfor %}
                                     <a class="dropdown-item" href="#"
-                                        onclick="transfer(this.innerHTML, '{{ equipment.codigo }}')">Calibração</a>
+                                        onclick="transfer(this.innerHTML, '{{ equipment.code }}')">Calibração</a>
                                 </div>
                             </div>
                         </td>

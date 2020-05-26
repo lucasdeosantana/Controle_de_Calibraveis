@@ -5,12 +5,12 @@
   	{% for log in logs %}
   	{% if log.type_of_log == 1 %}
     <tr>
-      <th class="text-justify" scope="row"><div class="col offset-2">Em {{ log.date }}, foi retirado de {{ log.origem }} e levado para {{ log.destino }} por {{ log.responsible }};</div>
+      <th class="text-justify" scope="row"><div class="col offset-2">Em {{ log.date }}, foi retirado de {{ log.origin }} e levado para {{ log.destino }} por {{ log.responsible }};</div>
       </th>
     </tr>
     {% elif log.type_of_log == 2 %}
     <tr>
-      <th class="text-justify" scope="row"><div class="col offset-2">Em {{ log.date }}, foi enviado de {{ log.origem }} para Calibração por {{ log.responsible }};</div></th>
+      <th class="text-justify" scope="row"><div class="col offset-2">Em {{ log.date }}, foi enviado de {{ log.origin }} para Calibração por {{ log.responsible }};</div></th>
     </tr>
     {% elif log.type_of_log == 3 %}
     <tr>

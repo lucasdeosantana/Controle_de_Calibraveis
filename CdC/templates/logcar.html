@@ -5,7 +5,7 @@
   	{% for log in logs %}
   	{% if log.destino == "Em Uso" %}
     <tr>
-      <th class="text-justify" scope="row"><div class="col offset-2">Em {{ log.date }}, foi retirado de {{ log.origem }} por {{ log.responsible }};</div>
+      <th class="text-justify" scope="row"><div class="col offset-2">Em {{ log.date }}, foi retirado de {{ log.origin }} por {{ log.responsible }};</div>
       </th>
     </tr>
     {% else %}
