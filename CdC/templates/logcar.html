@@ -3,14 +3,14 @@
 	<table class="table table-sm">
   <tbody>
   	{% for log in logs %}
-  	{% if log.destino == "Em Uso" %}
+  	{% if log.destiny == None %}
     <tr>
       <th class="text-justify" scope="row"><div class="col offset-2">Em {{ log.date }}, foi retirado de {{ log.origin }} por {{ log.responsible }};</div>
       </th>
     </tr>
     {% else %}
     <tr>
-      <th class="text-justify" scope="row"><div class="col offset-2">Em {{ log.date }}, foi devolvido em {{ log.destino }} por {{ log.responsible }};</div></th>
+      <th class="text-justify" scope="row"><div class="col offset-2">Em {{ log.date }}, foi devolvido em {{ log.destiny }} por {{ log.responsible }};</div></th>
     </tr>
     {% endif %}
     {% endfor %}

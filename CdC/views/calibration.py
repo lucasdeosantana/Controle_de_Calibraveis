@@ -12,11 +12,13 @@ from django.utils.timezone import datetime
 from django.utils.dateparse import parse_date
 import json
 from CdC.models import *
-base = "Base"
+base = Place.objects.get(name="Base")
 
 class CalibrationView(PermissionRequiredMixin, View):
     template_name = "login.html"
     permission_required = 'CdC.can_move'
+
+
     def get(self, request, *args, **Kwargs):
         equips_for_calibration = (Equipment.objects.all().filter(in_calibration=1)).order_by('date_validity')
         context = {
@@ -25,6 +27,8 @@ class CalibrationView(PermissionRequiredMixin, View):
             "places":Place.objects.all()
         }
         return render(request, "Calibration.html", context)
+
+
 
     def post(self, request, *args, **kwargs):
         self.functs ={
@@ -35,7 +39,7 @@ class CalibrationView(PermissionRequiredMixin, View):
             "to_return":self.to_return
         }
         json_request = json.loads(request.body)
-        table= self.functs[json_request["type"]](json_request, Request=request)
+        table= self.functs[json_request["type"]](json_request, request=request)
         print(json_request)
         try:
             code = str(json_request["code"])
@@ -47,6 +51,8 @@ class CalibrationView(PermissionRequiredMixin, View):
                 "code":code,
         }
         return JsonResponse(data)
+
+
     def get_Equipment_to_Confirm(self, *args, **kwargs):
         equips_for_calibration = (Equipment.objects.all().filter(in_calibration=1)).order_by('date_validity')
         template = Template("""
@@ -59,10 +65,11 @@ class CalibrationView(PermissionRequiredMixin, View):
                     class="btn btn-danger" onclick="button_received({{ equipment.code }}, 'btn_cancel')"><i class="fa fa-times"></i></button></td>
             </tr>
             {% endfor %}""")
-        context = Context({"equipments":equips_for_calibration, "perms":request.user})
+        context = Context({"equipments":equips_for_calibration, "perms":kwargs["request"].user})
         #print(template.render(context))
         return template.render(context)
-    
+
+
     def get_Equipment_to_back(self, *args, **kwargs):
         equips_for_calibration = (Equipment.objects.all().filter(in_calibration=2)).order_by('date_validity')
         template = Template("""
@@ -86,44 +93,43 @@ class CalibrationView(PermissionRequiredMixin, View):
             """)
         context = Context({"equipments":equips_for_calibration})
         #print(template.render(context))
-        return template.render(context)     
+        return template.render(context)
+
+
     def to_confirm(self, dict, *args, **kwargs):
         try:
             equipment = Equipment.objects.get(code=dict["code"])
             equipment.in_calibration = 2
-            equipment.save()
+            equipment.move(origin = Place.objects.get(name="Base"), user = kwargs["request"].user, typeLog=3)
         except:
             return "Fail"
-        create_log = Log(code = dict["code"], origin = "Calibração", destiny = "Calibração", responsible = kwargs["Request"].user.username, type_of_log=3)
-        create_log.save()
         return "Success"
+
+
     def to_cancel(self, dict, *args, **kwargs):
         try:
             logs = (Log.objects.all().filter(code=dict["code"])).order_by("-date")
-            destino = str(logs[0].origin)
-            create_log = log(code = dict["code"], origin = "Calibração", destiny = destino , responsible = kwargs["Request"].user.username, observation="Cancelamento", type_of_log=5)
-            create_log.save()
+            print(logs[0].origin)
             equipment = Equipment.objects.get(code=dict["code"])
+            equipment.where = logs[0].origin
             equipment.in_calibration = 0
-            equipment.where = destino
-            equipment.save()
+            equipment.move(origin = Place.objects.get(name="Base"), user = kwargs["request"].user, typeLog=5)
         except:
             return "Fail"
         return "Success"
+
 
     def to_return(self, dict,*args, **kwargs):
         try:
             if(dict["date"]!=''):
                  date = parse_date(dict["date"])
             else:
-                date = datetime.today()
-            create_log = Log(code = dict["code"], origin = "Calibração", destiny = base , responsible = kwargs["Request"].user.username, type_of_log=4)
-            equipment = Equipment.objects.get(code= dict["code"])
+                date = datetime.today()            
+            equipment = Equipment.objects.get(code=dict["code"])
             equipment.date_calibration = date
             equipment.in_calibration= 0
-            equipment.where = base
-            equipment.save_special()
-            create_log.save()
+            equipment.where = Place.objects.get(name="Base")
+            equipment.save_special(origin = Place.objects.get(name="Base"), user = kwargs["request"].user, typeLog=4)
         except:
             return "Fail"
         return "Success"

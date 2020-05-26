@@ -31,7 +31,7 @@
                                 <div class="dropdown-menu" id="Retirada" aria-labelledby="dropdownMenuButton">
                                     {% for place in places %}
                                     <a class="dropdown-item" href="#"
-                                        onclick="transfer(this.innerHTML, '{{ equipment.code }}')">{{ place.name }}</a>
+                                        onclick="transfer(this.innerHTML, '{{ equipment.code }}')">{{ place }}</a>
                                     {% endfor %}
                                     <a class="dropdown-item" href="#"
                                         onclick="transfer(this.innerHTML, '{{ equipment.code }}')">Calibração</a>

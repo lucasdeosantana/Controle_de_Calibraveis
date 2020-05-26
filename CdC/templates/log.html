@@ -5,7 +5,7 @@
   	{% for log in logs %}
   	{% if log.type_of_log == 1 %}
     <tr>
-      <th class="text-justify" scope="row"><div class="col offset-2">Em {{ log.date }}, foi retirado de {{ log.origin }} e levado para {{ log.destino }} por {{ log.responsible }};</div>
+      <th class="text-justify" scope="row"><div class="col offset-2">Em {{ log.date }}, foi retirado de {{ log.origin }} e levado para {{ log.destiny }} por {{ log.responsible }};</div>
       </th>
     </tr>
     {% elif log.type_of_log == 2 %}
@@ -22,7 +22,7 @@
     </tr>
     {% elif log.type_of_log == 5 %}
     <tr>
-      <th class="text-justify" scope="row"><div class="col offset-2">Em {{ log.date }}, foi cancelada a movimentação para calibração por {{ log.responsible }} e devolvido para {{ log.destino }};</div></th>
+      <th class="text-justify" scope="row"><div class="col offset-2">Em {{ log.date }}, foi cancelada a movimentação para calibração por {{ log.responsible }} e devolvido para {{ log.destiny }};</div></th>
     </tr>
     {% endif %}
     {% endfor %}

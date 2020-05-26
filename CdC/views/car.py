@@ -24,7 +24,7 @@ class Cars(PermissionRequiredMixin, View):
 
     def get(self, request, *args, **Kwargs):
          
-        cars = Car.objects.all().filter(in_use=None)
+        cars = Car.objects.all().filter(in_use=False)
         context ={
             "where":"cars",
             "cars":cars,
@@ -43,14 +43,15 @@ class Cars(PermissionRequiredMixin, View):
         print(json_request)
         data = self.dinamic_templates[json_request["type"]](request,json_request)
         return JsonResponse(data)
+
+
     def get_template(self, request, dict, *args, **kwargs):
         if(dict["args"][0]=="cars_free"):
-            cars = Car.objects.all().filter(in_use=None)
+            cars = Car.objects.all().filter(in_use=False)
         else:
-            cars = Car.objects.all().exclude(in_use=None)
-
+            cars = Car.objects.all().filter(in_use=True)
         context =Context({"cars":cars,
-                            "places":places.objects.all()
+                            "places":Place.objects.all()
                                                             })
         template = open(ajax_template[dict["args"][0]],'r').read()
         html = Template(template).render(context)
@@ -60,15 +61,16 @@ class Cars(PermissionRequiredMixin, View):
             "payloadHTML":html
         }
         return data
+
+
     def set_car_inuse(self, request, dict, *args, **kwargs):
         try:
-            car = Car.objects.get(placa=dict["args"][0])
+            car = Car.objects.get(licensePlate=dict["args"][0])
             previous_position = car.where
-            car.in_use = request.user.username
-            car.where = "Em uso"
-            car.save()
-            create_log = Carlog(licensePlate=dict["args"][0], origin=previous_position, destiny="Em Uso", responsible=request.user.username)
-            create_log.save()
+            car.in_use = True
+            car.responsible = request.user
+            car.where = None
+            car.update(origin=previous_position, user=request.user)
         except:
             data = {
                     "type":dict["type"],
@@ -80,15 +82,16 @@ class Cars(PermissionRequiredMixin, View):
                   "args":dict["args"],
                   "status":"success" }
         return data
+
+
+
     def set_car_indestiny(self, request, dict, *args, **kwargs):
         try:
-            car = Car.objects.get(placa=dict["args"][1])
+            car = Car.objects.get(licensePlate=dict["args"][1])
             car_last_log = (Carlog.objects.all().filter(licensePlate=dict["args"][1])).order_by("-date")[0]
-            car.where = dict["args"][0]
-            car.in_use = None
-            car_create_log = Carlog(licensePlate=dict["args"][1], origin=car_last_log.origin, destiny=dict["args"][0], responsible=request.user.username)
-            car_create_log.save()
-            car.save()
+            car.where = Place.objects.get(name=dict["args"][0])
+            car.in_use = False
+            car.update(origin=None, user=request.user)
         except:
             data = {
                     "type":dict["type"],

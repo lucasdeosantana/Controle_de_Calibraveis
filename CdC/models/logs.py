@@ -1,17 +1,16 @@
 from django.db import models
-
+from .place import Place
+from django.contrib.auth.models import User
 class Log(models.Model):
     code = models.IntegerField()
     type_of_log=models.IntegerField()
-    origin = models.CharField(max_length=30,blank=False,null=False)
-    destiny = models.CharField(max_length=30, blank=False, null=False)
+    origin = models.ForeignKey(Place, on_delete=models.CASCADE, related_name="OrigemLog")
+    destiny = models.ForeignKey(Place, on_delete=models.CASCADE, related_name="DestinoLog")
     date = models.DateTimeField(auto_now_add=True)
-    responsible = models.CharField(max_length=10, blank=False, null=False)
-    observation = models.CharField(max_length=100, blank=True, null=True)
-
+    responsible = models.ForeignKey(User, on_delete=models.CASCADE)
 class Carlog(models.Model):
-    licensePlate = models.CharField(max_length=30, blank=True,null=True)
-    origin = models.CharField(max_length=30,blank=False,null=False)
-    destiny = models.CharField(max_length=30, blank=True, null=False)
+    licensePlate = models.CharField(max_length=15, null=True)
+    origin = models.ForeignKey(Place, on_delete=models.CASCADE, related_name="Origem", null=True)
+    destiny = models.ForeignKey(Place, on_delete=models.CASCADE, related_name="Destino", null=True)
     date = models.DateTimeField(auto_now_add=True)
-    responsible = models.CharField(max_length=10, blank=False, null=False)
+    responsible = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -16,12 +16,12 @@ from CdC.models import *
 class EquipmentView(PermissionRequiredMixin, View):
     template_name = "login.html"
     permission_required = 'CdC.can_move'
-    def get(self, request, station, *args, **Kwargs):
-        where = Place.objects.get(viewName=station)
-        equipmentList = (Equipment.objects.all().filter(where=where.name)).order_by('date_validity')
+    def get(self, request, equipPlace, *args, **Kwargs):
+        where = Place.objects.get(name=equipPlace)
+        equipmentList = (Equipment.objects.all().filter(where=where, in_calibration=0)).order_by('date_validity')
         context={
                 "places":Place.objects.all(),
                 "equipments":equipmentList,
-                "where":station
+                "where":equipPlace
                 }
         return render(request, 'equipment.html', context)
