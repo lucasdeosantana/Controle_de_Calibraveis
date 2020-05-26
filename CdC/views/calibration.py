@@ -17,17 +17,14 @@ base = "Base"
 class CalibrationView(PermissionRequiredMixin, View):
     template_name = "login.html"
     permission_required = 'CdC.can_move'
-    def get(self, request, page, *args, **Kwargs):
-        self.pages={
-            "Calibration":"Calibration.html"
-        }
+    def get(self, request, *args, **Kwargs):
         equips_for_calibration = (Equipment.objects.all().filter(in_calibration=1)).order_by('date_validity')
         context = {
             "equipments":equips_for_calibration,
             "where":"Calibration",
             "places":Place.objects.all()
         }
-        return render(request, self.pages[page], context)
+        return render(request, "Calibration.html", context)
 
     def post(self, request, *args, **kwargs):
         self.functs ={
@@ -62,7 +59,7 @@ class CalibrationView(PermissionRequiredMixin, View):
                     class="btn btn-danger" onclick="button_received({{ equipment.code }}, 'btn_cancel')"><i class="fa fa-times"></i></button></td>
             </tr>
             {% endfor %}""")
-        context = Context({"equipments":equips_for_calibration})
+        context = Context({"equipments":equips_for_calibration, "perms":request.user})
         #print(template.render(context))
         return template.render(context)
     

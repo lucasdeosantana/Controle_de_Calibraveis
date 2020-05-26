@@ -31,5 +31,6 @@ class AuthenticationAddUser(PermissionRequiredMixin, View):
     permission_required = 'CdC.can_move'
     def get(self, request, *args, **Kwargs):
         context = {
+            "places":Place.objects.all()
         }
         return render(request, 'adduser.html', context)
