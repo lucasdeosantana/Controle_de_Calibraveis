@@ -18,12 +18,12 @@ from django.urls import path
 from CdC.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',do_login, name='home'),
-    path('login/',do_login, name='login'),
-    path('logout/', do_logout, name='logout'),
+    path('', AuthenticationLogin , name='home'),
+    path('login/', AuthenticationLogin , name='login'),
+    path('logout/', AuthenticationLogout, name='logout'),
     path('move/',move.as_view(), name='move'),
     path('equipment/<slug:station>/',list_of_equips.as_view(), name='equipment'),
-    path('super/<slug:page>/',superview.as_view()),
+    path('super/<slug:page>/', CalibrationView.as_view()),
     path('CARS/', Cars.as_view(), name='cars'),
     path('log/<int:equipment>/', log_equips.as_view()),
     path('logcar/<slug:license>', log_car.as_view()),

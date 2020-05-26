@@ -16,10 +16,10 @@ class list_of_equips(PermissionRequiredMixin, View):
     template_name = "login.html"
     permission_required = 'CdC.can_move'
     def get(self, request, station, *args, **Kwargs):
-        where = places.objects.get(viewName=station)
+        where = Place.objects.get(viewName=station)
         equipmentList = (Equipment.objects.all().filter(where=where.name)).order_by('date_validity')
         context={
-                "places":places.objects.all(),
+                "places":Place.objects.all(),
                 "equipments":equipmentList,
                 "where":station
                 }

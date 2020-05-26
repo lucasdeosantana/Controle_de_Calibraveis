@@ -17,7 +17,7 @@ class move(PermissionRequiredMixin, View):
     permission_required = 'CdC.can_move'
     def get(self, request, *args, **Kwargs):
         context={"where":"move",
-                 "places":places.objects.all()
+                 "places":Place.objects.all()
                                 }
         return render(request,'move.html', context)
 
@@ -50,7 +50,7 @@ class move(PermissionRequiredMixin, View):
         return data
     def do_move(self, data, request, *args, **kwargs):
         if(data["equipmentCode"].isnumeric()):
-            equipment = Equiament.objects.get(code=data["equipmentCode"])
+            equipment = Equipment.objects.get(code=data["equipmentCode"])
             if(data["for"]== "Calibração"):
                 equipment.in_calibration = 1
                 type_log = 2

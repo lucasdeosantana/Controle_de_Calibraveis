@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponse
 from django.views import View
-from CdC.models import log, places, carlog
+from CdC.models import Log, Place, Carlog
 import os
 from equipamentos.settings import BASE_DIR
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -24,7 +24,7 @@ class log_equips(PermissionRequiredMixin, View):
 			logs_pag = paginator.page(paginator.num_pages)
 		context = {
 			"logs":logs_pag,
-			"places":places.objects.all()
+			"places":Place.objects.all()
 			}
 		return render(request, 'log.html', context)
 
@@ -44,6 +44,6 @@ class log_car(PermissionRequiredMixin, View):
 			logs_pag = paginator.page(paginator.num_pages)
 		context = {
 			"logs":logs_pag,
-			"places":places.objects.all()
+			"places":Place.objects.all()
 			}
 		return render(request, 'logcar.html', context)

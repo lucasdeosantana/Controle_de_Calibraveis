@@ -12,12 +12,12 @@ class Equipment(models.Model):
     in_calibration=models.IntegerField()
 
     def __str__(self):
-        return str(self.codigo) + " " + self.nome
+        return str(self.code) + " " + self.name
 
     def save(self, *args, **kwargs):
         if(self.date_validity == None):
             self.date_validity = self.date_calibration+timedelta(days=365)
-        super(Equipament, self).save(*args, **kwargs)
+        super(Equipment, self).save(*args, **kwargs)
     def save_special(self):
         self.date_validity = self.date_calibration+timedelta(days=365)
         self.save()
