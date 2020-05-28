@@ -8,11 +8,7 @@ function changetab1() {
     data = {
         "type": "equipConfirm"
     }
-<<<<<<< HEAD
-    send_receive(data, "/super/Calibration/")
-=======
     send_receive(data, "/Calibration/")
->>>>>>> develop
 }
 function changetab2() {
     document.getElementById("RE").classList.remove("active")
@@ -24,11 +20,7 @@ function changetab2() {
     data = {
         "type": "equipBack"
     }
-<<<<<<< HEAD
-    send_receive(data, "/super/Calibration/")
-=======
     send_receive(data, "/Calibration/")
->>>>>>> develop
 
 }
 var get_response = {
@@ -63,22 +55,14 @@ var button_functs = {
             "type": "to_confirm",
             "code": code
         }
-<<<<<<< HEAD
-        send_receive(data, "/super/Calibration/")
-=======
         send_receive(data, "/Calibration/")
->>>>>>> develop
     },
     btn_cancel(code) {
         data = {
             "type": "to_cancel",
             "code": code
         }
-<<<<<<< HEAD
-        send_receive(data,"/super/Calibration/")
-=======
         send_receive(data,"/Calibration/")
->>>>>>> develop
     },
     btn_return(code) {
         data = {
@@ -87,10 +71,6 @@ var button_functs = {
             "date": document.getElementById("d" + code.toString()).value
 
         }
-<<<<<<< HEAD
-        send_receive(data, "/super/Calibration/")
-=======
         send_receive(data, "/Calibration/")
->>>>>>> develop
     }
 }  
