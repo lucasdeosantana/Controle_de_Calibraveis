@@ -1,7 +1,7 @@
 # Calibration Control
 ## Contrôle de Calibraveis
 
-This system was construct to control equipments that need going to calibration normali a time for year.
+This system was construct to control equipments that need going to calibration normaly a time for year.
 But my current work has many branches and much times, these deadlines aren't met, otherside problems is that nobody knowns where are determined equipment.
 Another things is the cars, this sistem can manage cars, where you can set car in use and indicate where you was put.
  
