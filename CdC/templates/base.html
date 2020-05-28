@@ -1,0 +1,69 @@
+{% load static %}
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/3b54b7ad97.js" crossorigin="anonymous"></script>
+    <title>{% block title %}{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+</head>
+
+<body>
+    <div class="row">
+            <ul class="pl-4 d-flex nav nav-tabs mt-2 bg-light justify-content-between w-100">
+                <div class="d-flex ">
+                    <li class="nav-item">
+                        <a class="pl-1 pr-1 nav-link border-secondary {% if where == 'move' %} active bg-info text-white font-italic{% endif %}"
+                            href="{% url 'move' %}">Movimentação</a>
+                    </li>
+                    {% for place in places %}
+                    <li class="nav-item">
+                        <a class="pl-1 pr-1 nav-link border-secondary {% if where == place.name %} active bg-info text-white font-italic{% endif %}" href="/equipment/{{ place.name }}">{{ place.name }}</a>
+                    </li>
+                    {% endfor %}
+                    <li class="nav-item">
+                        <a class=" pl-1 pr-1 nav-link border-secondary {% if where == 'cars' %} active bg-info text-white font-italic{% endif %}" href="/CARS">Carros</a>
+                    </li>
+                </div>
+                <div class="d-flex pr-3">
+                    {% if perms.CdC.can_receive %}
+                    <li class="nav-item">
+                        <a class="nav-link pl-1 pr-1{% if where == 'Calibration' %} active bg-info text-white font-italic{% endif %}"
+                            href="/Calibration">Calibração</a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">{{ user.username }}</a>
+                    </li>
+                    {% if perms.CdC.can_see_log %}
+                    <li class="nav-item">
+                        <a class="nav-link pl-1 pr-1 {% if where == 'add_user' %} active bg-info text-white font-italic{% endif %}" href="/user/adduser/"><button
+                                class="btn btn-info"><i class="fas fa-user-plus"></i></button></a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}"><button class="btn btn-danger"><i
+                                    class="fas fa-sign-out-alt"></i></button></a>
+                    </li>
+                </div>
+            </ul>
+    </div>
+    {% block content %}{% endblock content %}
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    {% block script %}{% endblock script %}
+</body>
+
+</html>
