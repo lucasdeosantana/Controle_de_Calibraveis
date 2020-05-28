@@ -12,7 +12,8 @@ from django.utils.timezone import datetime
 from django.utils.dateparse import parse_date
 import json
 from CdC.models import *
-def do_login(request, *args, **kwargs):
+
+def AuthenticationLogin(request, *args, **kwargs):
     print(request.body)
     if request.method == 'POST':
         user = authenticate(username=request.POST['user'], password=request.POST['pass'])
@@ -20,3 +21,16 @@ def do_login(request, *args, **kwargs):
             login(request, user)
             return redirect("/move")
     return render(request, 'login.html')
+
+def AuthenticationLogout(request, *args, **kwargs):
+    logout(request)
+    return redirect("/login/")
+
+class AuthenticationAddUser(PermissionRequiredMixin, View):
+    template_name = "login.html"
+    permission_required = 'CdC.can_move'
+    def get(self, request, *args, **Kwargs):
+        context = {
+            "places":Place.objects.all()
+        }
+        return render(request, 'adduser.html', context)

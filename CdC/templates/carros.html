@@ -32,11 +32,11 @@
                 </thead>
                 <tbody id="cars_free_body">
                     {% for car in cars %}
-                    <tr class="bg" id="{{ car.placa }}">
-                        <th class="text-center" scope="row">{{ car.placa|upper }}</th>
-                        <td class="text-center">{{ car.position }}</td>
-                        <td class="text-center">{{ car.nome }}</td>
-                        <td class="d-flex justify-content-center"><button class="btn btn-success" onclick="get_car('{{ car.placa }}')"><i class="fas fa-car"></i></button>
+                    <tr class="bg" id="{{ car.licensePlate }}">
+                        <th class="text-center" scope="row">{{ car.licensePlate|upper }}</th>
+                        <td class="text-center">{{ car.where }}</td>
+                        <td class="text-center">{{ car.name }}</td>
+                        <td class="d-flex justify-content-center"><button class="btn btn-success" onclick="get_car('{{ car.licensePlate }}')"><i class="fas fa-car"></i></button>
                         </td>
                     </tr>
                     {% endfor %}
