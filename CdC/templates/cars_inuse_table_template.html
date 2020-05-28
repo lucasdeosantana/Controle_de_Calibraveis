@@ -1,4 +1,5 @@
 {% for car in cars %}
+
 <tr class="bg" id='{{ car.licensePlate }}'>
     <th class="text-center" scope="row">{{ car.licensePlate|upper }}</th>
     <td class="text-center">{{ car.in_use }}</td>
@@ -12,6 +13,7 @@
                 <a class="dropdown-item" href="#"
                     onclick="back_car(this.innerHTML, '{{ car.licensePlate }}')">{{ place.name }}</a>
                 {% endfor %}
+
             </div>
         </div>
     </td>

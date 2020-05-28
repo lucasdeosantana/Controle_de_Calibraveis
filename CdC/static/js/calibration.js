@@ -9,6 +9,7 @@ function changetab1() {
         "type": "equipConfirm"
     }
     send_receive(data, "/Calibration/")
+
 }
 function changetab2() {
     document.getElementById("RE").classList.remove("active")
@@ -21,6 +22,7 @@ function changetab2() {
         "type": "equipBack"
     }
     send_receive(data, "/Calibration/")
+
 
 }
 var get_response = {
@@ -56,6 +58,7 @@ var button_functs = {
             "code": code
         }
         send_receive(data, "/Calibration/")
+
     },
     btn_cancel(code) {
         data = {
@@ -72,5 +75,6 @@ var button_functs = {
 
         }
         send_receive(data, "/Calibration/")
+
     }
 }  

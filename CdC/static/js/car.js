@@ -3,6 +3,7 @@ var get_response = {
     template_renew[dict["args"][0]](dict)        
     },
     get_car(dict){
+<<<<<<< HEAD
         if(dict["status"]=="success"){
             document.getElementById(dict["args"][0]).innerHTML=""
         }
@@ -11,6 +12,11 @@ var get_response = {
         console.log(dict)
         if(dict["status"]=="success"){
             document.getElementById(dict["args"][1]).innerHTML=""
+=======
+        console.log(dict)
+        if(dict["args"][1]=="success"){
+            document.getElementById(dict["args"][0]).innerHTML=""
+>>>>>>> master
         }
     }
 }
@@ -54,6 +60,7 @@ function get_car(license_plate){
         "args":[license_plate]
     }
     send_receive(data, "/CARS/")
+<<<<<<< HEAD
 }
 function back_car(destiny, license_plate){
     data = {
@@ -61,4 +68,6 @@ function back_car(destiny, license_plate){
         "args":[destiny, license_plate]
     }
     send_receive(data, "/CARS/")
+=======
+>>>>>>> master
 }
