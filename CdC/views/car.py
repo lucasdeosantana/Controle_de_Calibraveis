@@ -33,14 +33,12 @@ class Cars(PermissionRequiredMixin, View):
         return render(request, 'carros.html', context)
     
     def post(self, request, *args, **kwargs):
-        print(BASE_DIR)
         self.dinamic_templates = {
             "requestTemplate":self.get_template,
             "get_car":self.set_car_inuse,
             "set_car":self.set_car_indestiny
         }
         json_request = json.loads(request.body)
-        print(json_request)
         data = self.dinamic_templates[json_request["type"]](request,json_request)
         return JsonResponse(data)
 
@@ -51,8 +49,8 @@ class Cars(PermissionRequiredMixin, View):
         else:
             cars = Car.objects.all().filter(in_use=True)
         context =Context({"cars":cars,
-                            "places":Place.objects.all()
-                                                            })
+                          "places":Place.objects.all(),
+                          "can_see_log":request.user.has_perm('CdC.can_see_log') })
         template = open(ajax_template[dict["args"][0]],'r').read()
         html = Template(template).render(context)
         data = {
@@ -75,8 +73,7 @@ class Cars(PermissionRequiredMixin, View):
             data = {
                     "type":dict["type"],
                     "args":dict["args"],
-                    "status":"fail"
-            }
+                    "status":"fail" }
             return data
         data = {  "type":dict["type"],
                   "args":dict["args"],
@@ -88,7 +85,7 @@ class Cars(PermissionRequiredMixin, View):
     def set_car_indestiny(self, request, dict, *args, **kwargs):
         try:
             car = Car.objects.get(licensePlate=dict["args"][1])
-            car_last_log = (Carlog.objects.all().filter(licensePlate=dict["args"][1])).order_by("-date")[0]
+            car_last_log = (Carlog.objects.all().filter(licensePlate=dict["args"][1].lower())).order_by("-date")[0]
             car.where = Place.objects.get(name=dict["args"][0])
             car.in_use = False
             car.update(origin=None, user=request.user)

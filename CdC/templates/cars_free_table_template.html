@@ -1,6 +1,9 @@
 {% for car in cars %}
 <tr class="bg" id="{{ car.licensePlate }}">
-    <th class="text-center" scope="row">{{ car.licensePlate|upper }}</th>
+    <th class="text-center" scope="row">
+        {% if can_see_log %}<a href='/logcar/{{ car.licensePlate }}'>{{ car.licensePlate|upper }}</a> 
+        {% else %}{{ car.licensePlate|upper }}
+        {% endif %}</th>
     <td class="text-center">{{ car.where }}</td>
     <td class="text-center">{{ car.name }}</td>
     <td class="d-flex justify-content-center"><button class="btn btn-success" onclick="get_car('{{ car.licensePlate }}')">
