@@ -12,12 +12,9 @@ from django.utils.timezone import datetime
 from django.utils.dateparse import parse_date
 import json
 from CdC.models import *
-base = Place.objects.get(name="Base")
-
 class CalibrationView(PermissionRequiredMixin, View):
     template_name = "login.html"
     permission_required = 'CdC.can_move'
-
 
     def get(self, request, *args, **Kwargs):
         equips_for_calibration = (Equipment.objects.all().filter(in_calibration=1)).order_by('date_validity')
