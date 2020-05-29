@@ -3,6 +3,8 @@ from datetime import datetime, timedelta
 from .place import Place
 from .logs import Log
 from dateutil.relativedelta import relativedelta
+
+
 class Equipment(models.Model):
     code = models.IntegerField('Codigo do Equipamento',null=False,blank=False, unique=True)
     name = models.CharField('Nome', max_length=244, null=False, blank=False)
