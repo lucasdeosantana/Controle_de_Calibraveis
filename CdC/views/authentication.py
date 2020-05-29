@@ -19,7 +19,7 @@ def AuthenticationLogin(request, *args, **kwargs):
         if user is not None:
             login(request, user)
             return redirect("/move")
-    return render(request, 'login.html')
+    return render(request, 'user/login.html')
 
 def AuthenticationLogout(request, *args, **kwargs):
     logout(request)
@@ -32,4 +32,4 @@ class AuthenticationAddUser(PermissionRequiredMixin, View):
         context = {
             "places":Place.objects.all()
         }
-        return render(request, 'adduser.html', context)
+        return render(request, 'user/adduser.html', context)

@@ -26,7 +26,7 @@ class LogEquipView(PermissionRequiredMixin, View):
 			"logs":logs_pag,
 			"places":Place.objects.all()
 			}
-		return render(request, 'log.html', context)
+		return render(request, 'log/log.html', context)
 
 class LogCarView(PermissionRequiredMixin, View):
 	template_name = "login.html"
@@ -46,4 +46,4 @@ class LogCarView(PermissionRequiredMixin, View):
 			"logs":logs_pag,
 			"places":Place.objects.all()
 			}
-		return render(request, 'logcar.html', context)
+		return render(request, 'log/logcar.html', context)

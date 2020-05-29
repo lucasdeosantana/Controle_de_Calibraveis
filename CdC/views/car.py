@@ -14,8 +14,8 @@ from CdC.models import *
 
 from equipamentos.settings import BASE_DIR
 ajax_template = {
-            "cars_free":BASE_DIR+"/CdC/templates/cars_free_table_template.html",
-            "cars_inuse":BASE_DIR+"/CdC/templates/cars_inuse_table_template.html"
+            "cars_free":BASE_DIR+"/CdC/templates/car/cars_free_table_template.html",
+            "cars_inuse":BASE_DIR+"/CdC/templates/car/cars_inuse_table_template.html"
         }  
 
 class Cars(PermissionRequiredMixin, View):
@@ -30,7 +30,7 @@ class Cars(PermissionRequiredMixin, View):
             "cars":cars,
             "places":Place.objects.all()
         }
-        return render(request, 'carros.html', context)
+        return render(request, 'car/carros.html', context)
     
     def post(self, request, *args, **kwargs):
         self.dinamic_templates = {

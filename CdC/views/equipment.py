@@ -24,4 +24,4 @@ class EquipmentView(PermissionRequiredMixin, View):
                 "equipments":equipmentList,
                 "where":equipPlace
                 }
-        return render(request, 'equipment.html', context)
+        return render(request, 'equipment/equipment.html', context)

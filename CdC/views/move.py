@@ -20,7 +20,7 @@ class MoveView(PermissionRequiredMixin, View):
         context={"where":"move",
                  "places":Place.objects.all()
                                 }
-        return render(request,'move.html', context)
+        return render(request,'equipment/move.html', context)
 
     def post(self, request, *args, **Kwargs):
         self.functs={

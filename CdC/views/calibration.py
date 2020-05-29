@@ -23,7 +23,7 @@ class CalibrationView(PermissionRequiredMixin, View):
             "where":"Calibration",
             "places":Place.objects.all()
         }
-        return render(request, "Calibration.html", context)
+        return render(request, "equipment/calibration.html", context)
 
 
 
