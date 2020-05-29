@@ -2,6 +2,7 @@ from django.db import models
 from datetime import datetime, timedelta
 from .place import Place
 from .logs import Log
+from dateutil.relativedelta import relativedelta
 class Equipment(models.Model):
     code = models.IntegerField('Codigo do Equipamento',null=False,blank=False, unique=True)
     name = models.CharField('Nome', max_length=244, null=False, blank=False)
@@ -16,14 +17,14 @@ class Equipment(models.Model):
         return str(self.code) + " " + self.name
 
     def save(self, *args, **kwargs):
-        if(self.date_validity == None):
-            self.date_validity = self.date_calibration+timedelta(days=365)
+        if not self.date_validity:
+            self.date_validity = self.date_calibration + relativedelta(months=self.validity_time)
         super(Equipment, self).save(*args, **kwargs)
     def save_special(self, *args, **kwargs):
         Log(code=self.code, origin=kwargs.pop("origin"), destiny=self.where,
              type_of_log=kwargs.pop("typeLog"),
               responsible=kwargs.pop("user")).save()
-        self.date_validity = self.date_calibration+timedelta(days=365)
+        self.date_validity = self.date_calibration + relativedelta(months=self.validity_time)
         self.save(args, kwargs)
     def move(self, *args,**kwargs):
         Log(code=self.code, origin=kwargs.pop("origin"), destiny=self.where,
