@@ -14,7 +14,6 @@ import json
 from CdC.models import *
 
 def AuthenticationLogin(request, *args, **kwargs):
-    print(request.body)
     if request.method == 'POST':
         user = authenticate(username=request.POST['user'], password=request.POST['pass'])
         if user is not None:

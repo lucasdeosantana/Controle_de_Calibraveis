@@ -37,7 +37,6 @@ class CalibrationView(PermissionRequiredMixin, View):
         }
         json_request = json.loads(request.body)
         table= self.functs[json_request["type"]](json_request, request=request)
-        print(json_request)
         try:
             code = str(json_request["code"])
         except:
@@ -63,7 +62,6 @@ class CalibrationView(PermissionRequiredMixin, View):
             </tr>
             {% endfor %}""")
         context = Context({"equipments":equips_for_calibration, "perms":kwargs["request"].user})
-        #print(template.render(context))
         return template.render(context)
 
 
@@ -89,7 +87,6 @@ class CalibrationView(PermissionRequiredMixin, View):
             {% endif %}
             """)
         context = Context({"equipments":equips_for_calibration})
-        #print(template.render(context))
         return template.render(context)
 
 
@@ -106,7 +103,6 @@ class CalibrationView(PermissionRequiredMixin, View):
     def to_cancel(self, dict, *args, **kwargs):
         try:
             logs = (Log.objects.all().filter(code=dict["code"])).order_by("-date")
-            print(logs[0].origin)
             equipment = Equipment.objects.get(code=dict["code"])
             equipment.where = logs[0].origin
             equipment.in_calibration = 0

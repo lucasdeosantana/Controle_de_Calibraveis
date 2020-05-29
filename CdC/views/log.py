@@ -34,7 +34,6 @@ class LogCarView(PermissionRequiredMixin, View):
 
 	def get(self, request, license, *args, **kwargs):
 		logs = (Carlog.objects.all().filter(licensePlate=license.lower())).order_by("-date")
-		print(logs)
 		page = request.GET.get('page',1)
 		paginator = Paginator(logs, 40)
 		try:
@@ -47,5 +46,4 @@ class LogCarView(PermissionRequiredMixin, View):
 			"logs":logs_pag,
 			"places":Place.objects.all()
 			}
-		print(context["logs"].__dict__)
 		return render(request, 'logcar.html', context)
