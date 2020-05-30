@@ -6,7 +6,6 @@ document.querySelector("button[type='submit']").addEventListener('click',
             for(let index=0;index<form.elements.length-1; index++){
                 formValues.payload[form.elements[index].name]=form.elements[index].value
             }
-            console.log(formValues)
             send_receive(formValues, '/user/adduser/')
         })
 var get_response={

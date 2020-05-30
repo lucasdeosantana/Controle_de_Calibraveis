@@ -15,5 +15,6 @@ urlpatterns = [
     path('CARS/', Cars.as_view(), name='cars'),
     path('log/<int:equipment>/', LogEquipView.as_view()),
     path('logcar/<slug:license>', LogCarView.as_view()),
-    path('user/adduser/', AuthenticationAddUser.as_view())
+    path('user/adduser/', AuthenticationAddUser.as_view()),
+    path('user/edituser/', AuthenticationEditUser.as_view())
 ]

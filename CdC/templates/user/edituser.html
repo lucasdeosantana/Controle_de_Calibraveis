@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Edit user{% endblock title %}
+{% block content %}
+<div class="container-fluid">    
+    <div class="row">
+    <div class="col-md-12 notice"></div>
+    </div>
+    <div class="row">
+    <div class="col-md-4 offset-md-4 pt-5">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Username</span>
+            </div>
+            <input type="text" class="form-control" placeholder="Recipient's username" name="username" aria-describedby="search">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" id="search"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+        <form class="root" style="display: none;">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Name</span>
+                </div>
+                <input type="text" class="form-control" name="name">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Email</span>
+                </div>
+                <input type="text" class="form-control" name="email">
+            </div>
+            <div class="form-group">
+                <label for="place">Place to work</label>
+                <select class="form-control" name="workPlace">
+                    {% for place in places %}
+                    <option>{{ place.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="place">Permissions</label>
+                <select class="form-control" name="permissions">
+                    <option value="canMove">Can Move</option>
+                    <option value="canReceive">Can Receive</option>
+                    <option value="canSeeLog">Can See log</option>
+                    <option value="canManagerUser">Can Manager users</option>
+                </select>
+            </div>
+            <div class="d-flex justify-content-between" >
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="customCheck1" name="passwordReset">
+                    <label class="custom-control-label" for="customCheck1">Reset Password</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="customCheck2" name="isactive">
+                    <label class="custom-control-label" for="customCheck2">Is Active</label>
+                </div>
+            </div>
+            <button class="btn btn-primary col-md-12 mt-3" id="send">Edit</button>
+        </form>
+    </div>
+    </div>
+</div>
+{% endblock content %}
+{% block script %}
+    <script type="text/javascript" src="{% static 'js/ajax.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/edituser.js' %}"></script>
+{% endblock script %}
