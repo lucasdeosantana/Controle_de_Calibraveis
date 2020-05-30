@@ -1,8 +1,15 @@
 def populate_models(**kwargs):
     from django.contrib.auth.models import Group, Permission, User
     from django.contrib.contenttypes.models import ContentType
-    from .models import Equipment
-    User.objects.create_superuser(username="lucas",password="ldos").save()
+    from .models import Equipment, Place
+    try:
+        User.objects.create_superuser(username="lucas",password="ldos").save()
+    except:
+        pass
+    try:
+        Place(name="Base").save()
+    except:
+        pass
     groupCanMove, created = Group.objects.get_or_create(name="canMove")
     groupCanReceive, created = Group.objects.get_or_create(name="canReceive")
     groupCanSeeLog, created = Group.objects.get_or_create(name="canSeeLog")
