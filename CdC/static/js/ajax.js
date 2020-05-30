@@ -13,7 +13,7 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-function send_receive(dictonary, url) {
+async function send_receive(dictonary, url) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -24,5 +24,5 @@ function send_receive(dictonary, url) {
     jsonString = JSON.stringify(dictonary)
     xhttp.open("POST", url)
     xhttp.setRequestHeader("X-CSRFToken", getCookie('csrftoken'))
-    xhttp.send(jsonString)
+    await xhttp.send(jsonString)
 }
