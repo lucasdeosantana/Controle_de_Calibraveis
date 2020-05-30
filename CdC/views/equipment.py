@@ -16,6 +16,7 @@ from CdC.models import *
 class EquipmentView(PermissionRequiredMixin, View):
     template_name = "login.html"
     permission_required = 'CdC.can_move'
+#--------------------------------------------------------------------------------
     def get(self, request, equipPlace, *args, **Kwargs):
         where = Place.objects.get(name=equipPlace)
         equipmentList = (Equipment.objects.all().filter(where=where, in_calibration=0)).order_by('date_validity')
@@ -25,3 +26,59 @@ class EquipmentView(PermissionRequiredMixin, View):
                 "where":equipPlace
                 }
         return render(request, 'equipment/equipment.html', context)
+#_______________________________________________________________________________
+class EquipmentAdd(PermissionRequiredMixin, View):
+    template_name = "login.html"
+    permission_required = 'CdC.can_move'
+#--------------------------------------------------------------------------------
+    def __init__(self, *args, **kwargs):
+        self.functions={
+            "createEquipment":self.create_equipment
+        }
+        super(EquipmentAdd, self).__init__()
+#--------------------------------------------------------------------------------
+    def get(self, request, *args, **Kwargs):
+        context={
+                "places":Place.objects.all(),
+                }
+        return render(request, 'equipment/addequipment.html', context)
+#--------------------------------------------------------------------------------
+    def post(self, request, *args, **kwargs):
+        json_request=json.loads(request.body)
+        data = self.functions[json_request["type"]](request, json_request)
+        return JsonResponse(data)
+#--------------------------------------------------------------------------------
+    def create_equipment(self, request, json_request, *args, **kwargs):
+    #try:
+        json_payload=json_request["payload"]
+        newEquipment=Equipment(
+            code=json_payload["code"],
+            name=json_payload["name"],
+            where=Place.objects.get(name="Base"),
+            date_calibration=datetime.strptime(json_payload["calibrationdata"], "%Y-%m-%d").date(),
+            validity_time=int(json_payload["months"]),
+            in_calibration=0
+        )
+        if(json_payload["validitydata"]!=""):
+            newEquipment.validity_time=datetime.strptime(json_payload["validitydata"], "%Y-%m-%d").date()
+        newEquipment.save()
+        data={
+            "type":json_request["type"],
+            "status":"success"
+        }
+    #except:
+    #    data={
+    #        "type":json_request["type"],
+    #        "status":"fail"
+    #    }
+        return data
+#_______________________________________________________________________________
+class EquipmentEdit(PermissionRequiredMixin, View):
+    template_name = "login.html"
+    permission_required = 'CdC.can_move'
+#--------------------------------------------------------------------------------
+    def get(self, request, *args, **Kwargs):
+        context={
+                "places":Place.objects.all(),
+                }
+        return render(request, 'equipment/editequipment.html', context)

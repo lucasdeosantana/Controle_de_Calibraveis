@@ -64,7 +64,7 @@ class AuthenticationEditUser(PermissionRequiredMixin, View):
             "search":self.get_user_by_username,
             "edituser":self.edit_user
         }
-        super(AuthenticationEditUser, self).__init__(*args, **kwargs)
+        super(AuthenticationEditUser, self).__init__()
 #---------------------------------------------------------------------------------
     def get(self, request, *args, **Kwargs):
         context = {
@@ -96,7 +96,6 @@ class AuthenticationEditUser(PermissionRequiredMixin, View):
         return data
 #---------------------------------------------------------------------------------3
     def edit_user(self, request, json_request, *args, **kwargs):
-        print(json_request)
         try:
             json_payload=json_request["payload"]
             user = User.objects.get(username=json_payload["username"])

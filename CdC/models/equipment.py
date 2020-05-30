@@ -9,7 +9,7 @@ class Equipment(models.Model):
     code = models.IntegerField('Codigo do Equipamento',null=False,blank=False, unique=True)
     name = models.CharField('Nome', max_length=244, null=False, blank=False)
     nickName = models.CharField('Apelido', max_length=100, blank=True, null=True)
-    where = models.OneToOneField(Place, on_delete=models.CASCADE, null=True)
+    where = models.ForeignKey(Place, on_delete=models.CASCADE, null=True)
     date_calibration = models.DateField('Data de Calibração', blank=False, null=False)
     validity_time=models.IntegerField("Meses de validade", blank=True, null=True)
     date_validity=models.DateField('Data de validade se preenche automatico se deixado em branco',blank=True, null=True)

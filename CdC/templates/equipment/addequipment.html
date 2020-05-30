@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+{% endblock %}
+{% block title %}Add Equipment{% endblock %}
+{% block content %}
+    <div class="container-fluid bg-light">
+        <div class="row">
+            <div class="col-md-4 offset-md-4">
+                <form class="mt-5">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">Code</span>
+                        </div>
+                        <input type="number" class="form-control" name="code" placeholder="Code" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">Name</span>
+                        </div>
+                        <input type="text" class="form-control" name="name" placeholder="Name" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">Calibration Data</span>
+                        </div>
+                        <input type="date" class="form-control" name="calibrationdata" placeholder="Code" required>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">Calibration Validity</span>
+                        </div>
+                        <input type="date" class="form-control" name="validitydata">
+                    </div>
+                    <small class="form-text text-muted mb-3">If void atualized automatic.</small>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">Validity in Months</span>
+                        </div>
+                        <input type="number" class="form-control" name="months" placeholder="Months" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary col-md-12">Create</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+{% block script %}
+<script>var ajaxurl="{% url 'addEquipment' %}"</script>
+<script type="text/javascript" src="{% static 'js/addequip.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/ajax.js' %}"></script>
+{% endblock script %}
