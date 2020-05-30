@@ -33,10 +33,4 @@ class Equipment(models.Model):
              type_of_log=kwargs.pop("typeLog"),
               responsible=kwargs.pop("user")).save()
         self.save(args, kwargs)
-    class Meta:
-        permissions=[ 
-            ('can_move','Pode mover equipamentos'),
-            ('can_receive', 'Pode receber equipamentos de calibração'),
-            ('can_see_log', 'Pode ver os logs'),
-            ('can_manager_user', "Pode administrar")
-        ]
+        
