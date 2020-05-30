@@ -6,7 +6,7 @@ document.querySelector("#search").addEventListener('click',()=>{
         payload:Payload
 
     }
-    send_receive(data, '/user/edituser/')
+    send_receive(data, ajaxurl)
 })
 function createalert(response){
     let noticeFrame = document.querySelector(".notice")
@@ -69,7 +69,7 @@ var get_response ={
                     type:"edituser",
                     payload:Payload
                 }
-                send_receive(data, '/user/edituser/')
+                send_receive(data, ajaxurl)
             })
             document.querySelector(".root").style.display=""
         }else{
