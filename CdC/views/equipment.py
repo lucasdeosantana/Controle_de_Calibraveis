@@ -118,7 +118,6 @@ class EquipmentEdit(PermissionRequiredMixin, View):
     def edit_equipment(self, request, json_request, *args, **kwargs):
         try:
             json_payload=json_request["payload"]
-            print(json_payload["name"])
             getEquipment=Equipment.objects.get(code=int(json_payload["code"]))
             getEquipment.name=json_payload["name"]
             getEquipment.date_calibration=datetime.strptime(json_payload["calibrationdata"], "%Y-%m-%d").date()
@@ -128,7 +127,6 @@ class EquipmentEdit(PermissionRequiredMixin, View):
                getEquipment.date_validity=datetime.strptime(json_payload["validitydata"], "%Y-%m-%d").date()
             else:
                getEquipment.date_validity=None 
-            print(getEquipment.__dict__)
             getEquipment.save()
             data = {
                 "type":json_request["type"],

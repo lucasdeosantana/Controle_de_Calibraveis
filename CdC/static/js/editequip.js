@@ -42,7 +42,6 @@ function createalert(response){
 
 var get_response ={
     search(response){
-        console.log(response)
         if(response.status == "success"){
             let fields = JSON.parse(response.payload)[0].fields
             document.querySelector('[name="name"]').value = fields.name
@@ -65,7 +64,6 @@ var get_response ={
                     type:"editequip",
                     payload:Payload
                 }
-                console.log(data)
                 send_receive(data, ajaxurl)
             })
             document.querySelector(".root").style.display=""

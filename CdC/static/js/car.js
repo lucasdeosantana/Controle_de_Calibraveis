@@ -8,7 +8,6 @@ var get_response = {
         }
     },
     set_car(dict){
-        console.log(dict)
         if(dict["status"]=="success"){
             document.getElementById(dict["args"][1]).innerHTML=""
         }

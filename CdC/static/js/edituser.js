@@ -39,7 +39,6 @@ function createalert(response){
 
 var get_response ={
     search(response){
-        console.log(response)
         if(response.status == "success"){
             let fields = JSON.parse(response.payload)[0].fields
             document.querySelector('[name="name"]').value = fields.first_name

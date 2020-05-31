@@ -51,7 +51,6 @@ class MoveView(PermissionRequiredMixin, View):
         return data
         
     def do_move(self, data, request, *args, **kwargs):
-        print(request.body)
         if(data["equipmentCode"].isnumeric()):
             equipment = Equipment.objects.get(code=int(data["equipmentCode"]))
             if(data["for"]== "Calibration"):
