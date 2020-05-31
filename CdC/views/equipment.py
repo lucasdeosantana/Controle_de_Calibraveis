@@ -30,7 +30,7 @@ class EquipmentView(PermissionRequiredMixin, View):
 #_______________________________________________________________________________
 class EquipmentAdd(PermissionRequiredMixin, View):
     template_name = "login.html"
-    permission_required = 'CdC.can_move'
+    permission_required = 'CdC.can_manager_equipment'
 #--------------------------------------------------------------------------------
     def __init__(self, *args, **kwargs):
         self.functions={
@@ -77,13 +77,13 @@ class EquipmentAdd(PermissionRequiredMixin, View):
 #_______________________________________________________________________________
 class EquipmentEdit(PermissionRequiredMixin, View):
     template_name = "login.html"
-    permission_required = 'CdC.can_move'
+    permission_required = 'CdC.can_manager_equipment'
 #--------------------------------------------------------------------------------
     def __init__(self):
         self.functions={
             "search":self.get_equip_by_code,
             "editequip":self.edit_equipment,
-            "deleteequip":self.delete_equipment_by_id
+            "deleteequip":self.delete_equipment_by_code
         }
         super(EquipmentEdit, self).__init__()
 #--------------------------------------------------------------------------------
@@ -140,7 +140,7 @@ class EquipmentEdit(PermissionRequiredMixin, View):
             }
         return data
 #-----------------------------------------------------------------------------------
-    def delete_equipment_by_id(self, request, json_request, *args, **kwargs):
+    def delete_equipment_by_code(self, request, json_request, *args, **kwargs):
         try:
             Equipment.objects.get(code=json_request["payload"]["code"]).log_and_delete(user=request.user)
             data = {
