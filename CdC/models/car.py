@@ -9,10 +9,36 @@ class Car(models.Model):
     where = models.ForeignKey(Place, on_delete=models.CASCADE, null=True)
     responsible = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     in_use =models.BooleanField(null=True)
+    is_active = models.BooleanField()
 
     def __str__(self):
         return self.licensePlate + " " + self.name
     
     def update(self,*args,**kwargs):
-        Carlog(licensePlate=str(self.licensePlate).lower(), origin=kwargs.pop("origin"), destiny=self.where, responsible=kwargs.pop("user")).save()
+        Carlog(licensePlate=str(self.licensePlate).lower(),
+         origin=kwargs.pop("origin"),
+          destiny=self.where,
+           responsible=kwargs.pop("user"),
+           type_of_log=kwargs.pop("typeLog")).save()
         self.save(*args,**kwargs)
+    
+    def create(self, *args, **kwargs):
+        Carlog(licensePlate=str(self.licensePlate).lower(),
+         origin=self.where, destiny=self.where,
+          responsible=kwargs.pop("user"),
+            type_of_log=7).save()
+        self.save(*args, **kwargs)
+
+    def log_and_delete(self, *args, **kwargs):
+        Carlog(licensePlate=str(self.licensePlate).lower(),
+         origin=self.where, destiny=self.where,
+          responsible=kwargs.pop("user"),
+            type_of_log=6).save()
+        self.delete(*args, **kwargs)
+    
+    def edit(self, *args, **kwargs):
+        Carlog(licensePlate=str(self.licensePlate).lower(),
+         origin=self.where, destiny=self.where,
+          responsible=kwargs.pop("user"),
+            type_of_log=8).save()
+        self.save(*args, **kwargs)
