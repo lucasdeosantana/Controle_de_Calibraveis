@@ -18,5 +18,7 @@ urlpatterns = [
     path('edit/adduser/', AuthenticationAddUser.as_view(), name="addUser"),
     path('edit/edituser/', AuthenticationEditUser.as_view(), name="editUser"),
     path('edit/editequip/', EquipmentEdit.as_view(), name="editEquipment"),
+    path('edit/editcar/', CarEdit.as_view(), name="editCar"),
     path('edit/addequip/', EquipmentAdd.as_view(), name="addEquipment"),
+    path('edit/addcar/', CarAdd.as_view(), name="addCar"),
 ]

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+{% endblock %}
+{% block title %}Add Car{% endblock %}
+{% block content %}
+    <div class="container-fluid bg-light" style="height: 100vh;">
+      <div class="row">
+        <div class="col-md-12 notice"></div>
+    </div>
+        <div class="row">
+            <div class="col-md-4 offset-md-4">
+                <form class="mt-5">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">License Plate</span>
+                        </div>
+                        <input type="text" class="form-control" name="license" placeholder="License" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">Name</span>
+                        </div>
+                        <input type="text" class="form-control" name="name" placeholder="Name" required>
+                    </div>
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Place</span>
+                      </div>
+                      <select class="form-control" name="place">
+                        {% for place in places %}
+                        <option value="{{ place.name }}">{{ place.name }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                    <div class="custom-control custom-checkbox mb-3">
+                      <input type="checkbox" class="custom-control-input" id="customCheck2" name="isactive" checked>
+                      <label class="custom-control-label" for="customCheck2">Is Active</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary col-md-12">Create</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+{% block script %}
+<script>var ajaxurl="{% url 'addCar' %}"</script>
+<script type="text/javascript" src="{% static 'js/addcar.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/ajax.js' %}"></script>
+{% endblock script %}

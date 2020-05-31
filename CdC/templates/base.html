@@ -49,18 +49,20 @@
                                 <i class="fas fa-cogs"></i>
                             </button>
                             <div class="dropdown-menu">
+                                {% if perms.CdC.can_see_log %}
+                                <a class="dropdown-item" data-toggle="modal" data-target="#logModal"><i class="fas fa-database"></i>  Logs</a>
+                                {% endif %}
+                                {% if perms.CdC.can_manager_equipment %}
+                                <a class="dropdown-item" href="{% url 'editEquipment' %}"><i class="fas fa-wrench"></i></i> Editar</a>
+                                <a class="dropdown-item" href="{% url 'editCar' %}"><i class="fas fa-car"></i></i>  Editar</a>
+                                <a class="dropdown-item" href="{% url 'addEquipment' %}"><i class="fas fa-tools"></i>  Adcionar</a>
+                                <a class="dropdown-item" href="{% url 'addCar' %}"><i class="fas fa-car"></i>  Adcionar</a>
+                                {% endif %}
                                 {% if perms.CdC.can_manager_user %}
                                 <a class="dropdown-item" href="{% url 'addUser' %}"><i class="fas fa-user-plus"></i>  Adcionar</a>
                                 <a class="dropdown-item" href="{% url 'editUser' %}"><i class="fas fa-user-edit"></i>  Editar</a>
                                 {% endif %}
-                                {% if perms.CdC.can_manager_equipment %}
-                                <a class="dropdown-item" href="{% url 'editEquipment' %}"><i class="fas fa-wrench"></i></i> Editar</a>
-                                <a class="dropdown-item" href="{% url 'addEquipment' %}"><i class="fas fa-tools"></i>  Adcionar</a>
-                                {% endif %}
-                                {% if perms.CdC.can_see_log %}
-                                <a class="dropdown-item" data-toggle="modal" data-target="#logModal"><i class="fas fa-database"></i>  Logs</a>
-                                {% endif %}
-                            </div>
+                                </div>
                           </div>
                     </li>
                     {% endif %}

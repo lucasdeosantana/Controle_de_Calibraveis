@@ -11,6 +11,7 @@ from django.utils.timezone import datetime
 from django.utils.dateparse import parse_date
 import json
 from CdC.models import *
+from django.core import serializers
 
 from equipamentos.settings import BASE_DIR
 ajax_template = {
@@ -68,7 +69,7 @@ class Cars(PermissionRequiredMixin, View):
             car.in_use = True
             car.responsible = request.user
             car.where = None
-            car.update(origin=previous_position, user=request.user)
+            car.update(origin=previous_position, user=request.user, typeLog=1)
         except:
             data = {
                     "type":dict["type"],
@@ -80,15 +81,13 @@ class Cars(PermissionRequiredMixin, View):
                   "status":"success" }
         return data
 
-
-
     def set_car_indestiny(self, request, dict, *args, **kwargs):
         try:
             car = Car.objects.get(licensePlate=dict["args"][1])
             car_last_log = (Carlog.objects.all().filter(licensePlate=dict["args"][1].lower())).order_by("-date")[0]
             car.where = Place.objects.get(name=dict["args"][0])
             car.in_use = False
-            car.update(origin=None, user=request.user)
+            car.update(origin=None, user=request.user, typeLog=2)
         except:
             data = {
                     "type":dict["type"],
@@ -99,4 +98,121 @@ class Cars(PermissionRequiredMixin, View):
         data = {  "type":dict["type"],
                   "args":dict["args"],
                   "status":"success" }
+        return data
+
+class CarAdd(PermissionRequiredMixin, View):
+    template_name = "login.html"
+    permission_required = 'CdC.can_manager_equipment'
+#--------------------------------------------------------------------------------
+    def __init__(self, *args, **kwargs):
+        self.functions={
+            "createCar":self.create_car
+        }
+        super(CarAdd, self).__init__()
+#--------------------------------------------------------------------------------
+    def get(self, request, *args, **Kwargs):
+        context={
+                "places":Place.objects.all(),
+                }
+        return render(request, 'Car/addcar.html', context)
+#--------------------------------------------------------------------------------
+    def post(self, request, *args, **kwargs):
+        json_request=json.loads(request.body)
+        data = self.functions[json_request["type"]](request, json_request)
+        return JsonResponse(data)
+#--------------------------------------------------------------------------------
+    def create_car(self, request, json_request, *args, **kwargs):
+        try:
+           json_payload=json_request["payload"]
+           newCar=Car(
+               licensePlate=json_payload["license"],
+               name=json_payload["name"],
+               where=Place.objects.get(name=json_payload["place"]),
+               is_active=json_payload["isactive"],
+               in_use=False
+           )
+           newCar.create(user=request.user)
+           data={
+               "type":json_request["type"],
+               "status":"success"
+           }
+        except:
+            data={
+                "type":json_request["type"],
+                "status":"fail"
+            }
+        return data
+#_______________________________________________________________________________
+class CarEdit(PermissionRequiredMixin, View):
+    template_name = "login.html"
+    permission_required = 'CdC.can_manager_equipment'
+#--------------------------------------------------------------------------------
+    def __init__(self, *args, **kwargs):
+        self.functions={
+            "search":self.get_car_by_license,
+            "editcar":self.edit_car,
+            "deletecar":self.delete_car_by_license
+        }
+        super(CarEdit, self).__init__(*args, **kwargs)
+#--------------------------------------------------------------------------------
+    def get(self, request, *args, **kwargs):
+        context={
+                "places":Place.objects.all(),
+                }
+        return render(request, 'Car/editcar.html', context)
+#--------------------------------------------------------------------------------
+    def post(self, request, *args, **kwargs):
+        json_request=json.loads(request.body)
+        data = self.functions[json_request["type"]](request, json_request)
+        return JsonResponse(data)
+#--------------------------------------------------------------------------------
+    def get_car_by_license(self, request, json_request, *args, **kwargs):
+        
+        json_payload=json_request["payload"]
+        fields=serializers.serialize('json', 
+            Car.objects.all().filter(licensePlate=json_payload["license"]),
+            fields=('name', "is_active"))
+        if(fields!="[]"):
+            data = {
+                "type":json_request["type"],
+                "payload":fields,
+                "status":"success"
+            }
+        else:
+            data = {
+                "type":json_request["type"],
+                "status":"fail"
+            }
+        return data
+#---------------------------------------------------------------------------------3
+    def edit_car(self, request, json_request, *args, **kwargs):
+        try:
+           json_payload=json_request["payload"]
+           getCar=Car.objects.get(licensePlate=json_payload["license"])
+           getCar.name=json_payload["name"]
+           getCar.is_active=json_payload["isactive"]
+           getCar.edit(user=request.user)
+           data = {
+               "type":json_request["type"],
+               "status":"success"
+           }
+        except:
+            data = {
+                "type":json_request["type"],
+                "status":"fail"
+            }
+        return data
+#-----------------------------------------------------------------------------------
+    def delete_car_by_license(self, request, json_request, *args, **kwargs):
+        try:
+            Car.objects.get(licensePlate=json_request["payload"]["license"]).log_and_delete(user=request.user)
+            data = {
+                "type":json_request["type"],
+                "status":"success"
+            }
+        except:
+            data = {
+                "type":json_request["type"],
+                "status":"fail"
+            }
         return data
