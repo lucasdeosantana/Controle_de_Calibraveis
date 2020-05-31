@@ -29,10 +29,11 @@ def AuthenticationLogout(request, *args, **kwargs):
 
 class AuthenticationAddUser(PermissionRequiredMixin, View):
     template_name = "login.html"
-    permission_required = 'CdC.can_move'
+    permission_required = 'CdC.can_manager_user'
     def get(self, request, *args, **Kwargs):
         context = {
-            "places":Place.objects.all(),     
+            "places":Place.objects.all(),
+            "permissions":Group.objects.all(),     
         }
         return render(request, 'user/adduser.html', context)
     def post(self, request, *args, **kwargs):
@@ -54,7 +55,7 @@ class AuthenticationAddUser(PermissionRequiredMixin, View):
                     "status":"fail"
                 }
         return JsonResponse(response)
-
+#_________________________________________________________________________________
 class AuthenticationEditUser(PermissionRequiredMixin, View):
     template_name = "login.html"
     permission_required = 'CdC.can_manager_user'
