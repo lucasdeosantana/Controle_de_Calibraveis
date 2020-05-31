@@ -30,8 +30,10 @@
                                         class="fas fa-exchange-alt"></i></button>
                                 <div class="dropdown-menu" id="Retirada" aria-labelledby="dropdownMenuButton">
                                     {% for place in places %}
+                                    {% if place.name != where %}
                                     <a class="dropdown-item" href="#"
                                         onclick="transfer(this.innerHTML, '{{ equipment.code }}')">{{ place }}</a>
+                                    {% endif %}
                                     {% endfor %}
                                     <a class="dropdown-item" href="#" name="Calibration"
                                         onclick="transfer(this.name, '{{ equipment.code }}')">Calibração</a>
