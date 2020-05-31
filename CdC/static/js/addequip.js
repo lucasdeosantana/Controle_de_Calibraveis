@@ -4,9 +4,12 @@ document.querySelector("button[type='submit']").addEventListener('click',
             let form=document.querySelector("form")
             let formValues={payload:{}, type:"createEquipment"}
             for(let index=0;index<form.elements.length-1; index++){
-                formValues.payload[form.elements[index].name]=form.elements[index].value
+                if(form.elements[index].type != "checkbox"){
+                    formValues.payload[form.elements[index].name]=form.elements[index].value
+                }else{
+                    formValues.payload[form.elements[index].name]=form.elements[index].checked
+                }
             }
-            console.log(formValues)
             send_receive(formValues, ajaxurl)
         })
 var get_response={
@@ -30,10 +33,11 @@ var get_response={
         })
         if(response.status == "success"){
             alertFrame.setAttribute('class',"alert alert-success")
-            alertFrame.innerText="Usuario Criado com Sucesso"
+            alertFrame.innerText="Equipment was created with success"
+            document.querySelector("form").reset()
         }else{
             alertFrame.setAttribute('class',"alert alert-danger")
-            alertFrame.innerText="Houve Algum erro"
+            alertFrame.innerText="There were some error"
         }
         alertFrame.appendChild(iconbuttonAlert)
         noticeFrame.appendChild(alertFrame)

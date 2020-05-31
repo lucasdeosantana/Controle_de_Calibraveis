@@ -14,7 +14,7 @@ class Equipment(models.Model):
     validity_time=models.IntegerField("Meses de validade", blank=True, null=True)
     date_validity=models.DateField('Data de validade se preenche automatico se deixado em branco',blank=True, null=True)
     in_calibration=models.IntegerField()
-
+    is_active=models.BooleanField("Is Active?")
     def __str__(self):
         return str(self.code) + " " + self.name
 
