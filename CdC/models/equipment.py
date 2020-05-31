@@ -21,7 +21,7 @@ class Equipment(models.Model):
     def save(self, *args, **kwargs):
         if not self.date_validity:
             self.date_validity = self.date_calibration + relativedelta(months=self.validity_time)
-        super(Equipment, self).save(*args, **kwargs)
+        super(Equipment, self).save(args, kwargs)
     def save_special(self, *args, **kwargs):
         Log(code=self.code, origin=kwargs.pop("origin"), destiny=self.where,
              type_of_log=kwargs.pop("typeLog"),
