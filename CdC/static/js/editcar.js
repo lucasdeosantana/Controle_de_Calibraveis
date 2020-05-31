@@ -78,7 +78,7 @@ var get_response ={
             createalert(response)
         }
     },
-    editequip(response){
+    editcar(response){
         createalert(response, "Car was edit with success")
         document.querySelector(".root").style.display="none"
     },
