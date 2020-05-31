@@ -14,6 +14,10 @@ class Car(models.Model):
     def __str__(self):
         return self.licensePlate + " " + self.name
     
+    def save(self, *args, **kwargs):
+        self.licensePlate = self.licensePlate.lower()
+        super(Car, self).save(*args, **kwargs)
+        
     def update(self,*args,**kwargs):
         Carlog(licensePlate=str(self.licensePlate).lower(),
          origin=kwargs.pop("origin"),
