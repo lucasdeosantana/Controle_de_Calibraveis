@@ -113,16 +113,16 @@ class CalibrationView(PermissionRequiredMixin, View):
 
 
     def to_return(self, dict,*args, **kwargs):
-        try:
-            if(dict["date"]!=''):
-                 date = parse_date(dict["date"])
-            else:
-                date = datetime.today()            
-            equipment = Equipment.objects.get(code=dict["code"])
-            equipment.date_calibration = date
-            equipment.in_calibration= 0
-            equipment.where = Place.objects.get(name="Base")
-            equipment.save_special(origin = Place.objects.get(name="Base"), user = kwargs["request"].user, typeLog=4)
-        except:
-            return "Fail"
+    #try:
+        if(dict["date"]!=''):
+             date = parse_date(dict["date"])
+        else:
+            date = datetime.today()            
+        equipment = Equipment.objects.get(code=dict["code"])
+        equipment.date_calibration = date
+        equipment.in_calibration= 0
+        equipment.where = Place.objects.get(name="Base")
+        equipment.save_special(origin = Place.objects.get(name="Base"), user = kwargs["request"].user, typeLog=4)
+    #except:
+    #    return "Fail"
         return "Success"

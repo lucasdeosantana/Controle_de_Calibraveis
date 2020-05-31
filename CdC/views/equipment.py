@@ -20,7 +20,7 @@ class EquipmentView(PermissionRequiredMixin, View):
 #--------------------------------------------------------------------------------
     def get(self, request, equipPlace, *args, **Kwargs):
         where = Place.objects.get(name=equipPlace)
-        equipmentList = (Equipment.objects.all().filter(where=where, in_calibration=0)).order_by('date_validity')
+        equipmentList = (Equipment.objects.all().filter(where=where, in_calibration=0, is_active=True)).order_by('date_validity')
         context={
                 "places":Place.objects.all(),
                 "equipments":equipmentList,
