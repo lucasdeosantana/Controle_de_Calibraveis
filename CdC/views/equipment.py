@@ -49,28 +49,28 @@ class EquipmentAdd(PermissionRequiredMixin, View):
         return JsonResponse(data)
 #--------------------------------------------------------------------------------
     def create_equipment(self, request, json_request, *args, **kwargs):
-    #try:
-        json_payload=json_request["payload"]
-        newEquipment=Equipment(
-            code=json_payload["code"],
-            name=json_payload["name"],
-            where=Place.objects.get(name="Base"),
-            date_calibration=datetime.strptime(json_payload["calibrationdata"], "%Y-%m-%d").date(),
-            validity_time=int(json_payload["months"]),
-            in_calibration=0
-        )
-        if(json_payload["validitydata"]!=""):
-            newEquipment.validity_time=datetime.strptime(json_payload["validitydata"], "%Y-%m-%d").date()
-        newEquipment.save()
-        data={
-            "type":json_request["type"],
-            "status":"success"
-        }
-    #except:
-    #    data={
-    #        "type":json_request["type"],
-    #        "status":"fail"
-    #    }
+        try:
+           json_payload=json_request["payload"]
+           newEquipment=Equipment(
+               code=json_payload["code"],
+               name=json_payload["name"],
+               where=Place.objects.get(name="Base"),
+               date_calibration=datetime.strptime(json_payload["calibrationdata"], "%Y-%m-%d").date(),
+               validity_time=int(json_payload["months"]),
+               in_calibration=0
+           )
+           if(json_payload["validitydata"]!=""):
+               newEquipment.validity_time=datetime.strptime(json_payload["validitydata"], "%Y-%m-%d").date()
+           newEquipment.save()
+           data={
+               "type":json_request["type"],
+               "status":"success"
+           }
+        except:
+            data={
+                "type":json_request["type"],
+                "status":"fail"
+            }
         return data
 #_______________________________________________________________________________
 class EquipmentEdit(PermissionRequiredMixin, View):

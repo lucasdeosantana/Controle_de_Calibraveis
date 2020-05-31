@@ -10,7 +10,7 @@ document.querySelector("button[type='submit']").addEventListener('click',
             send_receive(formValues, ajaxurl)
         })
 var get_response={
-    createuser(response){
+    createEquipment(response){
         let noticeFrame = document.querySelector(".notice")
         noticeFrame.innerHTML=""
         let alertFrame = document.createElement('div')
