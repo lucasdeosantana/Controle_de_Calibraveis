@@ -33,8 +33,8 @@
                                     <a class="dropdown-item" href="#"
                                         onclick="transfer(this.innerHTML, '{{ equipment.code }}')">{{ place }}</a>
                                     {% endfor %}
-                                    <a class="dropdown-item" href="#"
-                                        onclick="transfer(this.innerHTML, '{{ equipment.code }}')">Calibração</a>
+                                    <a class="dropdown-item" href="#" name="Calibration"
+                                        onclick="transfer(this.name, '{{ equipment.code }}')">Calibração</a>
                                 </div>
                             </div>
                         </td>
