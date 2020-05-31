@@ -11,7 +11,7 @@ urlpatterns = [
     path('logout/', AuthenticationLogout, name='logout'),
     path('move/', MoveView.as_view(), name='move'),
     path('equipment/<slug:equipPlace>/', EquipmentView.as_view(), name='equipment'),
-    path('Calibration/', CalibrationView.as_view()),
+    path('Calibration/', CalibrationView.as_view(), name="calibration"),
     path('CARS/', Cars.as_view(), name='cars'),
     path('log/<int:equipment>/', LogEquipView.as_view()),
     path('log/<slug:license>', LogCarView.as_view(), name="log"),
