@@ -10,6 +10,7 @@ class Log(models.Model):
     responsible = models.ForeignKey(User, on_delete=models.CASCADE)
 class Carlog(models.Model):
     licensePlate = models.CharField(max_length=15, null=True)
+    type_of_log=models.IntegerField()
     origin = models.ForeignKey(Place, on_delete=models.CASCADE, related_name="Origem", null=True)
     destiny = models.ForeignKey(Place, on_delete=models.CASCADE, related_name="Destino", null=True)
     date = models.DateTimeField(auto_now_add=True)
