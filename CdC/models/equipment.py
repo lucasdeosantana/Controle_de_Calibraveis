@@ -27,10 +27,11 @@ class Equipment(models.Model):
              type_of_log=kwargs.pop("typeLog"),
               responsible=kwargs.pop("user")).save()
         self.date_validity = self.date_calibration + relativedelta(months=self.validity_time)
-        self.save(args, kwargs)
+        self.save()
+        
     def move(self, *args,**kwargs):
         Log(code=self.code, origin=kwargs.pop("origin"), destiny=self.where,
              type_of_log=kwargs.pop("typeLog"),
               responsible=kwargs.pop("user")).save()
-        self.save(args, kwargs)
+        self.save()
         
