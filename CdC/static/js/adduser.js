@@ -30,6 +30,7 @@ var get_response={
         if(response.status == "success"){
             alertFrame.setAttribute('class',"alert alert-success")
             alertFrame.innerText="Usuario Criado com Sucesso"
+            document.querySelector("form").reset()
         }else{
             alertFrame.setAttribute('class',"alert alert-danger")
             alertFrame.innerText="Houve Algum erro"
