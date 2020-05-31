@@ -29,10 +29,9 @@
                 <div class="form-group">
                     <label for="place">Permissions</label>
                     <select class="form-control" name="permissions">
-                        <option value="canMove">Can Move</option>
-                        <option value="canReceive">Can Receive</option>
-                        <option value="canSeeLog">Can See log</option>
-                        <option value="canManagerUser">Can Manager users</option>
+                        {% for permission in permissions %}
+                        <option value="{{ permission.name }}">{{ permission.name }}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="form-group">
