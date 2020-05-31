@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load bgcolor %}
 {% block title %}{{ where }}{% endblock %}
 {% block content %}
 {% now "m-y" as todays_date %}
+
 <div class="container-fluid bg-light" style="height: 100vh;">
     <div class="row pt-3">
         <div class="col-md-12">
@@ -17,9 +19,7 @@
                 </thead>
                 <tbody>
                     {% for equipment in equipments %}
-                    <tr id="{{ equipment.code }}" {% if equipment.date_validity|date:"m-y" == todays_date %}
-                        class="bg-warning" {% elif equipment.date_validity|date:"m-y" < todays_date %} class="bg-danger"
-                        {% endif %}>
+                    <tr id="{{ equipment.code }}" class="{{ equipment.date_validity | colorBg }}">
                         <th scope="row"><a {% if perms.CdC.can_see_log %}href="/log/{{ equipment.code }}"{% endif %}>{{ equipment.code }}</a></th>
                         <td>{{ equipment.date_validity|date:"F/Y" }}</td>
                         <td> {{ equipment.name }} </td>
