@@ -8,6 +8,9 @@ document.querySelector("#search").addEventListener('click',()=>{
     }
     send_receive(data, ajaxurl)
 })
+document.querySelector('#deleteModalButton').addEventListener('click', ()=>{
+    document.querySelector('#labelModalTitle').innerText=`Delete Equipment Code: ${document.querySelector('[name="code"]').value}`
+})
 function createalert(response){
     let noticeFrame = document.querySelector(".notice")
     noticeFrame.innerHTML=""
