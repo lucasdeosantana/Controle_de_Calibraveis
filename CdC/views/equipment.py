@@ -63,7 +63,7 @@ class EquipmentAdd(PermissionRequiredMixin, View):
            )
            if(json_payload["validitydata"]!=""):
                newEquipment.date_validity=datetime.strptime(json_payload["validitydata"], "%Y-%m-%d").date()
-           newEquipment.save()
+           newEquipment.create(user=request.user)
            data={
                "type":json_request["type"],
                "status":"success"
@@ -82,7 +82,8 @@ class EquipmentEdit(PermissionRequiredMixin, View):
     def __init__(self):
         self.functions={
             "search":self.get_equip_by_code,
-            "editequip":self.edit_equipment
+            "editequip":self.edit_equipment,
+            "deleteequip":self.delete_equipment_by_id
         }
         super(EquipmentEdit, self).__init__()
 #--------------------------------------------------------------------------------
@@ -127,7 +128,21 @@ class EquipmentEdit(PermissionRequiredMixin, View):
                getEquipment.date_validity=datetime.strptime(json_payload["validitydata"], "%Y-%m-%d").date()
             else:
                getEquipment.date_validity=None 
-            getEquipment.save()
+            getEquipment.edit(user=request.user)
+            data = {
+                "type":json_request["type"],
+                "status":"success"
+            }
+        except:
+            data = {
+                "type":json_request["type"],
+                "status":"fail"
+            }
+        return data
+#-----------------------------------------------------------------------------------
+    def delete_equipment_by_id(self, request, json_request, *args, **kwargs):
+        try:
+            Equipment.objects.get(code=json_request["payload"]["code"]).log_and_delete(user=request.user)
             data = {
                 "type":json_request["type"],
                 "status":"success"

@@ -21,17 +21,31 @@ class Equipment(models.Model):
     def save(self, *args, **kwargs):
         if not self.date_validity:
             self.date_validity = self.date_calibration + relativedelta(months=self.validity_time)
-        super(Equipment, self).save(args, kwargs)
+        super(Equipment, self).save(*args, **kwargs)
     def save_special(self, *args, **kwargs):
         Log(code=self.code, origin=kwargs.pop("origin"), destiny=self.where,
              type_of_log=kwargs.pop("typeLog"),
               responsible=kwargs.pop("user")).save()
         self.date_validity = self.date_calibration + relativedelta(months=self.validity_time)
-        self.save()
+        self.save(*args, **kwargs)
         
     def move(self, *args,**kwargs):
         Log(code=self.code, origin=kwargs.pop("origin"), destiny=self.where,
              type_of_log=kwargs.pop("typeLog"),
               responsible=kwargs.pop("user")).save()
-        self.save()
+        self.save(*args,**kwargs)
+
+    def log_and_delete(self, *args, **kwargs):
+        Log(code=self.code, origin=self.where, destiny=self.where,
+             type_of_log=6, responsible=kwargs.pop("user")).save()
+        self.delete(*args, **kwargs)
         
+    def create(self, *args, **kwargs):
+        Log(code=self.code, origin=self.where, destiny=self.where,
+             type_of_log=7, responsible=kwargs.pop("user")).save()
+        self.save(*args, **kwargs)
+    
+    def edit(self, *args, **kwargs):
+        Log(code=self.code, origin=self.where, destiny=self.where,
+             type_of_log=8, responsible=kwargs.pop("user")).save()
+        self.save(*args, **kwargs)

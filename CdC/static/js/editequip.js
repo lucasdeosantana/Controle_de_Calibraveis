@@ -11,7 +11,18 @@ document.querySelector("#search").addEventListener('click',()=>{
 document.querySelector('#deleteModalButton').addEventListener('click', ()=>{
     document.querySelector('#labelModalTitle').innerText=`Delete Equipment Code: ${document.querySelector('[name="code"]').value}`
 })
-function createalert(response){
+
+document.querySelector('#deleteAnyway').addEventListener('click',()=>{
+    let Payload={
+        code:document.querySelector('[name="code"]').value
+    }
+    let data = {
+        type:"deleteequip",
+        payload: Payload
+    }
+    send_receive(data, ajaxurl)
+})
+function createalert(response, Message){
     let noticeFrame = document.querySelector(".notice")
     noticeFrame.innerHTML=""
     let alertFrame = document.createElement('div')
@@ -31,7 +42,7 @@ function createalert(response){
     })
     if(response.status == "success"){
         alertFrame.setAttribute('class',"alert alert-success")
-        alertFrame.innerText="User edited with Success"
+        alertFrame.innerText=Message
     }else{
         alertFrame.setAttribute('class',"alert alert-danger")
         alertFrame.innerText="There was an error"
@@ -39,7 +50,6 @@ function createalert(response){
     alertFrame.appendChild(iconbuttonAlert)
     noticeFrame.appendChild(alertFrame) 
 }
-
 var get_response ={
     search(response){
         if(response.status == "success"){
@@ -72,7 +82,12 @@ var get_response ={
         }
     },
     editequip(response){
-        createalert(response)
+        createalert(response, "Equipment was edit with success")
+        document.querySelector(".root").style.display="none"
+    },
+    deleteequip(response){
+        createalert(response, "Equipment was delete!")
+        document.querySelector('[data-dismiss="modal"]').click()
         document.querySelector(".root").style.display="none"
     }
         
