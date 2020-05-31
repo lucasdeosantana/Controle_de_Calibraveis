@@ -64,7 +64,7 @@ class Cars(PermissionRequiredMixin, View):
 
     def set_car_inuse(self, request, dict, *args, **kwargs):
         try:
-            car = Car.objects.get(licensePlate=dict["args"][0])
+            car = Car.objects.get(licensePlate=dict["args"][0].lower())
             previous_position = car.where
             car.in_use = True
             car.responsible = request.user
@@ -83,7 +83,7 @@ class Cars(PermissionRequiredMixin, View):
 
     def set_car_indestiny(self, request, dict, *args, **kwargs):
         try:
-            car = Car.objects.get(licensePlate=dict["args"][1])
+            car = Car.objects.get(licensePlate=dict["args"][1].lower())
             car_last_log = (Carlog.objects.all().filter(licensePlate=dict["args"][1].lower())).order_by("-date")[0]
             car.where = Place.objects.get(name=dict["args"][0])
             car.in_use = False
@@ -170,7 +170,7 @@ class CarEdit(PermissionRequiredMixin, View):
         
         json_payload=json_request["payload"]
         fields=serializers.serialize('json', 
-            Car.objects.all().filter(licensePlate=json_payload["license"]),
+            Car.objects.all().filter(licensePlate=json_payload["license"].lower()),
             fields=('name', "is_active"))
         if(fields!="[]"):
             data = {
@@ -188,7 +188,7 @@ class CarEdit(PermissionRequiredMixin, View):
     def edit_car(self, request, json_request, *args, **kwargs):
         try:
            json_payload=json_request["payload"]
-           getCar=Car.objects.get(licensePlate=json_payload["license"])
+           getCar=Car.objects.get(licensePlate=json_payload["license"].lower())
            getCar.name=json_payload["name"]
            getCar.is_active=json_payload["isactive"]
            getCar.edit(user=request.user)
@@ -205,7 +205,7 @@ class CarEdit(PermissionRequiredMixin, View):
 #-----------------------------------------------------------------------------------
     def delete_car_by_license(self, request, json_request, *args, **kwargs):
         try:
-            Car.objects.get(licensePlate=json_request["payload"]["license"]).log_and_delete(user=request.user)
+            Car.objects.get(licensePlate=json_request["payload"]["license"].lower()).log_and_delete(user=request.user)
             data = {
                 "type":json_request["type"],
                 "status":"success"
