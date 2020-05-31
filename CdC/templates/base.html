@@ -36,7 +36,7 @@
                     {% if perms.CdC.can_receive %}
                     <li class="nav-item">
                         <a class="nav-link pl-1 pr-1{% if where == 'Calibration' %} active bg-info text-white font-italic{% endif %}"
-                            href="/Calibration">Calibração</a>
+                            href="{% url 'calibration' %}">Calibração</a>
                     </li>
                     {% endif %}
                     <li class="nav-item">
@@ -49,10 +49,17 @@
                                 <i class="fas fa-cogs"></i>
                             </button>
                             <div class="dropdown-menu">
-                              <a class="dropdown-item" href="{% url 'addUser' %}"><i class="fas fa-user-plus"></i>  Adcionar</a>
-                              <a class="dropdown-item" href="{% url 'editUser' %}"><i class="fas fa-user-edit"></i>  Editar</a>
-                              <a class="dropdown-item" href="{% url 'editEquipment' %}"><i class="fas fa-wrench"></i></i> Editar</a>
-                              <a class="dropdown-item" href="{% url 'addEquipment' %}"><i class="fas fa-tools"></i>  Adcionar</a>
+                                {% if perms.CdC.can_manager_user %}
+                                <a class="dropdown-item" href="{% url 'addUser' %}"><i class="fas fa-user-plus"></i>  Adcionar</a>
+                                <a class="dropdown-item" href="{% url 'editUser' %}"><i class="fas fa-user-edit"></i>  Editar</a>
+                                {% endif %}
+                                {% if perms.CdC.can_manager_equipment %}
+                                <a class="dropdown-item" href="{% url 'editEquipment' %}"><i class="fas fa-wrench"></i></i> Editar</a>
+                                <a class="dropdown-item" href="{% url 'addEquipment' %}"><i class="fas fa-tools"></i>  Adcionar</a>
+                                {% endif %}
+                                {% if perms.CdC.can_see_log %}
+                                <a class="dropdown-item" data-toggle="modal" data-target="#logModal"><i class="fas fa-database"></i>  Logs</a>
+                                {% endif %}
                             </div>
                           </div>
                     </li>
@@ -67,15 +74,50 @@
     </div>
     {% block content %}{% endblock content %}
     
+{% if perms.CdC.can_see_log %}
+    <!-- Modal -->
+<div class="modal fade" id="logModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Search a Log.</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Code Or License Plate</span>
+            </div>
+            <input type="text" class="form-control" name="codeSearchLog">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="buttonSearchLog">Search</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
         crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
+    {% if perms.CdC.can_see_log %}
+        <script>
+        document.querySelector("#buttonSearchLog").addEventListener('click', ()=>{
+            window.open('/log/' + document.querySelector('[name="codeSearchLog"]').value);
+        })
+    </script>
+    {% endif %}
     {% block script %}{% endblock script %}
 </body>
 
