@@ -42,7 +42,7 @@
                 <label for="place">Permissions</label>
                 <select class="form-control" name="permissions">
                     {% for permission in permissions %}
-                        <option value="{{ permission.name }}">{{ permission.name }}</option>
+                        <option value="{{ permission.name }}" id="{{ permission.id }}">{{ permission.name }}</option>
                     {% endfor %}
                 </select>
             </div>

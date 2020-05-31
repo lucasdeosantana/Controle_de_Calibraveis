@@ -70,6 +70,7 @@ class AuthenticationEditUser(PermissionRequiredMixin, View):
     def get(self, request, *args, **Kwargs):
         context = {
             "places":Place.objects.all(),
+            "permissions":Group.objects.all(),
         }
         return render(request, 'user/edituser.html', context)
 #---------------------------------------------------------------------------------        
@@ -82,7 +83,6 @@ class AuthenticationEditUser(PermissionRequiredMixin, View):
         fields=serializers.serialize('json', 
             User.objects.all().filter(username=json_request["payload"]["username"]),
             fields=('first_name', 'last_name', 'email', 'groups', "is_active"))
-        print(type(fields))
         if(fields!="[]"):
             data = {
                 "type":json_request["type"],
