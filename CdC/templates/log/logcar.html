@@ -1,16 +1,29 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% block content %}
 	<table class="table table-sm">
   <tbody>
   	{% for log in logs %}
-  	{% if log.destiny == None %}
+  	{% if log.type_of_log == 1 %}
     <tr>
       <th class="text-justify" scope="row"><div class="col offset-2">Em {{ log.date }}, foi retirado de {{ log.origin }} por {{ log.responsible }};</div>
       </th>
     </tr>
-    {% else %}
+    {% elif log.type_of_log == 2 %}
     <tr>
       <th class="text-justify" scope="row"><div class="col offset-2">Em {{ log.date }}, foi devolvido em {{ log.destiny }} por {{ log.responsible }};</div></th>
+    </tr>
+    {% elif log.type_of_log == 6 %}
+    <tr>
+      <th class="text-justify" scope="row"><div class="col offset-2">Em {{ log.date }}, foi deletado por {{ log.responsible }};</div></th>
+    </tr>
+    {% elif log.type_of_log == 7 %}
+    <tr>
+      <th class="text-justify" scope="row"><div class="col offset-2">Em {{ log.date }}, foi criado por {{ log.responsible }};</div></th>
+    </tr>
+    {% elif log.type_of_log == 8 %}
+    <tr>
+      <th class="text-justify" scope="row"><div class="col offset-2">Em {{ log.date }}, foi editado por {{ log.responsible }};</div></th>
     </tr>
     {% endif %}
     {% endfor %}
