@@ -19,7 +19,7 @@
                 <tbody>
                     {% for equipment in equipments %}
                     <tr id="{{ equipment.code }}" class="{{ equipment.date_validity | colorBg }}">
-                        <th scope="row"><a {% if perms.CdC.can_see_log %}href="/log/{{ equipment.code }}"{% endif %}>{{ equipment.code }}</a></th>
+                        <th scope="row"><a {% if perms.CdC.can_see_log %}href="/log/{{ equipment.code }}/"{% endif %}>{{ equipment.code }}</a></th>
                         <td>{{ equipment.date_validity|date:"F/Y" }}</td>
                         <td> {{ equipment.name }} </td>
                         <td>

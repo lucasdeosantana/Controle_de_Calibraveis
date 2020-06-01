@@ -115,7 +115,7 @@ class EquipmentEdit(PermissionRequiredMixin, View):
                 "status":"fail"
             }
         return data
-#---------------------------------------------------------------------------------3
+#--------------------------------------------------------------------------------------
     def edit_equipment(self, request, json_request, *args, **kwargs):
         try:
             json_payload=json_request["payload"]

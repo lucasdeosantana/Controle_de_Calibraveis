@@ -54,7 +54,7 @@ class CalibrationView(PermissionRequiredMixin, View):
         template = Template("""
             {% for equipment in equipments %}
             <tr class="bg" id="{{ equipment.code }}">
-                <th scope="row"><a {% if perms.CdC.can_see_log %}href="/log/{{ equipment.code }}"{% endif %}>{{ equipment.code }}</a></th>
+                <th scope="row"><a {% if perms.CdC.can_see_log %}href="/log/{{ equipment.code }}/"{% endif %}>{{ equipment.code }}</a></th>
                 <td>{{ equipment.date_validity|date:"F/Y" }}</td>
                 <td>{{ equipment.name }}</td>
                 <td><button class="btn btn-primary" onclick="button_received({{ equipment.code }}, 'btn_confirm')"><i class="fa fa-check"></i></button><button

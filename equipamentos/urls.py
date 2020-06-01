@@ -14,7 +14,7 @@ urlpatterns = [
     path('Calibration/', CalibrationView.as_view(), name="calibration"),
     path('CARS/', Cars.as_view(), name='cars'),
     path('log/<int:equipment>/', LogEquipView.as_view()),
-    path('log/<slug:license>', LogCarView.as_view(), name="log"),
+    path('log/<slug:license>/', LogCarView.as_view(), name="log"),
     path('edit/adduser/', AuthenticationAddUser.as_view(), name="addUser"),
     path('edit/edituser/', AuthenticationEditUser.as_view(), name="editUser"),
     path('edit/editequip/', EquipmentEdit.as_view(), name="editEquipment"),

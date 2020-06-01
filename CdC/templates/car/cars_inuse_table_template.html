@@ -1,7 +1,7 @@
 {% for car in cars %}
 <tr class="bg" id='{{ car.licensePlate }}'>
     <th class="text-center" scope="row">
-        {% if can_see_log %}<a href='/logcar/{{ car.licensePlate }}'>{{ car.licensePlate|upper }}</a> 
+        {% if can_see_log %}<a href='/log/{{ car.licensePlate }}'>{{ car.licensePlate|upper }}</a> 
         {% else %}{{ car.licensePlate|upper }}
         {% endif %}</th>
     <td class="text-center">{{ car.responsible }}</td>

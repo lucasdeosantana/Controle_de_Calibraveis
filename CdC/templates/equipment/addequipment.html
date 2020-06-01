@@ -16,19 +16,19 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text">{% trans 'Code' %}</span>
                         </div>
-                        <input type="number" class="form-control" name="code" placeholder="Code" required>
+                        <input type="number" class="form-control" name="code" placeholder="{% trans 'Code' %}" required>
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                           <span class="input-group-text">{% trans 'Name' %}</span>
                         </div>
-                        <input type="text" class="form-control" name="name" placeholder="Name" required>
+                        <input type="text" class="form-control" name="name" placeholder="{% trans 'Name' %}" required>
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                           <span class="input-group-text">{% trans 'Calibration Data' %}</span>
                         </div>
-                        <input type="date" class="form-control" name="calibrationdata" placeholder="Code" required>
+                        <input type="date" class="form-control" name="calibrationdata" required>
                     </div>
                     <div class="input-group">
                         <div class="input-group-prepend">
@@ -41,7 +41,7 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text">{% trans 'Validity in Months' %}</span>
                         </div>
-                        <input type="number" class="form-control" name="months" placeholder="Months" required>
+                        <input type="number" class="form-control" name="months" placeholder="{% trans 'Months' %}" required>
                     </div>
                     <div class="custom-control custom-checkbox mb-3">
                       <input type="checkbox" class="custom-control-input" id="customCheck2" name="isactive" checked>
