@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
-{% load i18n %}
 {% load static %}
-{% block title %}Edit user{% endblock title %}
+{% block title %}{% load i18n %}{% trans 'Edit user' %}{% endblock title %}
 {% block content %}
+{% load i18n %}
 <div class="container-fluid">    
     <div class="row">
     <div class="col-md-12 notice"></div>
@@ -11,7 +11,7 @@
     <div class="col-md-4 offset-md-4 pt-5">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-                <span class="input-group-text">Username</span>
+                <span class="input-group-text">{% trans 'Username' %}</span>
             </div>
             <input type="text" class="form-control" placeholder="Recipient's username" name="username" aria-describedby="search">
             <div class="input-group-append">
@@ -21,18 +21,18 @@
         <form class="root" style="display: none;">
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">Name</span>
+                    <span class="input-group-text">{% trans 'Name' %}</span>
                 </div>
                 <input type="text" class="form-control" name="name">
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">Email</span>
+                    <span class="input-group-text">{% trans 'Email' %}</span>
                 </div>
                 <input type="text" class="form-control" name="email">
             </div>
             <div class="form-group">
-                <label for="place">Place to work</label>
+                <label for="place">{% trans 'Place to work' %}</label>
                 <select class="form-control" name="workPlace">
                     {% for place in places %}
                     <option>{{ place.name }}</option>
@@ -40,7 +40,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="place">Permissions</label>
+                <label for="place">{% trans 'Permissions' %}</label>
                 <select class="form-control" name="permissions">
                     {% for permission in permissions %}
                         <option value="{{ permission.name }}" id="{{ permission.id }}">{{ permission.name }}</option>
@@ -50,14 +50,14 @@
             <div class="d-flex justify-content-between" >
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" id="customCheck1" name="passwordReset">
-                    <label class="custom-control-label" for="customCheck1">Reset Password</label>
+                    <label class="custom-control-label" for="customCheck1">{% trans 'Reset Password' %}</label>
                 </div>
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" id="customCheck2" name="isactive">
-                    <label class="custom-control-label" for="customCheck2">Is Active</label>
+                    <label class="custom-control-label" for="customCheck2">{% trans 'Is Active' %}</label>
                 </div>
             </div>
-            <button class="btn btn-primary col-md-12 mt-3" id="send">Edit</button>
+            <button class="btn btn-primary col-md-12 mt-3" id="send">{% trans 'Edit' %}</button>
         </form>
     </div>
     </div>

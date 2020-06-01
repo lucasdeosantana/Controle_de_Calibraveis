@@ -1,14 +1,15 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% load static %}
-{% block title %}Move{% endblock title %}
+{% block title %}{% load i18n %}{% trans 'Move' %} {% endblock title %}
 
 {% block content %}
+{% load i18n %}
     <div class="container-fluid bg-light" style="height: 100vh;">
         <div class="row pb-3 pt-5">
             <div class="col-md-6 offset-md-3">
                 <div class="d-flex justify-content-center">
-                    <h1>Movimentação de Equipamento</h1>
+                    <h1>{% trans 'Equipament handling' %}</h1>
                 </div>
             </div>
         </div>
@@ -19,7 +20,7 @@
                     <input type="text" id="equipamentData" class="form-control" placeholder="Codigo do Equipamento"
                         aria-label="Recipient's username" aria-describedby="basic-addon2"></div>
                 <div class="input-group-append">
-                    <button class="btn btn-primary" onclick="existEquipament()">Verificar</button>
+                    <button class="btn btn-primary" onclick="existEquipament()">{% trans 'Find' %}</button>
                 </div>
             </div>
         </div>
@@ -27,7 +28,7 @@
         <div class="row p-5" style="display:none;" id="EquipamentName">
             <div class="col-md-12">
                 <div class="d-flex justify-content-center">
-                    <h3 id="equipmentName">Nome do Equipamento</h3>
+                    <h3 id="equipmentName">{% trans 'Equipament Name' %}</h3>
                 </div>
             </div>
         </div>
@@ -36,7 +37,7 @@
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="DropDownRetirada"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Local de Retirada</button>
+                        {% trans 'Place to withdrawal' %}</button>
                     <div class="dropdown-menu" id="Retirada" aria-labelledby="dropdownMenuButton">
                         {% for place in places %}
                         <a class="dropdown-item" href="#"
@@ -49,14 +50,14 @@
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="DropDownRecebido"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Local de Destino</button>
+                        {% trans 'Place of destiny' %}</button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         {% for place in places %}
                         <a class="dropdown-item" href="#"
                             onclick="change_retirada(this.innerHTML, 'DropDownRecebido')">{{ place.name }}</a>
                         {% endfor %}
                         <a class="dropdown-item" href="#"
-                            onclick="change_retirada(this.innerHTML, 'DropDownRecebido')">Calibração</a>
+                            onclick="change_retirada(this.innerHTML, 'DropDownRecebido')">{% trans 'Calibration' %}</a>
                     </div>
                 </div>
             </div>
@@ -64,8 +65,7 @@
         <div class="row p-5">
             <div class="col-md-2 offset-md-8">
                 <button class="btn btn-primary" id="enviarMovimentacao" onclick="do_move()"
-                    style="display: none;">Realizar
-                    Movimentação</button>
+                    style="display: none;">{% trans 'Do handling' %}</button>
             </div>
         </div>
         <div class="row">

@@ -1,21 +1,19 @@
 {% extends 'base.html' %}
-{% load i18n %}
 {% load static %}
 {% load bgcolor %}
 {% block title %}{{ where }}{% endblock %}
 {% block content %}
-{% now "m-y" as todays_date %}
-
+{% load i18n %}
 <div class="container-fluid bg-light" style="height: 100vh;">
     <div class="row pt-3">
         <div class="col-md-12">
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th scope="col" style="width: 15%;">Codigo</th>
-                        <th scope="col" style="width: 15%;">Vencimento</th>
-                        <th scope="col">Nome</th>
-                        <th scope="col" style="width: 10%;">Transferir</th>
+                        <th scope="col" style="width: 15%;">{% trans 'Code' %}</th>
+                        <th scope="col" style="width: 15%;">{% trans 'Validity' %}</th>
+                        <th scope="col">{% trans 'Name' %}</th>
+                        <th scope="col" style="width: 10%;">{% trans 'Transfer' %}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -37,7 +35,7 @@
                                     {% endif %}
                                     {% endfor %}
                                     <a class="dropdown-item" href="#" name="Calibration"
-                                        onclick="transfer(this.name, '{{ equipment.code }}')">Calibração</a>
+                                        onclick="transfer(this.name, '{{ equipment.code }}')">{% trans 'Calibration' %}</a>
                                 </div>
                             </div>
                         </td>

@@ -1,41 +1,45 @@
 {% extends 'base.html' %}
-{% load i18n %}
 {% block content %}
+{% load i18n %}
+{% trans 'In' as In %}
+{% trans 'by' as by %}
+{% trans 'was' as was %}
+{% trans 'calibration' as Calibration %}
 	<table class="table table-sm">
   <tbody>
-  	{% for log in logs %}
-  	{% if log.type_of_log == 1 %}
+    {% for log in logs %}
+    {% if log.type_of_log == 1 %}
     <tr>
-      <th class="text-justify" scope="row"><div class="col offset-2">Em {{ log.date }}, foi retirado de {{ log.origin }} e levado para {{ log.destiny }} por {{ log.responsible }};</div>
+      <th class="text-justify" scope="row"><div class="col offset-2">{{ In }} {{ log.date }} {% trans 'was taken from' %} {{ log.origin }} {% trans 'and taken to' %} {{ log.destiny }} {{ by }} {{ log.responsible }};</div>
       </th>
     </tr>
     {% elif log.type_of_log == 2 %}
     <tr>
-      <th class="text-justify" scope="row"><div class="col offset-2">Em {{ log.date }}, foi enviado de {{ log.origin }} para Calibração por {{ log.responsible }};</div></th>
+      <th class="text-justify" scope="row"><div class="col offset-2">{{ In }} {{ log.date }}, {{ was }} {% trans 'sent from' %} {{ Calibration }} {{ by }} {{ log.responsible }};</div></th>
     </tr>
     {% elif log.type_of_log == 3 %}
     <tr>
-      <th class="text-justify" scope="row"><div class="col offset-2">Em {{ log.date }}, foi confirmado o recebimento para Calibração por {{ log.responsible }};</div></th>
+      <th class="text-justify" scope="row"><div class="col offset-2">{{ In }} {{ log.date }}, {% trans 'receipt' %} {{ was }} {% trans 'confirmed for' %} {{ Calibration }} {{ by }} {{ log.responsible }};</div></th>
     </tr>
-    {% elif log.type_of_log == 4 %}
-    <tr>
-      <th class="text-justify" scope="row"><div class="col offset-2">Em {{ log.date }},  retornou da Calibração sendo recebido por {{ log.responsible }} e disponibilizado na Base;</div></th>
+
+    <tr>    {% elif log.type_of_log == 4 %}
+      <th class="text-justify" scope="row"><div class="col offset-2">{{ In }} {{ log.date }},  {% trans 'retorned of' %} {{ Calibration }} {% trans 'being received' %} {{ by }} {{ log.responsible }} {% trans 'and made available in the Base' %};</div></th>
     </tr>
     {% elif log.type_of_log == 5 %}
     <tr>
-      <th class="text-justify" scope="row"><div class="col offset-2">Em {{ log.date }}, foi cancelada a movimentação para calibração por {{ log.responsible }} e devolvido para {{ log.destiny }};</div></th>
+      <th class="text-justify" scope="row"><div class="col offset-2">{{ In }} {{ log.date }},  {% trans 'movement' %} {{ was }} {% trans 'canceled for' %} {{ Calibration }} {{ by }} {{ log.responsible }} {% trans 'and returned to' %} {{ log.destiny }};</div></th>
     </tr>
     {% elif log.type_of_log == 6 %}
     <tr>
-      <th class="text-justify" scope="row"><div class="col offset-2">Em {{ log.date }}, foi deletado por {{ log.responsible }};</div></th>
+      <th class="text-justify" scope="row"><div class="col offset-2">{{ In }} {{ log.date }}, {{ was }} {% trans 'deleted' %} {{ by }} {{ log.responsible }};</div></th>
     </tr>
     {% elif log.type_of_log == 7 %}
     <tr>
-      <th class="text-justify" scope="row"><div class="col offset-2">Em {{ log.date }}, foi criado por {{ log.responsible }};</div></th>
+      <th class="text-justify" scope="row"><div class="col offset-2">{{ In }} {{ log.date }}, {{ was }} {% trans 'created' %} {{ by }} {{ log.responsible }};</div></th>
     </tr>
     {% elif log.type_of_log == 8 %}
     <tr>
-      <th class="text-justify" scope="row"><div class="col offset-2">Em {{ log.date }}, foi editado por {{ log.responsible }};</div></th>
+      <th class="text-justify" scope="row"><div class="col offset-2">{{ In }} {{ log.date }}, {{ was }} {% trans 'edited' %} {{ by }} {{ log.responsible }};</div></th>
     </tr>
     {% endif %}
     {% endfor %}
@@ -47,20 +51,20 @@
     <ul class="pagination justify-content-center">
       {% if logs.has_previous %}
       <li class="page-item">
-        <a class="page-link" href="?page={{ logs.previous_page_number }}">Anterior</a>
+        <a class="page-link" href="?page={{ logs.previous_page_number }}">{% trans 'Previous' %}</a>
       </li>
       {% else %}
       <li class="page-item disabled">
-        <a class="page-link" href="#">Anterior</a>
+        <a class="page-link" href="#">{% trans 'Previous' %}</a>
       </li>
       {% endif %}
       {% if logs.has_next %}
         <li class="page-item">
-        <a class="page-link" href="?page={{ logs.next_page_number }}">Proximo</a>
+        <a class="page-link" href="?page={{ logs.next_page_number }}">{% trans 'Next' %}</a>
         </li>
       {% else %}
         <li class="page-item disabled">
-        <a class="page-link" href="">Proximo</a>
+        <a class="page-link" href="">{% trans 'Next' %}</a>
       </li>
       {% endif %}
     </ul>

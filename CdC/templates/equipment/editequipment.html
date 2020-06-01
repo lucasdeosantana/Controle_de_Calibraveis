@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
-{% load i18n %}
 {% load static %}
-{% block title %}Edit Equipment{% endblock %}
+{% block title %}{% load i18n %}{% trans 'Edit Equipment' %}{% endblock %}
 {% block content %}
+{% load i18n %}
 <div class="container-fluid">    
     <div class="row">
         <div class="col-md-12 notice"></div>
@@ -11,7 +11,7 @@
         <div class="col-md-4 offset-md-4 pt-5">
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">Code</span>
+                    <span class="input-group-text">{% trans 'Code' %}</span>
                 </div>
                 <input type="text" class="form-control" placeholder="Recipient's code" name="code" aria-describedby="search">
                 <div class="input-group-append">
@@ -21,39 +21,39 @@
             <form class="root" style="display:none;">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                      <span class="input-group-text">Name</span>
+                      <span class="input-group-text">{% trans 'Name' %}</span>
                     </div>
                     <input type="text" class="form-control" name="name" placeholder="Name" required>
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                      <span class="input-group-text">Calibration Data</span>
+                      <span class="input-group-text">{% trans 'Calibration Data' %}</span>
                     </div>
                     <input type="date" class="form-control" name="calibrationdata" placeholder="Code" required>
                 </div>
                 <div class="input-group">
                     <div class="input-group-prepend">
-                      <span class="input-group-text">Calibration Validity</span>
+                      <span class="input-group-text">{% trans 'Calibration Validity' %}</span>
                     </div>
                     <input type="date" class="form-control" name="validitydata">
                 </div>
-                <small class="form-text text-muted mb-3">If void atualized automatic.</small>    
+                <small class="form-text text-muted mb-3">{% trans 'If void atualize automatic.' %}</small>    
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                      <span class="input-group-text">Validity in Months</span>
+                      <span class="input-group-text">{% trans 'Validity in Months' %}</span>
                     </div>
                     <input type="number" class="form-control" name="months" placeholder="Months" required>
                 </div>
                 <div class="d-flex justify-content-between mb-3">
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="customCheck2" name="isactive">
-                        <label class="custom-control-label" for="customCheck2">Is Active</label>
+                        <label class="custom-control-label" for="customCheck2">{% trans 'Is Active' %}</label>
                     </div>
                     <button type="button" class="btn btn-danger" data-toggle="modal" id="deleteModalButton" data-target="#deleteModal">
                         Delete
                     </button>
                 </div>   
-                <button type="submit" id="send" class="btn btn-primary col-md-12">Edit</button>
+                <button type="submit" id="send" class="btn btn-primary col-md-12">{% trans 'Edit' %}</button>
             </form>     
           <!-- Modal -->
           <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -66,13 +66,14 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <p class="text-danger"><strong>Are you sure to delete this Equipment?</strong></p>
-                  <p><strong>The logs won't be delete.</strong></p>
-                  <p>If you wish hidden this Equipment, only uncheck "Is active" checkbox.</p>
+                <button type="submit" id="send" class="btn btn-primary col-md-12">{% trans 'Edit' %}</button>
+                <p class="text-danger"><strong>{% trans 'Are you sure to delete this Equipment?' %}</strong></p>
+                  <p><strong>{% trans "The logs won't be delete." %}</strong></p>
+                  <p>{% trans 'If you wish hidden this Equipment, only uncheck "Is active" checkbox.' %}</p>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary" id="deleteAnyway">Delete anyway</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'Close' %}</button>
+                  <button type="button" class="btn btn-primary" id="deleteAnyway">{% trans 'Delete anyway' %}</button>
                 </div>
               </div>
             </div>
