@@ -63,7 +63,8 @@ class AuthenticationEditUser(PermissionRequiredMixin, View):
     def __init__(self, *args, **kwargs):
         self.functions = {
             "search":self.get_user_by_username,
-            "edituser":self.edit_user
+            "edituser":self.edit_user,
+            "changePassword":self.newPassword
         }
         super(AuthenticationEditUser, self).__init__()
 #---------------------------------------------------------------------------------
@@ -116,5 +117,21 @@ class AuthenticationEditUser(PermissionRequiredMixin, View):
             data = {
                 "type":json_request["type"],
                 "status":"fail"
+            }
+        return data
+#---------------------------------------------------------------------------------3
+    def newPassword(self, request, json_request, *args, **kwargs):
+        try:
+            user = User.objects.get(username=request.user.username)
+            user.set_password(json_request["payload"]["password"])
+            user.save()
+            data = {
+            "type":json_request["type"],
+            "status":"success"
+            }
+        except:
+            data = {
+            "type":json_request["type"],
+            "status":"fail"
             }
         return data
